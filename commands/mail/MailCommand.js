@@ -9,10 +9,6 @@ module.exports = async function(msg) {
 
     const mail = response.data;
 
-    if(mail.length) {
-        await axios.post(process.env.url + 'user/setNextCommand', {userId: msg.userId, nextCommand: 'mail/OpenMail'});
-    }
-
     let embed = {
         title: 'Mail',
         description: ''
