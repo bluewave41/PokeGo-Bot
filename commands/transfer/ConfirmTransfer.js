@@ -2,9 +2,7 @@ const axios = require('axios');
 const EmbedBuilder = require('../../EmbedBuilder');
 
 module.exports = async function(msg) {
-    const {data: pokemonId} = await axios.post(process.env.url + 'user/getSaved', {userId: msg.userId});
-
-    const response = await axios.post(process.env.url + 'user/pokemon/transfer', {userId: msg.userId, choice: msg.content, pokemonId: pokemonId});
+    const response = await axios.post(process.env.url + 'user/pokemon/transfer', {userId: msg.userId, choice: msg.content});
     if(response.data.error) {
         return { error: true, message: response.data.error };
     }

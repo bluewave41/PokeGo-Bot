@@ -1,5 +1,5 @@
 const axios = require('axios');
-const EncounterBuilder = require('../EncounterBuilder');
+const EncounterBuilder = require('./encounter/EncounterBuilder');
 const EmbedBuilder = require('../EmbedBuilder');
 
 module.exports = async function(msg) {
@@ -8,10 +8,8 @@ module.exports = async function(msg) {
         return { error: true, message: response.data.error };
     }
 
-    console.log(response.data);
-
     if(response.data.type == 'update') { //used an item during an encounter so we need to update the embed
-        const embed = EncounterBuilder.build(response.data);
+        const embed = EncounterBuilder.build(msg, response.data);
         return EmbedBuilder.edit(msg, embed);
     }
 }

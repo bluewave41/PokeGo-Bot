@@ -41,10 +41,11 @@ module.exports = async function(msg) {
         thumbnail: `http://www.bluewave41.xyz:5000/teams/${msg.team}.png`,
         fields: [
             ['Pokemon Count', user.pokemonCount, false],
-            ['Currency', user.currency + ' ' + Emojis.COIN, false],
-            ['Stardust', user.stardust + Emojis.STARDUST, false],
-            ['Pokemon Storage', user.pokemonCount + '/' + user.storage, false],
-            ['Item Storage',  user.itemCount + '/' + user.itemstorage, false],
+            ['Currency', user.currency + ' ' + Emojis.COIN, true],
+            ['Stardust', user.stardust + Emojis.STARDUST, true],
+            ['Location', user.location, false],
+            ['Pokemon Storage', user.pokemonCount + '/' + user.storage, true],
+            ['Item Storage',  user.itemCount + '/' + user.itemstorage, true],
             ['Player Progress', `Level: ${user.level}\nXP: ${user.xp}/${user.requiredXP} - ${user.totalxp} total XP`],
             ['Current Status', status, false],
         ]

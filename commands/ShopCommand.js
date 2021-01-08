@@ -50,7 +50,7 @@ module.exports = async function(msg) {
         fields: [],
     }
 
-    const { item, cost, newCurrency} = response.data;
+    const { items, currency, item, cost, newCurrency } = response.data;
 
     switch(data.action) {
         case 'buy':
@@ -63,11 +63,11 @@ module.exports = async function(msg) {
             break;
         default:
             embed.description = "Welcome! What would you like to buy?";
-            const items = response.data;
             for(var i=0;i<items.length;i++) {
                 let item = items[i];
-                embed.fields.push([item.name, `${item.emoji}\n${item.description}\n${item.price}₽`, false]);
+                embed.fields.push([item.name, `${item.emoji}\n${item.description}\n**${item.price}₽**`, false]);
             }
+            embed.footer = `You have ${currency}₽.`;
             break;
     }
 

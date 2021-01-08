@@ -86,6 +86,7 @@ async function parse(msg) {
             case 'nickname':
                 return NicknameCommand(msg);
             case 'display':
+            case 'd':
                 return DisplayCommand(msg);
             case 'favorite':
                 return FavoriteComand(msg);
