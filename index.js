@@ -5,6 +5,8 @@ const client = new Discord.Client();
 const CommandParser = require('./CommandParser');
 const axios = require('axios');
 const SocketServer = require('./SocketServer');
+const CommandRegistry = require('./CommandRegistry');
+const UserCommands = require('./data/ModelHandlers/UserCommands');
 
 axios.defaults.headers.post['errors'] = 'discord';
 axios.defaults.headers.post['client'] = 'discord';
@@ -19,7 +21,7 @@ client.on('message', async msg => {
 	if(msg.author.bot) {
 		return;
 	}
-    let message = await CommandParser.parse(msg);
+    let message = await CommandRegistry.parse(msg);
     if(!message) {
         return;
     }
@@ -29,7 +31,9 @@ client.on('message', async msg => {
     else {
         //TODO: delete the message?
         let response = await msg.channel.send(message);
-        await axios.post(process.env.url + 'user/message', {userId: msg.userId, messageId: response.id});
+        await UserCommands.update(msg.userId, [
+            { rowName: 'lastMessageId', value: response.id }
+        ]);
     }
 });
 

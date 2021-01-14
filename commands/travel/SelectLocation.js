@@ -1,5 +1,5 @@
 const axios = require('axios');
-const EmbedBuilder = require('../../EmbedBuilder');
+const EmbedBuilder = require('~/data/Lists/EmojiList');
 
 module.exports = async function(msg) {
     let response = await axios.post(process.env.url + 'map/setLocation', {userId: msg.userId, location: msg.content});

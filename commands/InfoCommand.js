@@ -1,55 +1,72 @@
-const axios = require('axios');
-const EmbedBuilder = require('../EmbedBuilder');
-const Emojis = require('../Emojis');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const Emojis = require('~/data/Lists/EmojiList');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const PokemonCommands = require('../data/ModelHandlers/PokemonCommands');
+const InventoryCommands = require('../data/ModelHandlers/InventoryCommands');
+const LevelList = require('~/data/Lists/LevelList');
+const Command = require('./Command');
 
-module.exports = async function(msg) {
-    const response = await axios.post(process.env.url + 'user/info', {userId: msg.userId});
-    if(response.data.error) {
-        return { error: true, message: response.data.error };
+const options = {
+    names: ['info'],
+    expectedParameters: [],
+    global: true,
+}
+
+class InfoCommand extends Command {
+    constructor(msg) {
+        super(msg, options);
     }
+    async validate() {
+        super.validate();
+    }
+    async run() {
+        const infoParameters = ['xp', 'level', 'currency', 'totalxp', 'stardust', 'storage', 'itemstorage', 'location'];
+        const user = await UserCommands.getFields(this.msg.userId, infoParameters);
 
-    let status;
+        const pokemonCount = await PokemonCommands.getPokemonCount(this.msg.userId);
+        const itemCount = await InventoryCommands.getTotalItemCount(this.msg.userId);
+        const requiredXP = LevelList[user.level].requiredXP;
 
-    switch(msg.nextCommand) {
+        const embed = {
+            title: this.msg.author.username + "'s Info",
+            description: '',
+            thumbnail: `http://www.bluewave41.xyz:5000/teams/${this.msg.team}.png`,
+            fields: [
+                ['Pokemon Count', pokemonCount, false],
+                ['Currency', user.currency + ' ' + Emojis.COIN, true],
+                ['Stardust', user.stardust + Emojis.STARDUST, true],
+                ['Location', user.location.toUpperCase(), false],
+                ['Pokemon Storage', pokemonCount + '/' + user.storage, true],
+                ['Item Storage',  itemCount + '/' + user.itemstorage, true],
+                ['Player Progress', `Level: ${user.level}\nXP: ${user.xp}/${requiredXP} - ${user.totalxp} total XP`],
+                ['Current Status', getStatus(this.msg.nextCommand), false],
+            ]
+        }
+    
+        return EmbedBuilder.build(this.msg, embed);
+    }
+}
+
+function getStatus(nextCommand) {
+    switch(nextCommand) {
         case 'encounter/SelectSquare':
-            status = 'Catching a Pokemon.';
-            break;
+            return 'Catching a Pokemon.';
         case 'travel/SelectLocation':
-            status = 'Selecting a new travel location.';
-            break;
+            return 'Selecting a new travel location.';
         case 'encounter/StartEncounter':
-            status = 'Browsing Pokemon in the area.';
-            break;
+            return 'Browsing Pokemon in the area.';
         case 'starter/SelectStarterPokemon':
-            status = 'Selecting a starter Pokemon.';
-            break;
+            return 'Selecting a starter Pokemon.';
         case 'transfer/ConfirmTransfer':
-            status = 'Transferring a Pokemon.';
-            break;
+            return 'Transferring a Pokemon.';
         case 'mail/OpenMail':
-            status = 'Browsing mail.';
-            break;
+            return 'Browsing mail.';
         default:
-            status = 'Nothing right now.';
+            return 'Nothing right now.';
     }
+}
 
-    const user = response.data;
-
-    const embed = {
-        title: msg.author.username + "'s Info",
-        description: '',
-        thumbnail: `http://www.bluewave41.xyz:5000/teams/${msg.team}.png`,
-        fields: [
-            ['Pokemon Count', user.pokemonCount, false],
-            ['Currency', user.currency + ' ' + Emojis.COIN, true],
-            ['Stardust', user.stardust + Emojis.STARDUST, true],
-            ['Location', user.location, false],
-            ['Pokemon Storage', user.pokemonCount + '/' + user.storage, true],
-            ['Item Storage',  user.itemCount + '/' + user.itemstorage, true],
-            ['Player Progress', `Level: ${user.level}\nXP: ${user.xp}/${user.requiredXP} - ${user.totalxp} total XP`],
-            ['Current Status', status, false],
-        ]
-    }
-
-    return EmbedBuilder.build(msg, embed);
+module.exports = {
+    options: options,
+    class: InfoCommand
 }

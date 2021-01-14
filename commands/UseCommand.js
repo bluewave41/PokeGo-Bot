@@ -1,6 +1,6 @@
 const axios = require('axios');
 const EncounterBuilder = require('./encounter/EncounterBuilder');
-const EmbedBuilder = require('../EmbedBuilder');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 
 module.exports = async function(msg) {
     const response = await axios.post(process.env.url + 'item/use', {userId: msg.userId, name: msg.parameters.join('')});

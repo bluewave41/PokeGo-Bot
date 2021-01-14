@@ -1,4 +1,4 @@
-const Emojis = require('../../Emojis');
+const Emojis = require('~/data/Lists/EmojiList');
 
 module.exports = {
     build(msg, encounter) {

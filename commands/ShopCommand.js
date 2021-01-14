@@ -1,6 +1,6 @@
 const axios = require('axios');
-const EmbedBuilder = require('../EmbedBuilder');
-const Emojis = require('../Emojis');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const Emojis = require('~/data/Lists/EmojiList');
 
 module.exports = async function(msg) {
 

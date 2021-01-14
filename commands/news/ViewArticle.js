@@ -1,19 +1,41 @@
-const axios = require('axios');
-const EmbedBuilder = require('../../EmbedBuilder');
+const News = require('~/knex/models/News');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const Command = require('../Command');
+const CustomError = require('~/lib/errors/CustomError');
 
-module.exports = async function(msg) {
-    const response = await axios.post(process.env.url + 'status/getArticle', {userId: msg.userId, articleId: msg.content});
-    if(response.data.error) {
-        return { error: true, message: response.data.error };
+const options = {
+    names: [],
+    expectedParameters: [
+        { name: 'articleId', type: 'number', optional: false}
+    ],
+    reset: true,
+}
+
+class ViewArticle extends Command {
+    constructor(msg) {
+        super(msg, options);
     }
-
-    const article = response.data;
-
-    const embed = {
-        title: article.title,
-        description: article.body,
-        footer: article.created_at.substring(0, 10)
+    async validate() {
+        super.validate();
     }
+    async run() {
+        const article = await News.query().select('title', 'body', 'created_at')
+            .where('id', this.articleId).first();
+        if(!article) {
+            throw new CustomError('INVALID_NEWS_ARTICLE');
+        }
 
-    return EmbedBuilder.build(msg, embed);
+        const embed = {
+            title: article.title,
+            description: article.body,
+            footer: article.created_at.toString().substring(0, 10)
+        }
+        
+        super.run();
+        return EmbedBuilder.build(this.msg, embed);
+    }
+}
+
+module.exports = {
+    options: options, class: ViewArticle
 }

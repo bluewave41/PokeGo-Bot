@@ -1,5 +1,3 @@
-const axios = require('axios');
-const ShowStarters = require('./commands/starter/ShowStarters');
 const ListCommand = require('./commands/ListCommand');
 const NicknameCommand = require('./commands/NicknameCommand');
 const DisplayCommand = require('./commands/DisplayCommand');
@@ -8,31 +6,33 @@ const ShowMap = require('./commands/travel/ShowMap');
 const SearchCommand = require('./commands/SearchCommand');
 const ResetCommand = require('./commands/ResetCommand');
 const InventoryCommand = require('./commands/InventoryCommand');
-const TransferCommand = require('./commands/transfer/SelectPokemon');
-const GivePokemonCommand = require('./commands/debug/GivePokemonCommand');
 const PowerupCommand = require('./commands/powerup/PowerupCommand');
 const ShopCommand = require('./commands/ShopCommand');
 const PrefixCommand = require('./commands/PrefixCommand');
 const CreateRedeemCodeCommand = require('./commands/owner/CreateRedeemCodeCommand');
 const RedeemCommand = require('./RedeemCommand');
 const EvolveCommand = require('./commands/EvolveCommand');
-const SQLCommand = require('./commands/owner/SQLCommand');
 const InfoCommand = require('./commands/InfoCommand');
 const MailCommand = require('./commands/mail/MailCommand');
 const QuitCommand = require('./commands/QuitCommand');
-const ViewNews = require('./commands/news/ViewNews');
 const DailyCommand = require('./commands/DailyCommand');
-const PokedexCommand = require('./commands/pokedex/PokedexCommand');
 const UseCommand = require('./commands/UseCommand');
-const TeamCommand = require('./commands/team/TeamCommand');
+const TeamCommand = require('./commands/teams/TeamCommand');
 const MedalCommand = require('./commands/MedalCommand');
+
+const User = require('./knex/models/User');
+const Server = require('./knex/models/Server');
+
+const Colors = require('~/data/Lists/ColorList');
+require('~/lib/Database');
 
 async function parse(msg) {
 	await init(msg);
 	let content = msg.content.split(' ');
-    let server = await axios.post(process.env.url + 'server/getServer', {serverId: msg.guild.id});
+    let prefix = await getPrefix(msg);
     server = server.data;
     msg.prefix = server.prefix;
+    msg.parameters = content; //doing this here as well for nextCommand functions to have
 
     const prefixCheck = checkPrefix(content[0], server.prefix);
     let command;
@@ -117,6 +117,8 @@ async function parse(msg) {
                 return TeamCommand(msg);
             case 'medals':
                 return MedalCommand(msg);
+            case 'teams':
+                return TeamCommand(msg);
         }
     }
     else if(msg.nextCommand) {
@@ -124,9 +126,35 @@ async function parse(msg) {
     }
 }
 
+async function getPrefix(msg) {
+    return (await Server.query().select('prefix')
+        .where('serverId', msg.guild.id).first()).prefix;
+}
+
 async function init(msg) {
-	let response = await axios.post(process.env.url + 'user/init', {discordID: msg.author.id, username: msg.author.username, discriminator: msg.author.discriminator});
-	Object.assign(msg, response.data);
+    //this one uses discordId so we can't use UserComamnds
+    let user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team')
+        .where('discordID', msg.author.id).first();
+    if(!user) {
+        user = await User.query().insert({
+            discordID: msg.author.id,
+            username: msg.author.name,
+            discriminator: msg.author.discriminator,
+            currency: 500,
+            stardust: 5000,
+            secretId: Math.floor(Math.random() * 500) + 1,
+        });
+    };
+    const info = {
+        userId: user.userId,
+        nextCommand: user.nextCommand,
+        location: user.location,
+        lastMessageId: user.lastMessageId,
+        gotStarter: user.gotStarter,
+        team: user.team,
+        color: Colors[user.team],
+    }
+	Object.assign(msg, info);
 }
 
 function checkPrefix(content, prefix) {

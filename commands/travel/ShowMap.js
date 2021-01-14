@@ -1,5 +1,5 @@
 const axios = require('axios');
-const EmbedBuilder = require('../../EmbedBuilder');
+const EmbedBuilder = require('~/data/Lists/EmojiList');
 
 module.exports = async function(msg) {
     if(msg.parameters.length) {
@@ -9,8 +9,8 @@ module.exports = async function(msg) {
         }
     
         let embed = {
-            title: 'Location Changed',
-            description: `Your location has been changed to ${msg.parameters[0]}!`,
+            title: 'Travelling',
+            description: `You're moving to ${response.data.location}. You'll be there in ${response.data.time} minutes.`,
         }
     
         return EmbedBuilder.build(msg, embed);

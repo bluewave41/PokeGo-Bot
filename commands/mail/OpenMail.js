@@ -1,13 +1,11 @@
 const axios = require('axios');
-const EmbedBuilder = require('../../EmbedBuilder');
+const EmbedBuilder = require('~/data/Lists/EmojiList');
 
 module.exports = async function(msg) {
     const response = await axios.post(process.env.url + 'user/mail/open', {userId: msg.userId, tableId: msg.content});
     if(response.data.error) {
         return { error: true, message: response.data.error };
     }
-
-    await axios.post(process.env.url + 'user/setNextCommand', {userId: msg.userId, nextCommand: 'mail/ClaimRewards', saved: msg.content});
 
     const rewards = response.data.rewards;
     let fields = [];

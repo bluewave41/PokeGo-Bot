@@ -1,17 +1,53 @@
-const EmbedBuilder = require('../../EmbedBuilder');
-const axios = require('axios');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const Command = require('../Command');
+const Starters = require('~/data/Lists/StartersList');
+const CustomError = require('~/lib/errors/CustomError');
+const PokemonBuilder = require('~/lib/PokemonBuilder');
+const InventoryCommands = require('../../data/ModelHandlers/InventoryCommands');
+const PokemonCommands = require('../../data/ModelHandlers/PokemonCommands');
+const UserCommands = require('../../data/ModelHandlers/UserCommands');
 
-module.exports = async function(msg) {
-    const response = await axios.post(process.env.url + 'starter/selectStarter', {userId: msg.userId, starter: msg.content});
-    if(response.data.error) {
-        return { error: true, message: response.data.error };
+const options = {
+    names: [],
+    expectedParameters: [
+        { name: 'pokemonName', type: 'string', optional: false }
+    ],
+    nextCommand: null,
+}
+
+
+class SelectStarterPokemon extends Command {
+    constructor(msg) {
+        super(msg, options);
     }
+    async validate() {
+        super.validate();
+    }
+    async run() {
+        const starter = Starters.find(el => el[2].toLowerCase() == this.pokemonName.toLowerCase());
+        if(!starter) {
+            throw new CustomError('INVALID_STARTER');
+        }
         
-    let pokemon = response.data;
-    let embed = {
-        title: 'Starter',
-        description: `Congratulations! You obtained a level ${pokemon.level} ${pokemon.name}!`,
-        image: pokemon.url
+        let pokemon = PokemonBuilder.generatePokemon(starter[0], 1, this.msg.userId);
+        
+        await PokemonCommands.catchPokemon(this.msg.userId, pokemon, 3);
+        await InventoryCommands.addItems(this.msg.userId, 1, 5);
+        await UserCommands.update(this.msg.userId, [
+            { rowName: 'gotStarter', value: true},
+        ]);
+        
+        let embed = {
+            title: 'Starter',
+            description: `Congratulations! You obtained a level ${pokemon.level} ${pokemon.name}!`,
+            image: pokemon.url
+        }
+        super.run();
+        return EmbedBuilder.build(this.msg, embed);
     }
-    return EmbedBuilder.build(msg, embed);
+}
+
+module.exports = {
+    options: options,
+    class: SelectStarterPokemon
 }

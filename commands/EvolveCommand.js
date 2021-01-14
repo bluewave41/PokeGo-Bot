@@ -1,5 +1,5 @@
 const axios = require('axios');
-const EmbedBuilder = require('../EmbedBuilder');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 
 module.exports = async function(msg) {
     const response = await axios.post(process.env.url + 'user/pokemon/evolve', {userId: msg.userId, pokemonId: msg.parameters[0]});

@@ -1,5 +1,5 @@
 const axios = require('axios');
-const EmbedBuilder = require('../../EmbedBuilder');
+const EmbedBuilder = require('~/data/Lists/EmojiList');
 const EncounterBuilder = require('./EncounterBuilder');
 const ItemListBuilder = require('../../ItemListBuilder');
 

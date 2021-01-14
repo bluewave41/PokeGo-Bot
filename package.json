@@ -4,19 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r dotenv/config"
+    "test": "mocha -r dotenv/config",
+    "postinstall": "link-module-alias"
+  },
+  "_moduleAliases": {
+    "~": "."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "app-module-path": "^2.2.0",
     "axios": "^0.21.0",
+    "date-fns": "^2.16.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "knex": "^0.21.12",
+    "link-module-alias": "^1.2.0",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.6",
     "objection": "^2.2.3",
+    "require-dir": "^1.2.0",
+    "setimmediate": "^1.0.5",
     "socket.io-client": "^3.0.4"
   }
 }

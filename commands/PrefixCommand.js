@@ -1,19 +1,46 @@
-const axios = require('axios');
-const EmbedBuilder = require('../EmbedBuilder');
+const CustomError = require('~/lib/errors/CustomError');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const Server = require('~/knex/models/Server');
+const Command = require('./Command');
 
-module.exports = async function(msg) {
-    if(!msg.member.hasPermission('MANAGE_GUILD')) {
-        return "You need manage guild permissions to change the prefix.";
-    }
-    const response = await axios.post(process.env.url + 'server/changePrefix', {userId: msg.userId, prefix: msg.parameters[0], serverId: msg.guild.id});
-    if(response.data.error) {
-        return { error: true, message: response.data.error };
-    }
+const options = {
+    names: ['prefix'],
+    expectedParameters: [
+        { name: 'prefix', type: 'string', optional: false }
+    ],
+}
 
-    const embed = {
-        title: 'Prefix Changed',
-        description: `This servers prefix has been changed to ${msg.parameters[0]}.`
+class PrefixCommand extends Command {
+    constructor(msg) {
+        super(msg, options);
     }
+    async validate() {
+        super.validate();
+        if(!this.msg.member.hasPermission('MANAGE_GUILD')) {
+            throw new CustomError('NO_PERMISSION', 'manage guild');
+        }
+        if(this.prefix.length > 3) {
+            throw new CustomError('INVALID_PREFIX_LENGTH');
+        }
+    }
+    async run() {
+        const newPrefix = this.msg.parameters[0];
 
-    return EmbedBuilder.build(msg, embed);
+        await Server.query().update({
+            prefix: newPrefix
+        })
+        .where('serverId', this.msg.guild.id);
+
+        const embed = {
+            title: 'Prefix Changed',
+            description: `This servers prefix has been changed to ${newPrefix}.`
+        }
+    
+        return EmbedBuilder.build(this.msg, embed);
+    }
+}
+
+module.exports = {
+    options: options,
+    class: PrefixCommand,
 }
