@@ -7,7 +7,7 @@ const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const options = {
     names: [],
     expectedParameters: [
-        { name: 'confirm', type: 'string', optional: false }
+        { name: 'confirm', type: ['string'], optional: false }
     ],
     reset: true,
 }

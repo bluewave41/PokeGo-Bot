@@ -7,7 +7,7 @@ const PokedexCommands = require('~/data/ModelHandlers/PokedexCommands');
 const options = {
     names: ['pokedex'],
     expectedParameters: [
-        { name: 'page', type: 'number', optional: true, default: 1 }
+        { name: 'page', type: ['number'], optional: true, default: 1 }
     ]
 }
 

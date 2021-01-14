@@ -7,8 +7,8 @@ const options = {
     names: ['givePokemon'],
     ownerOnly: true,
     expectedParameters: [
-        { name: 'pokemonId', type: 'number', optional: false },
-        { name: 'amount', type: 'number', optional: false},
+        { name: 'pokemonId', type: ['number'], optional: false },
+        { name: 'amount', type: ['number'], optional: false},
     ]
 }
 

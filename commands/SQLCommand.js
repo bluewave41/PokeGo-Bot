@@ -5,8 +5,9 @@ const options = {
     names: ['sql'],
     ownerOnly: true,
     expectedParameters: [
-        { name: 'sql', type: 'rest', optional: false }
-    ]
+        { name: 'sql', type: ['rest'], optional: false }
+    ],
+    global: true,
 }
 
 class SQLCommand extends Command {

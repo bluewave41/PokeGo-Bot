@@ -6,7 +6,7 @@ const Command = require('./Command');
 const options = {
     names: ['transfer'],
     expectedParameters: [
-        { name: 'pokemonId', type: 'number', optional: false }
+        { name: 'pokemonId', type: ['number'], optional: false }
     ],
     nextCommand: 'transfer/ConfirmTransfer',
 }

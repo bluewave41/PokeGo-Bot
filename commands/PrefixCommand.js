@@ -6,7 +6,7 @@ const Command = require('./Command');
 const options = {
     names: ['prefix'],
     expectedParameters: [
-        { name: 'prefix', type: 'string', optional: false }
+        { name: 'prefix', type: ['string'], optional: false }
     ],
 }
 

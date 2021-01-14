@@ -10,7 +10,7 @@ const UserCommands = require('../../data/ModelHandlers/UserCommands');
 const options = {
     names: [],
     expectedParameters: [
-        { name: 'pokemonName', type: 'string', optional: false }
+        { name: 'pokemonName', type: ['string'], optional: false }
     ],
     nextCommand: null,
 }

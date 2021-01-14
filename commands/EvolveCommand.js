@@ -1,20 +1,49 @@
-const axios = require('axios');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
+const CandyCommands = require('~/data/ModelHandlers/CandyCommands');
+const Command = require('./Command');
+const CustomError = require('~/lib/errors/CustomError');
 
-module.exports = async function(msg) {
-    const response = await axios.post(process.env.url + 'user/pokemon/evolve', {userId: msg.userId, pokemonId: msg.parameters[0]});
-    if(response.data.error) {
-        return { error: true, message: response.data.error };
+const options = {
+    names: ['evolve'],
+    expectedParameters: [
+        { name: 'pokemonId', type: ['number'], optional: false}
+    ]
+}
+
+class EvolveCommand extends Command {
+    constructor(msg) {
+        super(msg, options);
     }
-
-    const pokemon = response.data.pokemon;
-
-    const embed = {
-        title: 'Evolution',
-        description: `Congratulations! Your ${response.data.oldName} evolved into ${pokemon.originalName}!`,
-        image: pokemon.url,
-        footer: `Remaining candy: ${response.data.remainingCandy}`,
+    async validate() {
+        super.validate();
+        this.pokemon = await PokemonCommands.getStrictPokemon(this.msg.userId, this.pokemonId);
+        if(!this.pokemon.evolveCost) {
+            throw new CustomError('NO_EVOLUTIONS');
+        }
+        this.candy = await CandyCommands.getCandyForPokemon(this.msg.userId, this.pokemon.candyId);
+        if(this.candy < this.pokemon.evolveCost) {
+            throw new CustomError('INSUFFICIENT_EVOLVE_CANDY', this.pokemon.evolveCost);
+        }
     }
+    async run() {
+        const oldName = this.pokemon.name;
+        const evolveCost = this.pokemon.evolveCost; //have to use old Pokemon evolve cost
 
-    return EmbedBuilder.build(msg, embed);
+        this.pokemon = await PokemonCommands.evolvePokemon(this.msg.userId, this.pokemon);
+        
+        const embed = {
+            title: 'Evolution',
+            description: `Congratulations! Your ${oldName} evolved into ${this.pokemon.originalName}!`,
+            image: this.pokemon.url,
+            footer: `Remaining candy: ${this.candy - evolveCost}`,
+        }
+
+        return EmbedBuilder.build(this.msg, embed);
+    }
+}
+
+module.exports = {
+    options: options,
+    class: EvolveCommand
 }

@@ -6,7 +6,7 @@ const CustomError = require('~/lib/errors/CustomError');
 const options = {
     names: [],
     expectedParameters: [
-        { name: 'articleId', type: 'number', optional: false}
+        { name: 'articleId', type: ['number'], optional: false}
     ],
     reset: true,
 }

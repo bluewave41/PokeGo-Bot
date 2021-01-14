@@ -37,12 +37,12 @@ module.exports = {
     },
     async getMailBody(userId, tableId) {
         tableId -= 1; //adjust for index starting at 0
-        const allMail = await Mail.query().select('id', 'title', 'message')
+        const allMail = await Mail.query().select('id', 'title', 'message', 'claimedrewards')
             .withGraphFetched('rewards')
             .where('userId', userId);
 
-        if(tableId > allMail.length) {
-            throw new CustomError('NO_MAIL', tableId);
+        if(tableId >= allMail.length) {
+            throw new CustomError('NO_MAIL', tableId+1);
         }
 
         const mail = allMail[tableId];
@@ -68,7 +68,7 @@ module.exports = {
             throw new CustomError('ALREADY_CLAIMED');
         }
 
-        mail.rewards = ItemList.rewardsToMessage(mail.rewards);
+        mail.rewards = ItemHandler.rewardsToMessage(mail.rewards);
 
         return mail.rewards;
     }

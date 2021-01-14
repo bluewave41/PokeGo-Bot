@@ -12,19 +12,25 @@ class Command {
         for(var i=0;i<this.expectedParameters.length;i++) {
             const expected = this.expectedParameters[i];
             const actual = this.msg.parameters[i] || expected.default;
-            const actualType = typeof actual;
-            console.log(expected, actual, actualType)
+            const actualType = this.determineVariableType(expected.type, actual);
+            //do the types match?
+            if(!expected.type.includes(actualType)) {
+                //error here for something
+            }
+            console.log(actualType);
+            console.log(expected, actual, actualType);
 
             //does the parameter exist?
-            if((actualType == 'undefined' || actual == '') && !expected.optional) {
+            if((actualType == undefined || actual == '') && !expected.optional) {
                 throw new CustomError('MISSING_PARAMETER', expected.name);
             }
-            switch(expected.type) {
+            switch(actualType) {
                 case 'string':
                     this[expected.name] = actual;
                     break;
                 case 'number':
                     let parsed = parseInt(actual);
+                    console.log('PARSED', parsed);
                     if(!Number.isInteger(parsed)) {
                         throw new CustomError('NON_NUMERIC_CHOICE', expected.name);
                     }
@@ -40,6 +46,25 @@ class Command {
             }
         }
         return true;
+    }
+    determineVariableType(possible, value) {
+        if(Array.isArray(possible)) {
+            for(var i=0;i<possible.length;i++) {
+                switch(possible[i]) {
+                    case 'number':
+                        if(Number.isInteger(parseInt(value))) {
+                            return 'number';
+                        }
+                    case 'string':
+                        return 'string';
+                    case 'rest':
+                        return 'rest';
+                    default:
+                        return undefined;
+                }
+            }
+        }
+        return typeof value;
     }
     async run() {
         //setup the next command

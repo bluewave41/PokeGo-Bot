@@ -6,8 +6,8 @@ const Pokemon = require('../knex/models/Pokemon');
 const options = {
     names: ['list'],
     expectedParameters: [
-        { name: 'offset', type: 'number', optional: true, default: 1 },
-        { name: 'options', type: 'rest', optional: true, default: '' },
+        { name: 'offset', type: ['number'], optional: true, default: 1 },
+        { name: 'options', type: ['rest'], optional: true, default: '' },
     ]
 }
 

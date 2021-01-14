@@ -4,8 +4,9 @@ module.exports = {
     async getCandyForPokemon(userId, candyId) {
         let candy = await Candy.query().select('amount')
         .where('userId', userId)
-        .where('candyId', candyId);
-        return candy.length ? candy[0].amount : false;
+        .where('candyId', candyId)
+        .first();
+        return candy ? candy.amount : null;
     },
     async insertCandy(userId, candyId, amount) {
         let row = await Candy.query().select('amount') //if user has 0 candy this breaks

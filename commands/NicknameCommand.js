@@ -7,8 +7,8 @@ const Command = require('./Command');
 const options = {
     names: ['nickname', 'nick'],
     expectedParameters: [
-        { name: 'pokemonId', type: 'number', optional: false},
-        { name: 'nickname', type: 'rest', optional: false }
+        { name: 'pokemonId', type: ['number'], optional: false},
+        { name: 'nickname', type: ['rest'], optional: false }
     ]
 }
 

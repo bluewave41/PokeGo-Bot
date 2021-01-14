@@ -7,7 +7,7 @@ const { raw } = require('objection');
 const options = {
     names: ['favorite', 'favourite'],
     expectedParameters: [
-        { name: 'pokemonId', type: 'number', optional: false }
+        { name: 'pokemonId', type: ['number'], optional: false }
     ]
 }
 

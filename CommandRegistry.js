@@ -8,6 +8,7 @@ var commands = Object.values(requireDir('./commands')).filter(el => el.options);
 async function parse(msg) {
     await init(msg);
     const prefix = await getPrefix(msg.guild.id);
+    msg.prefix = prefix;
     //check for starter
     //global commands
     //next commands
@@ -38,9 +39,7 @@ async function parse(msg) {
         let command;
         try {
             command = require('./commands/' + msg.nextCommand);
-            console.log('1', command);
             command = new command.class(msg);
-            console.log('2', command)
             await command.validate();
             return await command.run(msg);
         }
@@ -62,7 +61,7 @@ async function init(msg) {
     if(!user) {
         user = await User.query().insert({
             discordID: msg.author.id,
-            username: msg.author.name,
+            username: msg.author.username,
             discriminator: msg.author.discriminator,
             currency: 500,
             stardust: 5000,
@@ -85,7 +84,6 @@ async function getPrefix(guildId) {
     let server = await Server.query().select('prefix')
         .where('serverId', guildId)
         .first();
-    console.log(server)
     if(!server) { //server doesn't exist
         server = await Server.query().insert({
             serverId: guildId,

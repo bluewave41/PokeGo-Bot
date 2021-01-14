@@ -7,7 +7,7 @@ const CandyCommands = require('~/data/ModelHandlers/CandyCommands');
 const options = {
     names: ['display', 'd'],
     expectedParameters: [
-        { name: 'pokemonId', type: 'number', optional: false }
+        { name: 'pokemonId', type: ['number'], optional: false }
     ]
 }
 
