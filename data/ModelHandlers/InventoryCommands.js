@@ -1,6 +1,5 @@
 const { UniqueViolationError } = require('objection');
 const Inventory = require('~/knex/models/Inventory');
-const CustomError = require('../../lib/errors/CustomError');
 
 module.exports = {
     async getItemCount(userId, itemId) {
@@ -9,9 +8,6 @@ module.exports = {
             .where('itemId', itemId)
             .first();
 
-        if(!row) {
-            throw new CustomError('OUT_OF_ITEMS');
-        }
         return row;
     },
     async removeItems(userId, itemId, amount) {

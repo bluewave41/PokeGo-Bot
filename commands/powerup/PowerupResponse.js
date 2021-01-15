@@ -1,12 +1,19 @@
-const EmbedBuilder = require('~/data/Lists/EmojiList');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const PowerupBuilder = require('./PowerupBuilder');
 const Command = require('../Command');
+const UserCommands = require('../../data/ModelHandlers/UserCommands');
+const PowerupList = require('~/data/Lists/PowerupList');
+const CandyCommands = require('../../data/ModelHandlers/CandyCommands');
+const PokemonCommands = require(`~/data/ModelHandlers/PokemonCommands`);
+const CustomError = require('../../lib/errors/CustomError');
+const Pokemon = require('../../knex/models/Pokemon');
 
 const options = {
     names: [],
     expectedParameters: [
         { name: 'response', type: ['number', 'string'], optional: false }
-    ]
+    ],
+    nextCommand: null,
 }
 
 class PowerupResponse extends Command {
@@ -17,15 +24,75 @@ class PowerupResponse extends Command {
         super.validate();
     }
     async run() {
-        if(response.data.quit) {
-            const embed = {
-                title: 'Quit',
-                description: `You exited the powerup menu.`
+        const saved = await UserCommands.getSaved(this.msg.userId);
+        /*const saved = {
+                pokemonId: this.pokemon.pokemonId,
+                maximumTimes: howManyLevels,
+                requiredCandy: nextLevel.candy
+            }*/
+        const pokemon = await PokemonCommands.getStrictPokemon(this.msg.userId, saved.pokemonId);
+        const candy = await CandyCommands.getCandyForPokemon(this.msg.userId, pokemon.candyId);
+
+        if(typeof this.response == 'number') { //user chose a new level
+            if(this.response > saved.maximumTimes) { //user chose a level higher than they can do
+                //TODO: implement player level limit
+                throw new CustomError('LEVEL_TOO_HIGH', saved.maximumTimes);
             }
-            return EmbedBuilder.build(msg, embed);
-        }
+            const currentPowerupRow = PowerupList.findIndex(el => el.level == pokemon.level);
+            const newLevel = currentPowerupRow + this.response;
+            const nextPowerupRow = PowerupList[newLevel];
     
-        return EmbedBuilder.edit(msg, PowerupBuilder.build(msg, response.data));
+            const group = PowerupList.slice(currentPowerupRow, newLevel); //take the next 
+            const powerupCost = group.reduce((acc, cur) => acc+cur.candy, 0);
+    
+            //update saved table
+            //update saved variable
+            saved.requiredCandy = powerupCost;
+            saved.times = this.response;
+
+            await UserCommands.update(this.msg.userId, [
+                { rowName: 'saved', value: JSON.stringify(saved) }
+            ]);
+
+            const data = {
+                pokemon: pokemon,
+                candy: candy,
+                requiredCandy: powerupCost,
+                nextLevel: nextPowerupRow.level,
+                newCP: pokemon.calculateNewCP(nextPowerupRow.level),
+                howManyLevels: saved.maximumTimes,
+            }
+
+            return EmbedBuilder.edit(this.msg, PowerupBuilder.build(this.msg, data));
+        }
+        else if(typeof this.response == 'string' && this.response.toLowerCase() == 'confirm') {
+            //edit pokemon
+            let powerupRow = PowerupList.findIndex(el => el.level == pokemon.level);
+            powerupRow += saved.times;
+            powerupRow = PowerupList[powerupRow];
+
+            const maxHP = pokemon.calculateHP(powerupRow.level); //new maxHP
+
+            await Pokemon.query().update({
+                cp: pokemon.calculateNewCP(powerupRow.level),
+                hp: pokemon.hp + (maxHP - pokemon.maxHP),
+                maxHP: maxHP,
+                level: powerupRow.level,
+            })
+            .where('pokemonId', pokemon.pokemonId);
+
+            await UserCommands.reset(this.msg.userId);
+
+            await CandyCommands.removeCandy(this.msg.userId, pokemon.candyId, saved.requiredCandy);
+        
+            //implement stardust cost
+            super.run();
+            return;
+            //confirm???
+        }
+        else {
+            throw new CustomError('INVALID_RESPONSE');
+        }
     }
 }
 
@@ -34,14 +101,7 @@ module.exports = {
     class: PowerupResponse
 }
 
-  /*  const powerup = await Powerups.query().select('*')
-        .where('userId', userId).first();
-        //saved response
-
-    const pokemon = await PokemonCommands.getStrictPokemon(userId, powerup.pokemonId);
-    const candy = await CandyCommands.getCandyForPokemon(userId, pokemon.candyId);
-
-    let err;
+  /*
 
     if(Utils.isNumeric(response)) { //user chose a new level
         if(response > powerup.maximum_times) { //user chose a level higher than they can do

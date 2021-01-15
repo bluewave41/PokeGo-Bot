@@ -1,19 +1,45 @@
-const axios = require('axios');
-const EmbedBuilder = require('~/data/Lists/EmojiList');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const Teams = require('~/data/Lists/TeamList');
+const ColorList = require('~/data/Lists/ColorList');
+const Command = require('../Command');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
 
-module.exports = async function(msg) {
-    const response = await axios.post(process.env.url + 'user/team/select', {userId: msg.userId, choice: msg.content});
-    if(response.data.error) {
-        return { error: true, message: response.data.error }
+const options = {
+    names: [],
+    expectedParameters: [
+        { name: 'choice', type: 'number', optional: false }
+    ],
+    nextCommand: null,
+}
+
+class SelectTeam extends Command {
+    constructor(msg) {
+        super(msg, options);
     }
-
-    const data = response.data;
-
-    const embed = {
-        title: 'Team selected',
-        description: `Congratulations! You're now a member of team ${data.team.name} ${data.team.emoji}!`,
-        color: data.color,
+    async validate() {
+        super.validate();
+        if(this.choice > Teams.teams.length) {
+            throw new CustomError('INVALID_RANGE_CHOICE');
+        }
     }
+    async run() {
+        const team = Teams.teams[this.choice-1];
+        await UserCommands.update(this.msg.userId, [
+            { rowName: 'team', value: this.choice }
+        ]);
 
-    return EmbedBuilder.build(msg, embed);
+        const embed = {
+            title: 'Team selected',
+            description: `Congratulations! You're now a member of team ${team.name} ${team.emoji}!`,
+            color: ColorList[this.choice],
+        }
+    
+        super.run();
+        return EmbedBuilder.build(this.msg, embed);
+    }
+}
+
+module.exports = {
+    options: options,
+    class: SelectTeam
 }

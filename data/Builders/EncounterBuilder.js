@@ -2,7 +2,9 @@ const Emojis = require('~/data/Lists/EmojiList');
 
 module.exports = {
     build(msg, encounter) {
-        let description = `Level ${encounter.pokemon.level} ${encounter.pokemon.name}\nCP: ${encounter.pokemon.cp} `;
+        console.log(encounter);
+        console.log(encounter.emoji);
+        let description = `Level ${encounter.pokemon.level} ${encounter.pokemon.displayName}\nCP: ${encounter.pokemon.cp} `;
         if(encounter.catchChance >= .80) {
             description += Emojis['GREEN_CIRCLE'] + '\n';
         }

@@ -1,5 +1,3 @@
-const ItemList = require('./ItemList');
-
 module.exports = {
     build(items) {
         let description = '';

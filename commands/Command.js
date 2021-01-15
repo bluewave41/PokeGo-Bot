@@ -21,11 +21,13 @@ class Command {
             console.log(expected, actual, actualType);
 
             //does the parameter exist?
-            if((actualType == undefined || actual == '') && !expected.optional) {
+            if((actualType === 'undefined' || actual == '') && !expected.optional) {
+                console.log('here');
                 throw new CustomError('MISSING_PARAMETER', expected.name);
             }
             switch(actualType) {
                 case 'string':
+                case 'array':
                     this[expected.name] = actual;
                     break;
                 case 'number':
@@ -54,6 +56,10 @@ class Command {
                     case 'number':
                         if(Number.isInteger(parseInt(value))) {
                             return 'number';
+                        }
+                    case 'array':
+                        if(Array.isArray(JSON.parse(value))) {
+                            return 'array';
                         }
                     case 'string':
                         return 'string';

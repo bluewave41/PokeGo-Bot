@@ -1,5 +1,5 @@
 const axios = require('axios');
-const EncounterBuilder = require('./encounter/EncounterBuilder');
+const EncounterBuilder = require('~/data/Builders/EncounterBuilder');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 
 module.exports = async function(msg) {

@@ -1,19 +1,52 @@
-const axios = require('axios');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const SpriteListBuilder = require('~/data/Builders/SpriteListBuilder');
+const UserCommands = require('../data/ModelHandlers/UserCommands');
+const EncounterCommands = require('~/data/ModelHandlers/EncounterCommands');
+const Command = require('./Command');
+const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
+const CustomError = require('~/lib/errors/CustomError');
 
-module.exports = async function(msg) {
-    let response = await axios.post(process.env.url + 'map/pokemon', {userId: msg.userId});
-    if(response.data.error) {
-        return { error: true, message: response.data.error };
+const options = {
+    names: ['search'],
+    expectedParameters: [],
+    nextCommand: 'encounter/StartEncounter',
+}
+
+class SearchCommand extends Command {
+    constructor(msg) {
+        super(msg, options);
     }
-
-    console.log(response.data);
-
-    let embed = {
-        title: 'Pokemon in the area',
-        description: SpriteListBuilder.build(response.data.sprites)
+    async validate() {
+        super.validate();
+        await canAccess(this.msg.userId);
     }
+    async run() {
+        const user = await UserCommands.getFields(this.msg.userId, ['location', 'secretId']);
+        const sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId);
+        if(!sprites.length) {
+            throw new CustomError('CELL_EMPTY');
+        }
 
-    return EmbedBuilder.build(msg, embed);
+        let embed = {
+            title: 'Pokemon in the area',
+            description: SpriteListBuilder.build(sprites)
+        }
+    
+        super.run();
+        return EmbedBuilder.build(this.msg, embed);
+    }
+}
+
+async function canAccess(userId) {
+    const storageAmount = await UserCommands.getRows(userId, 'storage');
+    const pokemonCount = await PokemonCommands.getPokemonCount(userId);
+    if(pokemonCount+1 > storageAmount) {
+        throw new CustomError('STORAGE_FULL');
+    }
+    return true;
+}
+
+module.exports = {
+    options: options,
+    class: SearchCommand
 }

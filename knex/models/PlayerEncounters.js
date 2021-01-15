@@ -1,5 +1,5 @@
 const { Model } = require('objection');
-const ItemList = require('~/data/Lists/ItemList');
+const ItemHandler = require('~/lib/ItemHandler');
 const PowerupTable = require('~/data/Lists/PowerupList');
 const Pokemon = require('./Pokemon');
 
@@ -34,9 +34,9 @@ class PlayerEncounters extends Model {
     get multiplier() {
         let multiplier = this.medalMultiplier;
 
-        multiplier *= ItemList.getItem(this.activePokeball).catchMultiplier;
+        multiplier *= ItemHandler.getItem(this.activePokeball).catchMultiplier;
         if(this.item) {
-            multiplier *= ItemList.getItem(this.item).catchMultiplier;
+            multiplier *= ItemHandler.getItem(this.item).catchMultiplier;
         }
         return multiplier;
     }

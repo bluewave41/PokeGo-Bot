@@ -23,8 +23,6 @@ class ListCommand extends Command {
         this.offset = this.offset * 25 - 25;
         const result = await buildQueryFromOptions(this.msg.userId, this.offset);
 
-        console.log(PokemonListBuilder.build(result.pokemon));
-
         let embed = {
             title: 'List',
             description: PokemonListBuilder.build(result.pokemon),

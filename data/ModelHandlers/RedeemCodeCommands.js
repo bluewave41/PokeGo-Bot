@@ -1,15 +1,16 @@
 const RedeemCodes = require("~/knex/models/RedeemCodes");
-const CustomError = require("./errors/CustomError");
+const CustomError = require("~/lib//errors/CustomError");
 
 module.exports = {
-    async getItems(code, error) {
+    async getItems(code) {
         const items = await RedeemCodes.query().select('rewards')
-        .where('redeemId', code);
+            .where('redeemId', code)
+            .first();
 
         if(!items) {
-            throw new CustomError(error);
+            throw new CustomError('INVALID_REDEEM_CODE');
         }
 
-        return JSON.parse(items[0].rewards)[0];
+        return items.rewards;
     }
 }

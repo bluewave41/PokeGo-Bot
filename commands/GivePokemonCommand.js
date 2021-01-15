@@ -17,7 +17,6 @@ class GivePokemonCommand extends Command {
         super(msg, options);
     }
     async validate() {  
-        console.log(this)
         super.validate();
     }
     async run() {

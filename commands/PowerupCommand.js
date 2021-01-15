@@ -48,7 +48,8 @@ class PowerupCommand extends Command {
             const saved = {
                 pokemonId: this.pokemon.pokemonId,
                 maximumTimes: howManyLevels,
-                requiredCandy: nextLevel.candy
+                requiredCandy: nextLevel.candy,
+                times: 1,
             }
             await UserCommands.update(this.msg.userId, [
                 { rowName: 'saved', value: JSON.stringify(saved) }

@@ -44,7 +44,7 @@ async function parse(msg) {
             return await command.run(msg);
         }
         catch(err) {
-            console.log(err)
+            console.log(err);
             if(command.reset) {
                 await UserCommands.reset(msg.userId);
             }

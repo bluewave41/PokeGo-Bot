@@ -8,7 +8,7 @@ exports.up = function(knex) {
 	table.integer('currency').notNullable();
 	table.integer('stardust').notNullable();
 	table.string('nextCommand');
-	table.string('location').notNullable().defaultTo('s7');
+	table.string('location').notNullable().defaultTo('S7');
 	table.bigint('lastMessageId');
 	table.smallint('secretId');
 	table.integer('xp').notNullable().defaultsTo(0);

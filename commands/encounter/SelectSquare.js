@@ -1,20 +1,237 @@
-const axios = require('axios');
-const EncounterBuilder = require('./EncounterBuilder');
-const EmbedBuilder = require('EmbedBuilder');
+const EncounterBuilder = require('~/data/Builders/EncounterBuilder');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
+const PlayerEncounters = require('~/knex/Models/PlayerEncounters');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
+const PowerupList = require('~/data/Lists/PowerupList');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const Caught = require('~/knex/models/Caught');
+const Command = require('../Command');
+const CustomError = require('~/lib/errors/CustomError');
 
-module.exports = async function(msg) {
-    const response = await axios.post(process.env.url + 'encounter/throw', {userId: msg.userId, square: msg.content})
-    if(response.data.error) {
-        return { error: true, message: response.data.error };
+const options = {
+    names: [],
+    expectedParameters: [
+        { name: 'toss', type: 'string', optional: false }
+    ]
+}
+
+class SelectSquare extends Command {
+    constructor(msg) {
+        super(msg, options);
     }
+    async validate() {
+        super.validate();
+        if(!isValidToss(this.toss)) {
+            throw new CustomError('INVALID_SQUARE');
+        }
+    }
+    async run() {
+        const encounter = await PlayerEncounters.query().select('*')
+            .where('userId', this.msg.userId).first();
 
-    let embed = EncounterBuilder.build(msg, response.data);
+        //check that we have the type of pokeball that we're using
+        const { amount: pokeballCount } = await InventoryCommands.getItemCount(this.msg.userId, encounter.activePokeball);
 
-    let message = msg.channel.messages.cache.get(msg.lastMessageId);
-    if(message) {
-        message.edit(EmbedBuilder.build(msg, embed));
+        if(pokeballCount <= 0) {
+            throw new CustomError('NO_POKEBALL_TYPE');
+        }
+
+        let { pokemonPos } = encounter;
+
+        //Determine whether or not the Pokemon moves
+        pokemonPos = updatePokemonPosition(pokemonPos, encounter.canPokemonMove);
+
+        let reply = {
+            pokemon: encounter.pokemon,
+        }
+
+        let hitObject = doesBallHit(this.toss, pokemonPos);
+        if(hitObject.hit) {
+            if(tryToCatch(encounter.pokemon, hitObject.multiplier, encounter.multiplier)) {
+                //add xp
+                let xpGained = 200;
+                switch(hitObject.multiplier) {
+                    case 1.5:
+                        xpGained = 300;
+                        break;
+                    case 2:
+                        xpGained = 500;
+                        break;
+                }
+
+                await UserCommands.addXP(this.msg.userId, xpGained);
+                await UserCommands.update(this.msg.userId, [
+                    { rowName: 'nextCommand', value: null}
+                ]);
+
+                await Caught.query().insert({
+                    userID: this.msg.userId,
+                    encounterId: encounter.encounterId,
+                });
+
+                //add pokemon
+                const pokemon = await PokemonCommands.catchPokemon(this.msg.userId, encounter.pokemon, encounter.candyEarned);
+            
+                reply.flag = 'caught';
+                reply.xpGained = xpGained;
+                reply.catchDust = encounter.pokemon.catchDust;
+                reply.catchCandy = encounter.candyEarned;
+                reply.pokemonId = pokemon.pokemonId;
+                reply.position = -1;
+            }
+            else {
+                reply.flag = 'fail';
+                reply.position = pokemonPos;
+            }
+        }
+        else {
+            reply.flag = 'missed';
+            reply.position = pokemonPos;
+        }
+
+        if(reply.flag == 'caught') {
+            await PlayerEncounters.query().delete()
+                .where('userId', this.msg.userId);
+        }
+        else {
+        //reset the item since the catching has finished and it isn't needed anymore
+            await PlayerEncounters.query().update({
+                item: null,
+                candyEarned: encounter.pokemon.catchCandy,
+                pokemonPos: pokemonPos,
+            })
+            .where('userID', this.msg.userId);
+        }
+
+        await InventoryCommands.removeItems(this.msg.userId, encounter.activePokeball, 1); //remove pokeball
+
+        const pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
+
+        let activePokeball = pokeBalls.find(el => el.itemId == encounter.activePokeball);
+        //if the user has 1 pokeball and uses it then this fails. They should be prompted to swap poke balls
+        if(activePokeball) {
+            activePokeball.active = true;
+        }
+
+        const totalPokeballs = pokeBalls.reduce((acc, { amount }) => acc + amount, 0);
+
+        //User has no Pokeballs so we should force quit the encounter
+        if(totalPokeballs <= 0) {
+            await UserCommands.update(this.msg.userId, [
+                { rowName: 'nextCommand', value: null}
+            ]);
+
+            await PlayerEncounters.query().delete()
+                .where('userId', this.userId);
+        }
+
+        reply.pokeBalls = pokeBalls;
+        reply.catchChance = encounter.catchChance;
+
+        let embed = EncounterBuilder.build(this.msg, reply);
+
+        let message = this.msg.channel.messages.cache.get(this.msg.lastMessageId);
+        if(message) {
+            message.edit(EmbedBuilder.build(this.msg, embed));
+        }
+        else {
+            return EmbedBuilder.build(this.msg, embed);
+        }
+    }
+}
+
+module.exports = {
+    options: options,
+    class: SelectSquare,
+}
+
+function isValidToss(toss) {
+    switch(toss.toLowerCase()) {
+        case 'l2':
+        case 'l3':
+        case 'r1':
+        case 'r2':
+        case 's1':
+        case 's2':
+        case 's3':
+            return true;
+    }
+    return false;
+}
+
+/**
+ * 50% chance to move the Pokemon to a different space
+ * @param {Integer} pokemonPos current space the Pokemon is on. 0, 1 or 2.
+ */
+function updatePokemonPosition(pokemonPos, canPokemonMove) {
+    if(!canPokemonMove) {
+        return pokemonPos;
+    }
+    let random = Math.random();
+    if(random < 0.5) {
+        let possible = [];
+        if(pokemonPos-1 >= 0) {
+            possible.push(pokemonPos-1);
+        }
+        if(pokemonPos+1 <= 2) {
+            possible.push(pokemonPos+1);
+        }
+        pokemonPos = possible[Math.floor(Math.random() * possible.length)];
+    }
+    return pokemonPos;
+}
+
+function doesBallHit(square, pokemonPos) {
+    let curve = square[0].toLowerCase();
+    let tile = square[1]-1;
+    
+    if(curve == 's' && pokemonPos == tile) { //excellent
+        return {hit: true, multiplier: 2};
+    }
+    else if(curve == 'l') {
+        if(tile == pokemonPos) {
+            return {hit: true, multiplier: 1.5};
+        }
+        else if(tile-1 == pokemonPos) {
+            return {hit: true, multiplier: 1}
+        }
+        return {hit: false}
+    }
+    else if(curve == 'r') {
+        if(tile == pokemonPos) {
+            return {hit: true, multiplier: 1.5}
+        }
+        else if(tile+1 == pokemonPos) {
+            return {hit: true, multiplier: 1}
+        }
+        return {hit: false}
     }
     else {
-        return EmbedBuilder.build(msg, embed);
+        return {hit: false}
     }
+}
+
+/*This is here because we need to include the hit object multiplier in the calculation but that doesn't get
+  sent to the user.*/
+function determineCircleColor(pokemon, multiplier) {
+    let chance;
+    const catchRate = pokemon.captureRate/100;
+    const row = PowerupList.find(el => el.level == pokemon.level);
+    chance = catchRate / (row.multiplier * 2);
+    if(chance > 1) {
+        return 100;
+    }
+    chance = 1 - chance;
+    chance = Math.pow(chance, multiplier);
+    chance = 1 - chance;
+    return chance;
+}
+
+function tryToCatch(pokemon, hitObjectMultiplier, multiplier) {
+    const chance = determineCircleColor(pokemon, (hitObjectMultiplier * multiplier));
+    const percent = Math.random();
+    console.log('PERCENT', percent);
+    console.log('CHANCE', chance);
+    return percent < chance;
 }

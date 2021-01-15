@@ -1,16 +1,47 @@
-const axios = require('axios');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const User = require('~/knex/models/User');
+const PlayerEncounters = require('~/knex/models/PlayerEncounters');
+const Caught = require('~/knex/models/Caught');
+const Command = require('./Command');
 
-module.exports = async function(msg) {
-    const response = await axios.post(process.env.url + 'owner/reset', {userId: msg.userId});
-    if(response.data.error) {
-        return { error: true, message: response.data.error };
+const options = {
+    names: ['reset'],
+    expectedParameters: [],
+    ownerOnly: true
+}
+
+class ResetCommand extends Command {
+    constructor(msg) {
+        super(msg, options);
     }
-
-    let embed = {
-        title: 'Reset',
-        description: 'You have been reset.'
+    async validate() {
+        super.validate();
     }
+    async run() {
+        await PlayerEncounters.query().delete()
+            .where('userId', this.msg.userId);
 
-    return EmbedBuilder.build(msg, embed);
+        await Caught.query().delete()
+            .where('userId', this.msg.userId);
+
+        await User.query().update({
+            nextCommand: null,
+            saved: null,
+            team: null,
+            gotStarter: false,
+        })
+        .where('userId', this.msg.userId);
+
+        let embed = {
+            title: 'Reset',
+            description: 'You have been reset.'
+        }
+    
+        return EmbedBuilder.build(this.msg, embed);
+    }
+}
+
+module.exports = {
+    options: options,
+    class: ResetCommand
 }
