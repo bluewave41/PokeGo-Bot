@@ -6,8 +6,10 @@ const Pokemon = require('../knex/models/Pokemon');
 const options = {
     names: ['list'],
     expectedParameters: [
-        { name: 'offset', type: ['number'], optional: true, default: 1 },
-        { name: 'options', type: ['rest'], optional: true, default: '' },
+        { name: 'offset', type: ['number'], optional: true, default: 1, ifDefined: [
+            { name: 'options', type: ['string'], optional: true, default: '' }
+        ] },
+        { name: 'options', type: ['string'], optional: true, default: '' },
     ]
 }
 
@@ -21,7 +23,7 @@ class ListCommand extends Command {
     async run() {
         let page = this.offset;
         this.offset = this.offset * 25 - 25;
-        const result = await buildQueryFromOptions(this.msg.userId, this.offset);
+        const result = await buildQueryFromOptions(this.msg.userId, this.offset, this.options);
 
         let embed = {
             title: 'List',
@@ -41,7 +43,7 @@ module.exports = {
     class: ListCommand
 }
 
-async function buildQueryFromOptions(userId, offset) {
+async function buildQueryFromOptions(userId, offset, options) {
     let query = Pokemon.query().select('*')
         .offset(offset)
         .limit(25)
@@ -51,8 +53,8 @@ async function buildQueryFromOptions(userId, offset) {
         .where('ownerId', userId)
         .first();
 
-    if(this.options) {
-        const parameters = this.options.split(',');
+    if(options) {
+        const parameters = options.split(',');
         for(var i=0;i<parameters.length;i++) {
             if(parameters[i] == 'favorite') {
                 query.where('favorite', true);

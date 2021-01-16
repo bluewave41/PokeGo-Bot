@@ -1,0 +1,17 @@
+module.exports = {
+    'POKE_BALL': 1,
+    'GREAT_BALL': 2,
+    'ULTRA_BALL': 3,
+    'POTION': 4,
+    'POKEMON_STORAGE': 5,
+    'ITEM_STORAGE': 6,
+    'RAZZ_BERRY': 7,
+    'NANAB_BERRY': 8,
+    'PINAP_BERRY': 9,
+    'REVIVE': 10,
+    'SUPER_POTION': 11,
+    'HYPER_POTION': 12,
+    'MAX_REVIVE': 13,
+    'MAX_POTION': 14,
+    'TRAVEL_TICKET': 15,
+}

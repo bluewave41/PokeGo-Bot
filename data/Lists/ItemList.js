@@ -1,274 +1,35 @@
+const PokemonStorage = require('~/data/Items/PokemonStorage');
+const ItemStorage = require('~/data/Items/ItemStorage');
+const Potion = require('~/data/Items/Potion');
+const Revive = require('~/data/Items/Revive');
+const SuperPotion = require('~/data/Items/SuperPotion');
+const HyperPotion = require('~/data/Items/HyperPotion');
+const MaxRevive = require('~/data/Items/MaxRevive');
+const MaxPotion = require('~/data/Items/MaxPotion');
+const PokeBall = require('~/data/Items/PokeBall');
+const GreatBall = require('~/data/Items/GreatBall');
+const UltraBall = require('~/data/Items/UltraBall');
+const RazzBerry = require('~/data/Items/RazzBerry');
+const NanabBerry = require('~/data/Items/NanabBerry');
+const PinapBerry = require('~/data/Items/PinapBerry');
+const TravelTicket = require('~/data/Items/TravelTicket');
+
 module.exports = {
     items: [
-        {
-            id: 1,
-            name: 'Poke Ball',
-            searchName: 'pokeball',
-            plural: 'Poke Balls',
-            emoji: '<:pokeball:793190053954060318>',
-            description: 'A tool used for catching Pokemon.',
-            shopItem: true,
-            price: 100,
-            sellPrice: 50,
-            fromPokestop: true,
-            requiredLevel: 0,
-            requiresEncounter: true,
-            type: 'pokeball',
-            catchMultiplier: 1,
-            use() {
-                return { column: 'activePokeball', value: 1, flag: 'set' }
-            }
-        },
-        {
-            id: 2,
-            name: 'Great Ball',
-            searchName: 'greatball',
-            plural: 'Great Balls',
-            emoji: '<:greatball:793190054003998720>',
-            description: 'An improved ball for catching Pokemon.',
-            shopItem: true,
-            price: 200,
-            sellPrice: 100,
-            fromPokestop: true,
-            requiredLevel: 12,
-            requiresEncounter: true,
-            type: 'pokeball',
-            catchMultiplier: 1.5,
-            use() {
-                return { column: 'activePokeball', value: 2, flag: 'set' }
-            }
-        },
-        {
-            id: 3,
-            name: 'Ultra Ball',
-            searchName: 'ultraball',
-            plural: 'Ultra Balls',
-            emoji: '<:ultraball:793190053957992488>',
-            description: 'A greatly improved ball for catching Pokemon.',
-            shopItem: true,
-            price: 500,
-            sellPrice: 250,
-            fromPokestop: true,
-            requiredLevel: 20,
-            requiresEncounter: true,
-            type: 'pokeball',
-            catchMultiplier: 2,
-            use() {
-                return { column: 'activePokeball', value: 3, flag: 'set' }
-            }
-        },
-        {
-            id: 4,
-            name: 'Potion',
-            searchName: 'potion',
-            plural: 'Potions',
-            emoji: '<:potion:793189202404966440>',
-            description: 'Heals a Pokemon for 20 HP.',
-            shopItem: true,
-            price: 50,
-            sellPrice: 25,
-            fromPokestop: true,
-            requiredLevel: 5,
-            type: 'healing',
-        },
-        {
-            id: 5,
-            name: 'Pokemon Storage',
-            searchName: 'pokemonstorage',
-            plural: 'Pokemon Storage',
-            emoji: '<:pokemonstorage:726077103975432243>',
-            description: 'Increases your Pokemon Storage by 50 slots.',
-            shopItem: true,
-            price: 500,
-            sellPrice: 0,
-            fromPokestop: false,
-            requiredLevel: 0,
-            type: 'storage',
-            buy: async function(userId) {
-                await require('./UserCommands').update(userId, [
-                    {rowName: 'storage', value: 50, flag: 'increment'}
-                ]);
-            }
-        },
-        {
-            id: 6,
-            name: 'Item Storage',
-            searchName: 'itemstorage',
-            plural: 'Item Storage',
-            emoji: '<:bagupgrade:794287709665099780>',
-            description: 'Increases your Bag Storage by 50 slots.',
-            shopItem: true,
-            price: 500,
-            sellPrice: 0,
-            fromPokestop: false,
-            requiredLevel: 0,
-            type: 'storage',
-            buy: async function(userId) {
-                await require('./UserCommands').update(userId, [
-                    {rowName: 'itemstorage', value: 50, flag: 'increment'}
-                ]);
-            }
-        },
-        {
-            id: 7,
-            name: 'Razz Berry',
-            searchName: 'razzberry',
-            plural: 'Razz Berries',
-            emoji: '<:razzberry:794648206725349387>',
-            description: 'Makes it easier to catch a Pokemon.',
-            shopItem: false,
-            price: 0,
-            sellPrice: 50,
-            fromPokestop: true,
-            requiredLevel: 8,
-            requiresEncounter: true,
-            type: 'berry',
-            catchMultiplier: 1.5,
-        },
-        {
-            id: 8,
-            name: 'Nanab Berry',
-            searchName: 'nanabberry',
-            plural: 'Nanab Berries',
-            emoji: '<:nanabberry:794648204070486056>',
-            description: 'Stops a Pokemon from moving for 1 turn.',
-            shopItem: false,
-            price: 0,
-            sellPrice: 50,
-            fromPokestop: true,
-            requiredLevel: 14,
-            requiresEncounter: true,
-            type: 'berry',
-            use() {
-                return { column: 'canPokemonMove', flag: 'set', value: false }
-            }
-        },
-        {
-            id: 9,
-            name: 'Pinap Berry',
-            searchName: 'pinapberry',
-            plural: 'Pinap Berries',
-            emoji: '<:pinapberry:794648205413449828>',
-            description: 'Doubles the candy given if caught while under its effect.',
-            shopItem: false,
-            price: 0,
-            sellPrice: 50,
-            fromPokestop: true,
-            requiredLevel: 18,
-            requiresEncounter: true,
-            type: 'berry',
-            use() {
-                return { column: 'candyEarned', type: 'multiply', value: 2 }
-            }
-        },
-        {
-            id: 10,
-            name: 'Revive',
-            searchName: 'revive',
-            plural: 'Revives',
-            emoji: '<:revive:795413532791144518>',
-            description: 'Revives a Pokemon from being fainted with half HP.',
-            shopItem: false,
-            price: 0,
-            sellPrice: 0,
-            fromPokestop: true,
-            requiredLevel: 5,
-            requiresEncounter: false,
-            type: 'revive'
-        },
-        {
-            id: 11,
-            name: 'Super Potion',
-            searchName: 'superpotion',
-            plural: 'Super Potions',
-            emoji: '<:superpotion:795421463628873759>',
-            description: 'Heals a Pokemon for 50 HP.',
-            shopItem: false,
-            price: 0,
-            sellPrice: 0,
-            fromPokestop: true,
-            requiredLevel: 10,
-            requiresEncounter: false,
-            type: 'healing'
-        },
-        {
-            id: 12,
-            name: 'Hyper Potion',
-            searchName: 'hyperpotion',
-            plural: 'Hypr Potions',
-            emoji: '<:hyperpotion:795635140159602728>',
-            description: 'Heals a Pokemon for 200 HP.',
-            shopItem: false,
-            price: 0,
-            sellPrice: 0,
-            fromPokestop: true,
-            requiredLevel: 15,
-            requiresEncounter: false,
-            type: 'healing',
-        },
-        {
-            id: 13,
-            name: 'Max Revive',
-            searchName: 'maxrevive',
-            plural: 'Max Revives',
-            emoji: '<:maxrevive:795635140218978304>',
-            description: 'Revives a Pokemon from being fainted with full HP.',
-            shopItem: false,
-            price: 0,
-            sellPrice: 0,
-            fromPokestop: true,
-            requiredLevel: 30,
-            requiresEncounter: false,
-            type: 'revive'
-        },
-        {
-            id: 14,
-            name: 'Max Potion',
-            searchNae: 'maxpotion',
-            plural: 'Max Potions',
-            emoji: '<:maxpotion:795636999520124928>',
-            description: 'Heals a Pokemon to full HP.',
-            shopItem: false,
-            price: 0,
-            sellPrice: 0,
-            fromPokestop: true,
-            requiredLevel: 30,
-            requiresEncounter: false,
-            type: 'healing',
-        },
-        {
-            id: 15,
-            name: 'Travel Ticket',
-            searchName: 'travelticket',
-            plural: 'Travel Tickets',
-            emoji: '<:ticket:722938227522142292>',
-            description: 'Allows you to instantly travel to another square.',
-            shopItem: false,
-            price: 0,
-            sellPrice: 0,
-            fromPokestop: false,
-            requiredLevel: 0,
-            requiresEncounter: false,
-            type: 'special',
-            use() {
-                
-            }
-        }
+        PokeBall,
+        GreatBall,
+        UltraBall,
+        Potion,
+        PokemonStorage,
+        ItemStorage,
+        RazzBerry,
+        NanabBerry,
+        PinapBerry,
+        Revive,
+        SuperPotion,
+        HyperPotion,
+        MaxRevive,
+        MaxPotion,
+        TravelTicket,
     ],
-    enums: {
-        'POKE_BALL': 1,
-        'GREAT_BALL': 2,
-        'ULTRA_BALL': 3,
-        'POTION': 4,
-        'POKEMON_STORAGE': 5,
-        'ITEM_STORAGE': 6,
-        'RAZZ_BERRY': 7,
-        'NANAB_BERRY': 8,
-        'PINAP_BERRY': 9,
-        'REVIVE': 10,
-        'SUPER_POTION': 11,
-        'HYPER_POTION': 12,
-        'MAX_REVIVE': 13,
-        'MAX_POTION': 14,
-    }
 }

@@ -2,14 +2,11 @@ require('dotenv').config();
 require('app-module-path').addPath(__dirname);
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const CommandParser = require('./CommandParser');
-const axios = require('axios');
 const SocketServer = require('./SocketServer');
 const CommandRegistry = require('./CommandRegistry');
 const UserCommands = require('./data/ModelHandlers/UserCommands');
-
-axios.defaults.headers.post['errors'] = 'discord';
-axios.defaults.headers.post['client'] = 'discord';
+const User = require('~/knex/models/User');
+require('./lib/Database');
 
 const server = new SocketServer(client);
 
@@ -30,6 +27,7 @@ client.on('message', async msg => {
     }
     else {
         //TODO: delete the message?
+        console.log(message);
         let response = await msg.channel.send(message);
         await UserCommands.update(msg.userId, [
             { rowName: 'lastMessageId', value: response.id }

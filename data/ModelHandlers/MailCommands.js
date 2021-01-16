@@ -2,7 +2,6 @@ const Mail = require("~/knex/models/Mail");
 const MailRewards = require("~/knex/models/MailRewards");
 const Emojis = require("~/data/Lists/EmojiList");
 const CustomError = require("~/lib/errors/CustomError");
-const ItemHandler = require("~/lib/ItemHandler");
 const LevelTable = require("~/data/Lists/LevelList");
 
 module.exports = {
@@ -45,15 +44,14 @@ module.exports = {
             throw new CustomError('NO_MAIL', tableId+1);
         }
 
-        const mail = allMail[tableId];
+        let mail = allMail[tableId];
 
         await Mail.query().update({
             read: true,
         })
         .where('id', mail.id);
 
-        //fix rewards
-        mail.rewards = ItemHandler.rewardsToMessage(mail.rewards);
+        mail.rewards = rewardsToMessage(mail.rewards);
 
         return mail;
     },
@@ -68,8 +66,17 @@ module.exports = {
             throw new CustomError('ALREADY_CLAIMED');
         }
 
-        mail.rewards = ItemHandler.rewardsToMessage(mail.rewards);
+        mail.rewards = rewardsToMessage(mail.rewards);
 
         return mail.rewards;
     }
+}
+
+function rewardsToMessage(rewards) {
+    let rewardsArray = [];
+    for(var i=0;i<rewards.length;i++) {
+        const item = Items.find(el => el.id == rewards[i].itemId);
+        rewardsArray.push({name: item.name, amount: rewards[i].amount, itemId: rewards[i].itemId});
+    }
+    return rewardsArray;
 }

@@ -5,7 +5,7 @@ const options = {
     names: ['sql'],
     ownerOnly: true,
     expectedParameters: [
-        { name: 'sql', type: ['rest'], optional: false }
+        { name: 'sql', type: ['rest'], ofType: 'any', separator: ' ', optional: false }
     ],
     global: true,
 }

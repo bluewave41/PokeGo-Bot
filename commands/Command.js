@@ -6,71 +6,91 @@ class Command {
         this.msg = msg;
         Object.assign(this, options);
     }
+    checkParameter(expected, actual, actualType, index) {
+        //does the parameter exist?
+        if((actualType === 'undefined' || actual == '') && !expected.optional) {
+            throw new CustomError('MISSING_PARAMETER', expected.name);
+        }
+
+        //check the type
+        switch(actualType) {
+            case 'string':
+            case 'array':
+                this[expected.name] = actual;
+                break;
+            case 'number':
+                let parsed = parseInt(actual);
+                if(!Number.isInteger(parsed)) {
+                    throw new CustomError('NON_NUMERIC_CHOICE', expected.name);
+                }
+                if(parsed <= 0) {
+                    throw new CustomError('NEGATIVE_VALUE');
+                }
+                //valid
+                this[expected.name] = parsed;
+                break;
+            case 'rest':
+                //check of type
+                let rest = '';
+                let i;
+                for(i=index-1;i<this.msg.parameters.length;i++) {
+                    const type = this.determineVariableType(this.msg.parameters[i], expected.ofType);
+                    if(type == expected.ofType || expected.ofType == 'any') {
+                        rest += this.msg.parameters[i] + expected.separator;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                this[expected.name] = rest;
+                return i;
+        }
+        return index;
+    }
     /*Ensures that all parameters exist and that their types match*/
     //DO NOT MUTATE EXPECTED PARAMETERS
     validate() {
-        for(var i=0;i<this.expectedParameters.length;i++) {
-            const expected = this.expectedParameters[i];
-            const actual = this.msg.parameters[i] || expected.default;
-            const actualType = this.determineVariableType(expected.type, actual);
-            //do the types match?
-            if(!expected.type.includes(actualType)) {
-                //error here for something
+        let expectedParameters = this.expectedParameters;
+        let index = 0;
+        for(var i=0;i<expectedParameters.length;i++) {
+            const expected = expectedParameters[i]; //what should the parameter be?
+            /*Using index here because optional parameters shouldn't increment this count*/
+            const actual = this.msg.parameters[index]; //what is the actual parameter?
+            const actualType = this.determineVariableType(actual, expected.type); //what type is it?
+            if(expected.type.includes(actualType)) {
+                index++;
+                if(expected.isDefined) {
+                    this.checkParameter(expected, actual, actualType, i);
+                    expectedParameters = expected.isDefined;
+                    //reset for loop for new array
+                    i = -1; //this will increment when loop finishes
+                }
+                else {
+                    index = this.checkParameter(expected, actual, actualType, index);
+                }
             }
-            console.log(actualType);
-            console.log(expected, actual, actualType);
-
-            //does the parameter exist?
-            if((actualType === 'undefined' || actual == '') && !expected.optional) {
-                console.log('here');
-                throw new CustomError('MISSING_PARAMETER', expected.name);
-            }
-            switch(actualType) {
-                case 'string':
-                case 'array':
-                    this[expected.name] = actual;
-                    break;
-                case 'number':
-                    let parsed = parseInt(actual);
-                    console.log('PARSED', parsed);
-                    if(!Number.isInteger(parsed)) {
-                        throw new CustomError('NON_NUMERIC_CHOICE', expected.name);
-                    }
-                    if(parsed <= 0) {
-                        throw new CustomError('NEGATIVE_VALUE');
-                    }
-                    //valid
-                    this[expected.name] = parsed;
-                    break;
-                case 'rest':
-                    this[expected.name] = this.msg.parameters.slice(i, this.msg.parameters.length).join(' ');
-                    break;
+            else {
+                if(expected.optional) {
+                    index = this.checkParameter(expected, expected.default, this.determineVariableType(expected.type, expected.default), i);
+                }
+                else {
+                    throw new CustomError('MISSING_PARAMETER', expected.name);
+                }
             }
         }
         return true;
     }
-    determineVariableType(possible, value) {
-        if(Array.isArray(possible)) {
-            for(var i=0;i<possible.length;i++) {
-                switch(possible[i]) {
-                    case 'number':
-                        if(Number.isInteger(parseInt(value))) {
-                            return 'number';
-                        }
-                    case 'array':
-                        if(Array.isArray(JSON.parse(value))) {
-                            return 'array';
-                        }
-                    case 'string':
-                        return 'string';
-                    case 'rest':
-                        return 'rest';
-                    default:
-                        return undefined;
-                }
-            }
+    determineVariableType(value, expectedType) {
+        if(typeof value === 'undefined') {
+            return 'undefined';
         }
-        return typeof value;
+        if(Number.isInteger(parseInt(value))) {
+            return 'number';
+        }
+        if(expectedType == 'rest') {
+            return 'rest';
+        }
+        return 'string';
     }
     async run() {
         //setup the next command

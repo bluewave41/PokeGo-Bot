@@ -1,4 +1,4 @@
-const items = require('./ItemList').enums
+const items = require('~/data/Lists/ItemEnums');
 /*Rewards are listed as itemId, amount*/
 
 module.exports = {

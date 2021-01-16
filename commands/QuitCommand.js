@@ -3,10 +3,12 @@ const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const CustomError = require('~/lib/errors/CustomError');
 const Powerups = require('~/knex/models/Powerups');
 const Command = require('./Command');
+const PlayerEncounters = require('../knex/models/PlayerEncounters');
 
 const options = {
     names: ['quit'],
     expectedParameters: [],
+    global: true,
 }
 
 class QuitCommand extends Command {
@@ -23,6 +25,9 @@ class QuitCommand extends Command {
                 await Powerups.query().delete()
                     .where('userId', this.msg.userId);
                 break;
+            case 'encounter/SelectSquare':
+                await PlayerEncounters.query().delete()
+                    .where('userId', this.msg.userId);
         }
 
         await UserCommands.reset(this.msg.userId);
@@ -32,7 +37,7 @@ class QuitCommand extends Command {
             description: `You quit.`
         }
     
-        return EmbedBuilder.build(msg, embed);
+        return EmbedBuilder.build(this.msg, embed);
     }
 }
 

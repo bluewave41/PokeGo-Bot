@@ -3,7 +3,7 @@ const InventoryCommands = require('../data/ModelHandlers/InventoryCommands');
 const Command = require('./Command');
 
 const options = {
-    names: ['inventory'],
+    names: ['inventory', 'inv'],
     expectedParameters: [],
 }
 

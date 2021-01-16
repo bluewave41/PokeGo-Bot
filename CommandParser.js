@@ -18,7 +18,6 @@ const User = require('./knex/models/User');
 const Server = require('./knex/models/Server');
 
 const Colors = require('~/data/Lists/ColorList');
-require('~/lib/Database');
 
 async function parse(msg) {
 	await init(msg);

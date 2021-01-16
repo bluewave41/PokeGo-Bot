@@ -5,6 +5,8 @@ const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const TravelRequests = require('~/knex/models/TravelRequests');
 const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
+const ItemEnums = require('~/data/Lists/ItemEnums');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 
 const options = {
     names: [],
@@ -26,6 +28,28 @@ class SelectLocation extends Command {
             throw new CustomError('INVALID_TRAVEL_LOCATION');
         }
 
+        //instant travel for travel ticket usage
+        const saved = await UserCommands.getSaved(this.msg.userId);
+        if(saved.instantTravel) {
+            await TravelRequests.query().delete()
+                .where('userId', this.msg.userId);
+
+            await InventoryCommands.removeItems(this.msg.userId, ItemEnums.TRAVEL_TICKET, 1);
+
+            await UserCommands.update(this.msg.userId, [
+                { rowName: 'nextCommand', value: null },
+                { rowName: 'saved', value: null, },
+                { rowName: 'location', value: this.choice }
+            ]);
+
+            const embed = {
+                title: 'Traveled!',
+                description: `You flew to square ${this.choice}!`,
+            }
+
+            return EmbedBuilder.build(this.msg, embed);
+        }
+
         const oldLocation = (await UserCommands.getFields(this.msg.userId, 'location')).location;
 
         const distance = Math.abs(oldLocation.charCodeAt(0) - this.choice.charCodeAt(0)) +
@@ -43,7 +67,7 @@ class SelectLocation extends Command {
         await UserCommands.reset(this.msg.userId);
 
         let embed = {
-            title: 'Travelling',
+            title: 'Traveling',
             description: `You're moving to ${this.choice}. You'll be there in ${distance*5} minutes.`,
         }
     

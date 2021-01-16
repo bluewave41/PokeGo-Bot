@@ -55,7 +55,7 @@ async function parse(msg) {
 }
 
 async function init(msg) {
-    //this one uses discordId so we can't use UserComamnds
+    //this one uses discordId so we can't use UserCommands
     let user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team')
         .where('discordID', msg.author.id).first();
     if(!user) {
