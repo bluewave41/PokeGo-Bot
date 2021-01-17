@@ -1,5 +1,4 @@
 const { Model } = require('objection');
-const ItemHandler = require('~/lib/ItemHandler');
 const PowerupTable = require('~/data/Lists/PowerupList');
 const Pokemon = require('./Pokemon');
 
@@ -27,11 +26,8 @@ class PlayerEncounters extends Model {
         });
         return pokemon;
     }
-    get infoForUser() {
-        const pokemon = this.pokemon;
-        return {cp: pokemon.cp, level: pokemon.level, name: pokemon.displayName, emoji: pokemon.emoji, url: pokemon.url}
-    }
     get multiplier() {
+        const ItemHandler = require('~/lib/ItemHandler');
         let multiplier = this.medalMultiplier;
 
         multiplier *= ItemHandler.getItem(this.activePokeball).catchMultiplier;

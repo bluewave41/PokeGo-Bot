@@ -8,7 +8,7 @@ const options = {
     names: ['nickname', 'nick'],
     expectedParameters: [
         { name: 'pokemonId', type: ['number'], optional: false},
-        { name: 'nickname', type: ['rest'], optional: false }
+        { name: 'nickname', type: ['rest'], optional: false, sanitize: true }
     ]
 }
 

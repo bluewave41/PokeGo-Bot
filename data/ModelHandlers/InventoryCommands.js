@@ -8,7 +8,7 @@ module.exports = {
             .where('itemId', itemId)
             .first();
 
-        return row;
+        return row ? row.amount : 0;
     },
     async removeItems(userId, itemId, amount) {
         await Inventory.query().decrement('amount', amount)

@@ -13,7 +13,6 @@ const options = {
     expectedParameters: [
         { name: 'response', type: ['number', 'string'], optional: false }
     ],
-    nextCommand: null,
 }
 
 class PowerupResponse extends Command {
@@ -86,9 +85,13 @@ class PowerupResponse extends Command {
             await CandyCommands.removeCandy(this.msg.userId, pokemon.candyId, saved.requiredCandy);
         
             //implement stardust cost
-            super.run();
-            return;
-            //confirm???
+            const embed = {
+                title: 'Powered up!',
+                description: `${pokemon.name} rose from level ${pokemon.level} to ${powerupRow.level}!`,
+                image: pokemon.url,
+            }
+
+            return EmbedBuilder.build(this.msg, embed);
         }
         else {
             throw new CustomError('INVALID_RESPONSE');

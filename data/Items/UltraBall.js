@@ -15,6 +15,12 @@ class UltraBall {
         this.type = 'pokeball';
         this.catchMultiplier = 2;
     }
+    async use(userId) {
+        await PlayerEncounters.query().update({
+            activePokeball: 3
+        })
+        .where('userId', userId);
+    }
 }
 
 module.exports = new UltraBall();

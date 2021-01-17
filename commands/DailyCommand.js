@@ -4,6 +4,8 @@ const Command = require('./Command');
 const { differenceInMilliseconds, add } = require('date-fns');
 const UserCommands = require('../data/ModelHandlers/UserCommands');
 const CustomError = require('~/lib/errors/CustomError');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
+const ItemEnums = require('~/data/Lists/ItemEnums');
 
 const options = {
     names: ['daily'],
@@ -31,11 +33,17 @@ class DailyCommand extends Command {
             { rowName: 'currency', value: earned, flag: 'increment' },
             { rowName: 'lastdaily', value: new Date() }
         ]);
+
+        await InventoryCommands.addItems(this.msg.userId, ItemEnums.TRAVEL_TICKET, 1);
+
+        let description = `You're on a ${newStreak} day streak! You received:\n`;
+        description += `- ${earned} ${Emojis.COIN}\n`;
+        description += `- 1 Travel Ticket ${Emojis.TRAVEL_TICKET}`
         
         let embed = {
             title: 'Daily',
-            description: `You're on a ${newStreak} day streak and you received ${earned} ${Emojis.COIN}!`,
-            footer: `New total: ${currency+earned}.`
+            description: description,
+            footer: `New total: ${user.currency+earned}.`
         }
     
         return EmbedBuilder.build(this.msg, embed);

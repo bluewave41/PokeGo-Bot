@@ -1,5 +1,6 @@
 module.exports = {
     'COIN': '<:pokecoin:791719249038934027>',
+    'TRAVEL_TICKET': '<:ticket:722938227522142292>',
     'STARDUST': '<:stardust:791718913746403338>',
     'BUG': '<:bug:794587501028573226>',
     'DARK': '<:dark:794587501222166528>',

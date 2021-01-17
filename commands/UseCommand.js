@@ -3,12 +3,15 @@ const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const EncounterBuilder = require('~/data/Builders/EncounterBuilder');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Command = require('./Command');
+const CustomError = require('~/lib/errors/CustomError');
+const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 
 const options = {
     names: ['use'],
     expectedParameters: [
         { name: 'item', type: 'rest', ofType: 'string', separator: '', optional: false }
-    ]
+    ],
+    global: true,
 }
 
 class UseCommand extends Command {
@@ -20,22 +23,41 @@ class UseCommand extends Command {
         this.item = ItemHandler.getItem(this.item);
         this.itemAmount = await InventoryCommands.getItemCount(this.msg.userId, this.item.id);
         if(this.item.requiresEncounter) {
-            
+            this.encounter = await PlayerEncounters.query().select('*')
+                .where('userId', this.msg.userId)
+                .first();
         }
         canUseItem(this.item, this.itemAmount, this.msg.nextCommand, this.encounter);
     }
     async run() {
         if(this.item.requiresEncounter) {
+            await this.item.use(this.msg.userId);
 
+            let pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
+
+            if(this.item.type == 'pokeball') {
+                this.encounter.activePokeball = this.item.id;
+            }
+            else {
+                this.encounter.item = this.item.id;
+            }
+
+            pokeBalls.find(el => el.itemId == this.encounter.activePokeball).active = true;
+
+            const data = {
+                pokemon: this.encounter.pokemon,
+                position: this.encounter.pokemonPos,
+                catchChance: this.encounter.catchChance,
+                pokeBalls: pokeBalls,
+            }
+
+            const embed = EncounterBuilder.build(this.msg, data);
+            return EmbedBuilder.edit(this.msg, embed);
         }
         else {
             const embed = await this.item.use(this.msg);
             return EmbedBuilder.build(this.msg, embed);
         }
-        /*if(response.data.type == 'update') { //used an item during an encounter so we need to update the embed
-            const embed = EncounterBuilder.build(msg, response.data);
-            return EmbedBuilder.edit(msg, embed);
-        }*/
     }
 }
 
@@ -47,6 +69,9 @@ module.exports = {
 function canUseItem(item, amount, nextCommand, encounter) {
     //are we in an encounter?
     if(item.requiresEncounter) {
+        if(!encounter) {
+            throw new CustomError('CANT_USE_ITEM');
+        }
         if(nextCommand != 'encounter/SelectSquare') {
             throw new CustomError("CANT_USE_ITEM");
         }
@@ -63,18 +88,6 @@ function canUseItem(item, amount, nextCommand, encounter) {
 }
 
 /*
-
-        if(item.requiresEncounter) {
-            const user = await User.query().select('nextCommand')
-                .withGraphFetched('encounter.[pokemon]')
-                .withGraphFetched('medals')
-                .where('userId', userId)
-                .first();
-
-            if(!user.encounter) {
-                throw new CustomError('CANT_USE_ITEM');
-            }
-
             let pokeBalls = await InventoryCommands.getPokeballs(userId);
 
             const { amount } = await InventoryCommands.getItemCount(userId, item.id);
@@ -125,36 +138,6 @@ function canUseItem(item, amount, nextCommand, encounter) {
             clientData.catchChance = user.encounter.catchChance;
 
             res.json(clientData);
-            return res.end();
-        }
-        else {
-            //message
         }
     }
-    catch(err) {
-        res.json({error: Errors.getError(err, req.headers.errors)});
-        return res.end();
-    }
-
-    //user is in encounter or the item doesn't require that they are
-
-    res.end();
-}
-
-async function canUseItem(item, amount, nextCommand, encounter) {
-    //are we in an encounter?
-    if(nextCommand != 'encounter/SelectSquare') {
-        throw new CustomError("CANT_USE_ITEM");
-    }
-
-    //do we have the item we need?
-    if(!item || amount == 0) {
-        throw new CustomError('OUT_OF_ITEMS');
-    }
-
-    //did we already use an item?
-    if(item.type != 'pokeball' && encounter.item) {
-        throw new CustomError('ALREADY_USED_ITEM');
-    }
-    return true;
 }*/

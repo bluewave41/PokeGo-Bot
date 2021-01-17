@@ -40,7 +40,7 @@ module.exports = {
     'ALREADY_HAVE_STARTER': 'You already have a starter Pokemon.',
     'NON_NUMERIC_ARTICLE': `News article IDs must be numeric.`,
     'INVALID_NEWS_ARTICLE': `That news article doesn't exist.`,
-    'DAILY_TOO_SOON': `You've already received your daily today.\n You can do it again in {replace} hours {replace} minutes and {replace} seconds.`,
+    'DAILY_TOO_SOON': `You've already received your daily today.\nYou can do it again in {replace} hours {replace} minutes and {replace} seconds.`,
     'ITEM_STORAGE_FULL': `You're out of item storage! Sell some items or purchase a storage upgrade.`,
     'PAGE_TOO_HIGH': `You can only select pages 1-{replace}.`,
     'CANT_USE_ITEM': `You need to be in an encounter to use that item!`,

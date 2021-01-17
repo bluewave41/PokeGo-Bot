@@ -7,8 +7,8 @@ class HyperPotion {
         this.emoji = '<:hyperpotion:795635140159602728>';
         this.description = 'Heals a Pokemon for 200 HP.';
         this.shopItem = false;
-        this.price = 0;
-        this.sellPrice = 0;
+        this.price = 500;
+        this.sellPrice = 250;
         this.fromPokestop = true;
         this.requiredLevel = 15;
         this.requiresEncounter = false;

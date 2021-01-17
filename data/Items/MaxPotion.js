@@ -7,8 +7,8 @@ class MaxPotion {
         this.emoji = '<:maxpotion:795636999520124928>';
         this.description = 'Heals a Pokemon to full HP.';
         this.shopItem = false;
-        this.price = 0;
-        this.sellPrice = 0;
+        this.price = 700;
+        this.sellPrice = 350;
         this.fromPokestop = true;
         this.requiredLevel = 30;
         this.requiresEncounter = false;

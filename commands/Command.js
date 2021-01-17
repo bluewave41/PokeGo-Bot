@@ -1,5 +1,6 @@
 const UserCommands = require("../data/ModelHandlers/UserCommands");
 const CustomError = require("../lib/errors/CustomError");
+const Utils = require("../lib/Utils");
 
 class Command {
     constructor(msg, options) {
@@ -55,7 +56,8 @@ class Command {
         for(var i=0;i<expectedParameters.length;i++) {
             const expected = expectedParameters[i]; //what should the parameter be?
             /*Using index here because optional parameters shouldn't increment this count*/
-            const actual = this.msg.parameters[index]; //what is the actual parameter?
+            const actual = expected.sanitize ? Utils.sanitizeString(this.msg.parameters[index])
+                : this.msg.parameters[index]; //what is the actual parameter?
             const actualType = this.determineVariableType(actual, expected.type); //what type is it?
             if(expected.type.includes(actualType)) {
                 index++;

@@ -81,7 +81,6 @@ class StartEncounter extends Command {
             }
 
             pokeBalls = pokeBalls.sort((a, b) => a.itemId - b.itemId);
-    
         
             //add encounter data to the pokemon
             pokemon.userId = this.msg.userId;

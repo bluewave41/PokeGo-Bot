@@ -1,5 +1,5 @@
 const { Model } = require('objection');
-const items = require('~/data/Lists/ItemList').items;
+const items = require('~/data/Lists/ItemList');
 
 class Inventory extends Model {
 	static get tableName() {

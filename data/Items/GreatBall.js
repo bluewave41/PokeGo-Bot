@@ -1,3 +1,5 @@
+const PlayerEncounters = require(`~/knex/models/PlayerEncounters`);
+
 class GreatBall {
     constructor() {
         this.id = 2;
@@ -14,6 +16,12 @@ class GreatBall {
         this.requiresEncounter = true;
         this.type = 'pokeball';
         this.catchMultiplier = 1.5;
+    }
+    async use(userId) {
+        await PlayerEncounters.query().update({
+            activePokeball: 2
+        })
+        .where('userId', userId);
     }
 }
 

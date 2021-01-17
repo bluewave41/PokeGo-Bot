@@ -14,22 +14,20 @@ const NanabBerry = require('~/data/Items/NanabBerry');
 const PinapBerry = require('~/data/Items/PinapBerry');
 const TravelTicket = require('~/data/Items/TravelTicket');
 
-module.exports = {
-    items: [
-        PokeBall,
-        GreatBall,
-        UltraBall,
-        Potion,
-        PokemonStorage,
-        ItemStorage,
-        RazzBerry,
-        NanabBerry,
-        PinapBerry,
-        Revive,
-        SuperPotion,
-        HyperPotion,
-        MaxRevive,
-        MaxPotion,
-        TravelTicket,
-    ],
-}
+module.exports = [
+    PokeBall,
+    GreatBall,
+    UltraBall,
+    Potion,
+    PokemonStorage,
+    ItemStorage,
+    RazzBerry,
+    NanabBerry,
+    PinapBerry,
+    Revive,
+    SuperPotion,
+    HyperPotion,
+    MaxRevive,
+    MaxPotion,
+    TravelTicket,
+]

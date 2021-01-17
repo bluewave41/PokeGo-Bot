@@ -5,10 +5,14 @@ const Colors = require('./data/Lists/ColorList');
 const UserCommands = require('./data/ModelHandlers/UserCommands');
 var commands = Object.values(requireDir('./commands')).filter(el => el.options);
 
-async function parse(msg) {
+async function parse(client, msg) {
     await init(msg);
     const prefix = await getPrefix(msg.guild.id);
     msg.prefix = prefix;
+    if(msg.mentions.has(client.user.id)) {
+        msg.reply(`My prefix is ${prefix}.`)
+        return;
+    }
     //check for starter
     //global commands
     //next commands
@@ -26,7 +30,7 @@ async function parse(msg) {
             try {
                 command = new command.class(msg); //create the command
                 await command.validate();
-                return await command.run(msg); //run it
+                return { command: command, message: await command.run(msg) }; //run it
             }
             catch(err) {
                 console.log(err);
@@ -41,15 +45,30 @@ async function parse(msg) {
             command = require('./commands/' + msg.nextCommand);
             command = new command.class(msg);
             await command.validate();
-            return await command.run(msg);
+            return { command: command, message: await command.run(msg) };
         }
         catch(err) {
             console.log(err);
             if(command.reset) {
                 await UserCommands.reset(msg.userId);
             }
-            console.log(err);
             return { error: true, message: err.getMessage() }
+        }
+    }
+}
+
+async function parseReactions(reaction, user) {
+    let msg = { ...reaction.message } //copy the message here
+    msg.author = user; //change the author 
+    await init(msg);
+    if(msg.nextCommand) {
+        const { lastMessageId } = await UserCommands.getFields(msg.userId, ['lastMessageId']);
+        if(lastMessageId == reaction.message.id) {
+            let command = require('./commands/' + msg.nextCommand);
+            command = new command.class(msg);
+            if(command.handleReactionAdd) {
+                await command.handleReactionAdd(reaction, msg);
+            }
         }
     }
 }
@@ -95,4 +114,5 @@ async function getPrefix(guildId) {
 
 module.exports = {
     parse,
+    parseReactions,
 }

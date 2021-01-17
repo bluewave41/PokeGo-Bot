@@ -48,7 +48,6 @@ class ShopCommand extends Command {
                 embed.footer = `You have ${user.currency}₽.`;
                 break;
             case 'buy':
-                console.log(this.name)
                 item = ItemHandler.getItem(this.name);
                 canBuyItem(user.currency, item, this.amount);
                 //we can buy the item
@@ -67,7 +66,7 @@ class ShopCommand extends Command {
                 break;
             case 'sell':
                 item = ItemHandler.getItem(this.name);
-                const { amount: itemCount } = await InventoryCommands.getItemCount(this.msg.userId, item.id);
+                const itemCount = await InventoryCommands.getItemCount(this.msg.userId, item.id);
 
                 canSellItems(itemCount, this.amount);
         

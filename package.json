@@ -18,9 +18,9 @@
     "date-fns": "^2.16.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
+    "dpdm": "^3.6.0",
     "knex": "^0.21.12",
     "link-module-alias": "^1.2.0",
-    "madge": "^4.0.0",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.6",
     "objection": "^2.2.3",
@@ -28,5 +28,9 @@
     "setimmediate": "^1.0.5",
     "socket.io-client": "^3.0.4",
     "yallist": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "madge": "^4.0.0"
   }
 }

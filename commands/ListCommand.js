@@ -2,6 +2,7 @@ const PokemonListBuilder = require('~/data/Builders/PokemonListBuilder');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Command = require('./Command');
 const Pokemon = require('../knex/models/Pokemon');
+const Utils = require('~/lib/Utils');
 
 const options = {
     names: ['list'],
