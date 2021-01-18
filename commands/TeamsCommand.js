@@ -2,6 +2,7 @@ const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Teams = require('~/knex/models/Teams');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Command = require('./Command');
+const TeamListBuilder = require('~/data/Builders/TeamListBuilder');
 
 const options = {
     names: ['teams'],
@@ -23,17 +24,9 @@ class TeamsCommand extends Command {
             { rowName: 'nextCommand', value: 'teams/QueryTeam' }
         ]);
 
-        let description = 'You have no teams.';
-        if(teams) {
-            description = '';
-            for(var i=0;i<teams.length;i++) {
-                description += i+1 + '. ' + teams[i].name + '\n';
-            }
-        }
-
         const embed = {
             title: 'Teams',
-            description: description,
+            description: TeamListBuilder.build(teams),
             footer: `Create a team with create teamname`,
         }
         return EmbedBuilder.build(this.msg, embed);

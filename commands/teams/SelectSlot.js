@@ -35,8 +35,6 @@ class SelectSlot extends Command {
 
         saved.count = count.pokemonCount;
         saved.maxPage = Math.ceil(count.pokemonCount/25);
-
-        console.log(saved);
         
         await UserCommands.update(this.msg.userId, [
             { rowName: 'nextCommand', value: 'teams/SelectPokemon' },

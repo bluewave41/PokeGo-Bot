@@ -21,7 +21,7 @@ exports.up = function(knex) {
 	table.smallint('streak').defaultTo(0);
 	table.tinyint('team').defaultsTo(null);
 	table.boolean('admin').defaultsTo(false);
-	table.integer('savedVariable');
+	table.json('saved');
 	table.timestamp('created_at').defaultTo(knex.fn.now());
 	table.timestamp('updated_at').defaultTo(knex.fn.now());
   });

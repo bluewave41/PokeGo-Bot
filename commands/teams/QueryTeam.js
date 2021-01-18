@@ -3,11 +3,12 @@ const Teams = require('~/knex/models/Teams');
 const Command = require('../Command');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const TeamBuilder = require('~/data/Builders/TeamBuilder');
+const CustomError = require('~/lib/errors/CustomError');
+const TeamListBuilder = require('~/data/Builders/TeamListBuilder');
 
-//create name
-//delete name
-//edit name
-//integer to select team or select name?
+//create name - done
+//delete name - done
+//select (integer?) name - 
 
 const options = {
     names: [],
@@ -23,13 +24,25 @@ class QueryTeam extends Command {
     }
     async validate() {
         super.validate();
+        if(this.action == 'create') {
+            const team = await Teams.query().select('name')
+                .where('userId', this.msg.userId)
+                .where('name', this.name)
+                .first();
+
+            //check for duplicate team
+            if(team) {
+                throw new CustomError('TEAM_NAME_TAKEN');
+            }
+        }
     }
     async run() {
         let team, saved, embed;
         switch(this.action) {
             case 'create':
                 let { highest } = await Teams.query().max('teamId as highest')
-                    .where('userId', this.msg.userId);
+                    .where('userId', this.msg.userId)
+                    .first();
         
                 if(!highest) {
                     highest = 0;
@@ -57,13 +70,11 @@ class QueryTeam extends Command {
                 return EmbedBuilder.edit(this.msg, embed);
             case 'select':
                 team = await Teams.query().select('*')
-                    .withGraphFetched('p1')
-                    .withGraphFetched('p2')
-                    .withGraphFetched('p3')
+                    .withGraphFetched('pokemon')
                     .where('userId', this.msg.userId)
                     .where('name', this.name)
                     .first();
-                console.log(team)
+                console.log(team);
     
                 saved = { teamId: team.teamId }
             
@@ -76,6 +87,20 @@ class QueryTeam extends Command {
                     title: this.name,
                     description: 'Select a slot',
                     fields: TeamBuilder.build(team)
+                }
+                return EmbedBuilder.edit(this.msg, embed);
+            case 'delete':
+                await Teams.query().delete()
+                    .where('userId', this.msg.userId)
+                    .where('name', this.name);
+                
+                const teams = await Teams.query().select('*')
+                    .where('userId', this.msg.userId);
+
+                embed = {
+                    title: 'Teams',
+                    description: TeamListBuilder.build(teams),
+                    footer: `Create a team with create teamname`,
                 }
                 return EmbedBuilder.edit(this.msg, embed);
         }

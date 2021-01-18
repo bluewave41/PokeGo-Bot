@@ -102,9 +102,13 @@ module.exports = {
         PokemonBuilder.calculateCP(pokemon);
         PokemonBuilder.calculateHP(pokemon);
 
+        console.log(pokemon);
+
+        //Pokemon HP is refilled if they're evolved
         pokemon = await Pokemon.query().updateAndFetchById(pokemon.pokemonId, {
             pokedexId: pokemon.pokedexId,
             hp: pokemon.hp,
+            maxHP: pokemon.hp,
             cp: pokemon.cp,
         })
         .where('ownerId', userId)

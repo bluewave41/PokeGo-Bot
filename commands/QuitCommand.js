@@ -57,6 +57,9 @@ function isQuittable(nextCommand) {
         case 'starter/SelectStarterPokemon':
         case 'powerup/PowerupResponse':
         case 'team/SelectTeam':
+        case 'teams/QueryTeam':
+        case 'teams/SelectSlot':
+        case 'teams/SelectPokemon':
             return true;
         default:
             throw new CustomError('NON_QUITTABLE');

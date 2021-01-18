@@ -26,6 +26,7 @@ module.exports = {
     'INVALID_RANGE_CHOICE': `Your choice must be between 1 and {replace}.`,
     'INVALID_SQUARE': "You can't throw like that.",
     'INVALID_REDEEM_CODE': "That redeem code is invalid.",
+    'ALREADY_REDEEMED': `You've already redeemed that code.`,
     'NO_EVOLUTIONS': `That Pokemon can't evolve.`,
     'INSUFFICIENT_EVOLVE_CANDY': `You need {replace} candy to evolve this.`,
     'CANT_TRANSFER_FAVORITE': `You can't transfer a favorited Pokemon.`,
@@ -53,4 +54,5 @@ module.exports = {
     'INVALID_RESPONSE': `You provided an invalid response. If you're stuck, use the quit command.`,
     'LEVEL_TOO_HIGH': `You can only powerup this Pokemon {replace} times!`,
     'NO_PERMISSION': `You need the {replace} permission to do this.`,
+    'TEAM_NAME_TAKEN': `You already have a team with that name.`,
 }

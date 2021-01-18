@@ -5,6 +5,8 @@ const Pokemon = require('~/knex/models/Pokemon');
 const PokemonListBuilder = require('~/data/Builders/PokemonListBuilder');
 const Teams = require('~/knex/models/Teams');
 const TeamBuilder = require('~/data/Builders/TeamBuilder');
+const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
+const TeamListings = require('~/knex/models/TeamListings');
 
 const options = {
     names: [],
@@ -19,19 +21,34 @@ class SelectPokemon extends Command {
     }
     async validate() {
         super.validate();
+        await PokemonCommands.getStrictPokemon(this.msg.userId, this.pokemonId);
     }
     async run() {
         const saved = await UserCommands.getSaved(this.msg.userId);
-        const field = 'pokemon' + saved.slot;
-        await Teams.query().update({
-            [field]: this.pokemonId
-        })
-        .where('userId', this.msg.userId);
 
-        const team = await Teams.query().select('*')
-            .withGraphFetched('p1')
-            .withGraphFetched('p2')
-            .withGraphFetched('p3')
+        let team = await Teams.query().select('*')
+            .withGraphFetched('pokemon')
+            .where('userId', this.msg.userId)
+            .where('teamId', saved.teamId)
+            .first();
+
+        //is the Pokemon already in our team?
+        if(team.pokemon.find(el => el.pokemonId == this.pokemonId)) {
+            await TeamListings.query().delete()
+                .where('userId', this.msg.userId)
+                .where('teamId', saved.teamId)
+                .where('pokemonId', this.pokemonId);
+        }
+
+        await TeamListings.query().insert({
+            userId: this.msg.userId,
+            teamId: saved.teamId,
+            pokemonId: this.pokemonId,
+            slot: saved.slot,
+        });
+
+        team = await Teams.query().select('*')
+            .withGraphFetched('pokemon')
             .where('userId', this.msg.userId)
             .where('teamId', saved.teamId)
             .first();

@@ -4,7 +4,7 @@ const User = require('./knex/models/User');
 const Colors = require('./data/Lists/ColorList');
 const UserCommands = require('./data/ModelHandlers/UserCommands');
 var commands = Object.values(requireDir('./commands')).filter(el => el.options);
-
+const CustomError = require('~/lib/errors/CustomError');
 async function parse(client, msg) {
     await init(msg);
     const prefix = await getPrefix(msg.guild.id);
@@ -21,8 +21,10 @@ async function parse(client, msg) {
         const messageWithoutPrefix = msg.content.substring(prefix.length, msg.content.length);
         const split = messageWithoutPrefix.split(' ');
         let command = commands.find(el => el.options.names.includes(split[0]));
+        console.log(command)
         if(!command.options.global && msg.nextCommand) {
-            return;
+            const err = new CustomError('INVALID_RESPONSE');
+            return { error: true, message: err.getMessage() }
         }
         if(command) { //user ran a valid command
             split.shift(); //remove the command
@@ -86,7 +88,7 @@ async function init(msg) {
             stardust: 5000,
             secretId: Math.floor(Math.random() * 500) + 1,
         });
-    };
+    }
     const info = {
         userId: user.userId,
         nextCommand: user.nextCommand,

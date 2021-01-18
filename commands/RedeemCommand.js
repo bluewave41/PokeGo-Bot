@@ -3,6 +3,8 @@ const PokemonBuilder = require('~/lib/PokemonBuilder');
 const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
 const Command = require('./Command');
 const RedeemCodeCommands = require('~/data/ModelHandlers/RedeemCodeCommands');
+const RedeemedCodes = require('~/knex/models/RedeemedCodes');
+const CustomError = require('~/lib/errors/CustomError');
 
 const options = {
     names: ['redeem'],
@@ -17,12 +19,17 @@ class RedeemCommand extends Command {
     }
     async validate() {
         super.validate();
+        await canRedeemCode(this.msg.userId, this.code);
         this.items = await RedeemCodeCommands.getItems(this.code);
     }
     async run() {
         this.items = this.items.split('|');
         //i,id,amount
         //p,id,flags
+        await RedeemedCodes.query().insert({
+            userId: this.msg.userId,
+            redeemId: this.code
+        });
         for(var i=0;i<this.items.length;i++) {
             let item = this.items[i].split(',');
             if(item[0] == 'i') {
@@ -49,4 +56,15 @@ class RedeemCommand extends Command {
 module.exports = {
     options: options,
     class: RedeemCommand
+}
+
+async function canRedeemCode(userId, code) {
+    const hasRedeemed = await RedeemedCodes.query().select('*')
+        .where('userId', userId)
+        .where('redeemId', code)
+        .first();
+
+    if(hasRedeemed) {
+        throw new CustomError('ALREADY_REDEEMED');
+    }
 }

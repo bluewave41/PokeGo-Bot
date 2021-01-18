@@ -8,30 +8,19 @@ class Teams extends Model {
         const Pokemon = require('./Pokemon');
 
         return {
-            p1: {
-                relation: Model.HasOneRelation,
+			pokemon: {
+                relation: Model.ManyToManyRelation,
                 modelClass: Pokemon,
                 join: {
-                    from: 'player_teams.pokemon1',
+                    from: 'player_teams.teamId',
+                    through: {
+                        from: 'team_listings.teamId',
+                        to: 'team_listings.pokemonId',
+                        extra: ['slot'],
+                    },
                     to: 'pokemon.pokemonId'
                 }
-            },
-            p2: {
-                relation: Model.HasOneRelation,
-                modelClass: Pokemon,
-                join: {
-                    from: 'player_teams.pokemon2',
-                    to: 'pokemon.pokemonId'
-                }
-            },
-            p3: {
-                relation: Model.HasOneRelation,
-                modelClass: Pokemon,
-                join: {
-                    from: 'player_teams.pokemon3',
-                    to: 'pokemon.pokemonId'
-                }
-            }
+			}
         }
     }
 }

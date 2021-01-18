@@ -30,7 +30,7 @@ class InfoCommand extends Command {
         const embed = {
             title: this.msg.author.username + "'s Info",
             description: '',
-            thumbnail: `http://www.bluewave41.xyz:5000/teams/${this.msg.team}.png`,
+            thumbnail: process.env.sprites + `/teams/${this.msg.team}.png`,
             fields: [
                 ['Pokemon Count', pokemonCount, false],
                 ['Currency', user.currency + ' ' + Emojis.COIN, true],

@@ -26,6 +26,7 @@ client.on('message', async msg => {
     }
     if(message.error) {
         await msg.channel.send(message.message);
+        return;
     }
     else {
         //TODO: delete the message?

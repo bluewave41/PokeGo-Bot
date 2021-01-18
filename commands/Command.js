@@ -59,6 +59,7 @@ class Command {
             const actual = expected.sanitize ? Utils.sanitizeString(this.msg.parameters[index])
                 : this.msg.parameters[index]; //what is the actual parameter?
             const actualType = this.determineVariableType(actual, expected.type); //what type is it?
+            console.log(expected, actual, actualType);
             if(expected.type.includes(actualType)) {
                 index++;
                 if(expected.isDefined) {
@@ -86,7 +87,7 @@ class Command {
         if(typeof value === 'undefined') {
             return 'undefined';
         }
-        if(Number.isInteger(parseInt(value))) {
+        if(/^\d+$/.test(value) && Number.isInteger(parseInt(value))) {
             return 'number';
         }
         if(expectedType == 'rest') {
