@@ -52,7 +52,10 @@ module.exports = {
         const saved = await User.query().select('saved')
             .where('userId', userId)
             .first();
-        return JSON.parse(saved.saved);
+		if(process.platform.startsWith('win')) {
+			return JSON.parse(saved.saved);
+		}
+        return saved.saved;
     },
     async getUserInfo(userId) {
         const user = await User.query().select('xp', 'level', 'currency', 'totalxp', 'stardust', 'storage', 'itemstorage', 'location')
