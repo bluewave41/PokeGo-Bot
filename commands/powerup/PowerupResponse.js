@@ -7,12 +7,14 @@ const CandyCommands = require('../../data/ModelHandlers/CandyCommands');
 const PokemonCommands = require(`~/data/ModelHandlers/PokemonCommands`);
 const CustomError = require('../../lib/errors/CustomError');
 const Pokemon = require('../../knex/models/Pokemon');
+const Powerups = require(`~/knex/models/Powerups`);
 
 const options = {
     names: [],
     expectedParameters: [
         { name: 'response', type: ['number', 'string'], optional: false }
     ],
+    canQuit: true,
 }
 
 class PowerupResponse extends Command {
@@ -21,6 +23,10 @@ class PowerupResponse extends Command {
     }
     async validate() {
         super.validate();
+    }
+    async quit() {
+        await Powerups.query().delete()
+            .where('userId', this.msg.userId);
     }
     async run() {
         const saved = await UserCommands.getSaved(this.msg.userId);

@@ -13,6 +13,11 @@ class Command {
             throw new CustomError('MISSING_PARAMETER', expected.name);
         }
 
+        if(expected.type == 'number' && expected.max && actual > expected.max) {
+            console.log('here');
+            throw new CustomError('INVALID_RANGE_CHOICE', expected.max);
+        }
+
         //check the type
         switch(actualType) {
             case 'string':
@@ -56,10 +61,16 @@ class Command {
         for(var i=0;i<expectedParameters.length;i++) {
             const expected = expectedParameters[i]; //what should the parameter be?
             /*Using index here because optional parameters shouldn't increment this count*/
-            const actual = expected.sanitize ? Utils.sanitizeString(this.msg.parameters[index])
-                : this.msg.parameters[index]; //what is the actual parameter?
+            let actual = expected.sanitize ? Utils.sanitizeString(this.msg.parameters[index])
+                : this.msg.parameters[index] //what is the actual parameter?
+            if(actual) {
+                actual = actual.toLowerCase();
+            }
             const actualType = this.determineVariableType(actual, expected.type); //what type is it?
             console.log(expected, actual, actualType);
+            if(expected.possible && !expected.possible.includes(actual)) {
+                throw new CustomError('INVALID_CHOICE', expected.name);
+            }
             if(expected.type.includes(actualType)) {
                 index++;
                 if(expected.isDefined) {

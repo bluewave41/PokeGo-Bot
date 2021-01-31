@@ -24,6 +24,7 @@ module.exports = {
     'GENERIC_NOT_NUMERIC': `Value wasn't numeric.`,
     'NON_NUMERIC_CHOICE': "Your {replace} wasn't numeric.",
     'INVALID_RANGE_CHOICE': `Your choice must be between 1 and {replace}.`,
+    'INVALID_CHOICE': `Your {replace} wasn't valid.`,
     'INVALID_SQUARE': "You can't throw like that.",
     'INVALID_REDEEM_CODE': "That redeem code is invalid.",
     'ALREADY_REDEEMED': `You've already redeemed that code.`,
@@ -55,4 +56,10 @@ module.exports = {
     'LEVEL_TOO_HIGH': `You can only powerup this Pokemon {replace} times!`,
     'NO_PERMISSION': `You need the {replace} permission to do this.`,
     'TEAM_NAME_TAKEN': `You already have a team with that name.`,
+    'TEAM_NOT_FOUND': `You don't have a team with that name.`,
+    'INVALID_BATTLE_ACTION': `In a battle you can only use (f)ast, (c)harge or (s)witch.`,
+    'SELECTED_FAINTED_POKEMON': `You can't send out a fainted Pokemon!`,
+    'TOO_EARLY_TO_SWITCH': `It's too early for you to switch!`,
+    'TOO_MANY_TEAMS': `You can only have a maximum of 20 teams.`,
+    'NOT_ENOUGH_ENERGY': `You don't have enough energy for your charge move!`,
 }

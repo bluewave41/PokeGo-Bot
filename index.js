@@ -9,6 +9,8 @@ require('./lib/Database');
 
 const server = new SocketServer(client);
 
+console.clear();
+
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -18,8 +20,11 @@ client.on('message', async msg => {
 		return;
 	}
     let message = await CommandRegistry.parse(client, msg);
+    if(!message) {
+        return;
+    }
     if(!message.message) { //edits get trapped here
-        if(message.command.afterSend) {
+        if(message.command.afterSend) { //add emojis and stuff
             message.command.afterSend(msg.lastMessageId);
         }
         return;

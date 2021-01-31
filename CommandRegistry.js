@@ -5,11 +5,13 @@ const Colors = require('./data/Lists/ColorList');
 const UserCommands = require('./data/ModelHandlers/UserCommands');
 var commands = Object.values(requireDir('./commands')).filter(el => el.options);
 const CustomError = require('~/lib/errors/CustomError');
+
 async function parse(client, msg) {
     await init(msg);
     const prefix = await getPrefix(msg.guild.id);
     msg.prefix = prefix;
-    if(msg.mentions.has(client.user.id)) {
+    console.log(msg.mentions);
+    if(msg.mentions.has(client.user.id) && !msg.mentions.everyone) {
         msg.reply(`My prefix is ${prefix}.`)
         return;
     }
@@ -17,46 +19,43 @@ async function parse(client, msg) {
     //global commands
     //next commands
     //regular command
-    if(msg.content.startsWith(prefix)) { //user is running a command
+    let command;
+    let response;
+
+    if(msg.content.startsWith(prefix)) {
         const messageWithoutPrefix = msg.content.substring(prefix.length, msg.content.length);
         const split = messageWithoutPrefix.split(' ');
-        let command = commands.find(el => el.options.names.includes(split[0]));
-        console.log(command)
+        command = commands.find(el => el.options.names.includes(split[0]));
         if(!command.options.global && msg.nextCommand) {
             const err = new CustomError('INVALID_RESPONSE');
             return { error: true, message: err.getMessage() }
         }
-        if(command) { //user ran a valid command
-            split.shift(); //remove the command
-            msg.parameters = split;
-            try {
-                command = new command.class(msg); //create the command
-                await command.validate();
-                return { command: command, message: await command.run(msg) }; //run it
-            }
-            catch(err) {
-                console.log(err);
-                return { error: true, message: err.getMessage() }
-            }
-        }
+        split.shift();
+        msg.parameters = split;
     }
-    else if(msg.nextCommand) { //user is in a menu
+    else if(msg.nextCommand) {
         msg.parameters = msg.content.split(' ');
-        let command;
-        try {
-            command = require('./commands/' + msg.nextCommand);
-            command = new command.class(msg);
-            await command.validate();
-            return { command: command, message: await command.run(msg) };
-        }
-        catch(err) {
-            console.log(err);
-            if(command.reset) {
-                await UserCommands.reset(msg.userId);
-            }
-            return { error: true, message: err.getMessage() }
-        }
+        command = require('./commands/' + msg.nextCommand);
     }
+    else {
+        return;
+    }
+
+    try {
+        command = new command.class(msg);
+        await command.validate();
+        response = await command.run();
+    }
+    catch(err) {
+        console.log(err);
+        return { error: true, message: err.getMessage() }
+    }
+
+    if(command.menu) { //this command shows a generic menu
+        response = await command.menu.class.show(msg, command.menu.parameters);
+    }
+
+    return { command: command, message: response }
 }
 
 async function parseReactions(reaction, user) {

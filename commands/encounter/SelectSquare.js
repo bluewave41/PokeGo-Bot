@@ -13,7 +13,8 @@ const options = {
     names: [],
     expectedParameters: [
         { name: 'toss', type: 'string', optional: false }
-    ]
+    ],
+    canQuit: true,
 }
 
 class SelectSquare extends Command {
@@ -25,6 +26,10 @@ class SelectSquare extends Command {
         if(!isValidToss(this.toss)) {
             throw new CustomError('INVALID_SQUARE');
         }
+    }
+    async quit() {
+        await PlayerEncounters.query().delete()
+            .where('userId', this.msg.userId);
     }
     async run() {
         const encounter = await PlayerEncounters.query().select('*')

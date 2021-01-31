@@ -16,7 +16,7 @@ class Teams extends Model {
                     through: {
                         from: 'team_listings.teamId',
                         to: 'team_listings.pokemonId',
-                        extra: ['slot'],
+                        extra: ['slot', 'active', 'energy', 'delay'],
                     },
                     to: 'pokemon.pokemonId'
                 }

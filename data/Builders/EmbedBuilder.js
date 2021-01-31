@@ -1,20 +1,29 @@
 const Discord = require('discord.js');
 
 module.exports = {
-    build(msg, embedObject) {
-        const embed = new Discord.MessageEmbed()
-        .setTitle(embedObject.title)
-        .setDescription(embedObject.description)
+    build(msg, embedObject, originalEmbed=null) {
+        const embed = originalEmbed ? new Discord.MessageEmbed(originalEmbed) : new Discord.MessageEmbed()
         .setColor(msg.color);
-        if(embedObject.image) {
+
+        if(embedObject.title) {
+            embed.setTitle(embedObject.title);
+        }
+        if(embedObject.description) {
+            embed.setDescription(embedObject.description);
+        }
+        if(typeof embedObject.image != 'undefined') {
             if(typeof embedObject.image == 'string') {
                 embed.setImage(embedObject.image);
+            }
+            else if(!embedObject.image) {
+                embed.setImage(null);
             }
             else {
                 embed.attachFiles({name: `image.png`, attachment: Buffer.from(embedObject.image)})
                 embed.setImage(`attachment://image.png`)
             }
         }
+        //unused
         if(embedObject.base64) {
             embed.attachFiles({name: `image.png`, attachment: Buffer.from(embedObject.base64, 'base64')})
             embed.setImage(`attachment://image.png`)
@@ -27,6 +36,7 @@ module.exports = {
             embed.setThumbnail(embedObject.thumbnail);
         }
         if(embedObject.fields) {
+            embed.fields = [];
             for(var i=0;i<embedObject.fields.length;i++) {
                 embed.addField(embedObject.fields[i][0], embedObject.fields[i][1], embedObject.fields[i][2]);
             }
@@ -37,12 +47,13 @@ module.exports = {
         return embed;
     },
     edit(msg, embed) {
+        console.log('EDIT CALLED');
         let message = msg.channel.messages.cache.get(msg.lastMessageId);
         if(message) {
-            message.edit(this.build(msg, embed));
+            message.edit(this.build(msg, embed, message.embeds[0]));
         }
         else {
             return this.build(msg, embed);
         }
-    }
+    },
 }

@@ -8,6 +8,7 @@ const options = {
     ownerOnly: true,
     expectedParameters: [
         { name: 'pokemonId', type: ['number'], optional: false },
+        { name: 'level', type: 'number', optional: false },
         { name: 'amount', type: ['number'], optional: false},
     ]
 }
@@ -20,7 +21,7 @@ class GivePokemonCommand extends Command {
         super.validate();
     }
     async run() {
-        let pokemon = PokemonBuilder.generatePokemon(this.pokemonId, 5, this.msg.userId);
+        let pokemon = PokemonBuilder.generatePokemon(this.pokemonId, this.level, this.msg.userId);
     
         for(var i=0;i<this.amount;i++) {
             await PokemonCommands.catchPokemon(this.msg.userId, pokemon, 3);

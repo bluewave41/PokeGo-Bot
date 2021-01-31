@@ -7,7 +7,8 @@ module.exports = {
         ];
         for(var i=0;i<team.pokemon.length;i++) {
             const pokemon = team.pokemon[i];
-            fields[pokemon.slot-1] = [pokemon.displayName + ' - CP: ' + pokemon.cp, pokemon.emoji, true];
+            const emoji = pokemon.hp == 0 ? pokemon.emoji + ':x:' : pokemon.emoji;
+            fields[pokemon.slot-1] = [pokemon.displayName + ' - CP: ' + pokemon.cp, emoji, true];
         }
         return fields;
     }

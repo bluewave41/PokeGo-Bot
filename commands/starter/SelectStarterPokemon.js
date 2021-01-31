@@ -13,6 +13,7 @@ const options = {
         { name: 'pokemonName', type: ['string'], optional: false }
     ],
     nextCommand: null,
+    canQuit: true,
 }
 
 

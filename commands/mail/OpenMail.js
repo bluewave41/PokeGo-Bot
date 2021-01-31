@@ -8,6 +8,7 @@ const options = {
     expectedParameters: [
         { name: 'tableId', type: ['number'], optional: false}
     ],
+    canQuit: true,
 }
 
 class OpenMail extends Command {

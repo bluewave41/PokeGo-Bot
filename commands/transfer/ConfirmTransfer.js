@@ -9,7 +9,7 @@ const options = {
     expectedParameters: [
         { name: 'confirm', type: ['string'], optional: false }
     ],
-    reset: true,
+    canQuit: true,
 }
 
 class ConfirmTransfer extends Command {
@@ -32,7 +32,7 @@ class ConfirmTransfer extends Command {
             image: pokemon.url
         }
 
-        super.run();
+        await UserCommands.reset(this.msg.userId);
         return EmbedBuilder.build(this.msg, embed);
     }
 }
@@ -44,7 +44,7 @@ function isConfirmation(message) {
         case 'confirm':
             return true;
     }
-    throw new CustomError('INVALID_TRANSFER_CHOICE');
+    throw new CustomError('INVALID_RESPONSE');
 }
 
 module.exports = {

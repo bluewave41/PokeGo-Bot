@@ -8,7 +8,8 @@ const options = {
     names: [],
     expectedParameters: [
         { name: 'slot', type: 'number', optional: false }
-    ]
+    ],
+    canQuit: true,
 }
 
 class SelectSlot extends Command {

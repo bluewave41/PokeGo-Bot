@@ -11,6 +11,7 @@ const options = {
     expectedParameters: [
         { name: 'choice', type: ['string'], optional: false}
     ],
+    canQuit: true,
 }
 
 class ClaimRewards extends Command {

@@ -13,12 +13,15 @@ class Pokemon extends Model {
     static get idColumn() {
         return 'pokemonId';
     }
+    get requiredChargeEnergy() {
+        return MoveList[this.chargeMove].pvpEnergy;
+    }
 	get path() {
 		if(this.shiny) {
-            return `/sprites/shiny/${this.originalName.toLowerCase()}.png`;
+            return `public/sprites/shiny/${this.originalName.toLowerCase()}.png`;
         }
         else {
-            return `/sprites/normal/${this.originalName.toLowerCase()}.png`;
+            return `public/sprites/normal/${this.originalName.toLowerCase()}.png`;
         }
 	}
     get url() {
@@ -94,6 +97,21 @@ class Pokemon extends Model {
             case 3:
                 return 500;
         }
+        return null;
+    }
+    get attack() {
+        const base = PokemonData[this.pokedexId];
+        if(this.shadow) {
+            return ((base.attack + this.atkiv) * PowerupTable[this.level].multiplier) * 1.2;
+        }
+        return (base.attack + this.atkiv) * PowerupTable[this.level].multiplier;
+    }
+    get defense() {
+        const base = PokemonData[this.pokedexId];
+        if(this.shadow) {
+            return ((base.defense + this.defiv) * PowerupTable[this.level].multiplier) * 0.83;
+        }
+        return (base.defense + this.defiv) * PowerupTable[this.level].multiplier;
     }
     get insert() {
         return {
@@ -114,6 +132,22 @@ class Pokemon extends Model {
             totaliv: this.totalIV,
         }
     }
+    get rocketInsert() {
+        return {
+            pokedexId: this.pokedexId,
+            cp: this.cp,
+            hp: this.hp, 
+            hpiv: this.hpiv,
+            atkiv: this.atkiv,
+            defiv: this.defiv,
+            gender: this.gender,
+            level: this.level,
+            maxHP: this.hp,
+            fastMove: this.fastMove,
+            chargeMove: this.chargeMove,
+            userId: this.userId
+        }
+    }
     get catchCandy() {
         const stage = PokemonData[this.pokedexId].stage;
         switch(stage) {
@@ -121,9 +155,10 @@ class Pokemon extends Model {
                 return 3;
             case 2:
                 return 5;
-            case 2:
+            case 3:
                 return 10;
         }
+        return null;
     }
     get totalIV() {
         let total = 48;

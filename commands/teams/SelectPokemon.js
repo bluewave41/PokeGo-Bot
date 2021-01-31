@@ -12,7 +12,8 @@ const options = {
     names: [],
     expectedParameters: [
         { name: 'pokemonId', type: 'number', optional: false }
-    ]
+    ],
+    canQuit: true,
 }
 
 class SelectPokemon extends Command {
@@ -39,6 +40,8 @@ class SelectPokemon extends Command {
                 .where('teamId', saved.teamId)
                 .where('pokemonId', this.pokemonId);
         }
+
+        //TODO: upsert pokemon here
 
         await TeamListings.query().insert({
             userId: this.msg.userId,
@@ -86,7 +89,7 @@ class SelectPokemon extends Command {
             .orderBy('cp', 'DESC')
             .offset(saved.page*25)
             .limit(25)
-            .where('ownerId', msg.userId).debug();
+            .where('ownerId', msg.userId);
 
         const embed = {
             title: 'List',

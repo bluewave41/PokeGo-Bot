@@ -13,9 +13,10 @@ const TeamListBuilder = require('~/data/Builders/TeamListBuilder');
 const options = {
     names: [],
     expectedParameters: [
-        { name: 'action', type: 'string', optional: false },
+        { name: 'action', type: 'string', possible: ['create', 'delete', 'select'], optional: false },
         { name: 'name', type: 'string', optional: false, sanitize: true, }
-    ]
+    ],
+    canQuit: true,
 }
 
 class QueryTeam extends Command {
@@ -25,6 +26,14 @@ class QueryTeam extends Command {
     async validate() {
         super.validate();
         if(this.action == 'create') {
+            const teamCount = await Teams.query().count('* as count')
+                .where('userId', this.msg.userId)
+                .first();
+
+            if(teamCount.count >= 20) {
+                throw new CustomError('TOO_MANY_TEAMS');
+            }
+
             const team = await Teams.query().select('name')
                 .where('userId', this.msg.userId)
                 .where('name', this.name)

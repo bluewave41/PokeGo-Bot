@@ -9,7 +9,6 @@ const CustomError = require('~/lib/errors/CustomError');
 const options = {
     names: ['search'],
     expectedParameters: [],
-    nextCommand: 'encounter/StartEncounter',
 }
 
 class SearchCommand extends Command {
@@ -31,8 +30,11 @@ class SearchCommand extends Command {
             title: 'Pokemon in the area',
             description: SpriteListBuilder.build(sprites)
         }
+
+        await UserCommands.update(this.msg.userId, [
+            { rowName: 'nextCommand', value: 'encounter/StartEncounter' }
+        ]);
     
-        super.run();
         return EmbedBuilder.build(this.msg, embed);
     }
 }

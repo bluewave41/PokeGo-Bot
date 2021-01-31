@@ -10,6 +10,7 @@ const options = {
         { name: 'choice', type: 'number', optional: false }
     ],
     nextCommand: null,
+    canQuit: true,
 }
 
 class SelectTeam extends Command {

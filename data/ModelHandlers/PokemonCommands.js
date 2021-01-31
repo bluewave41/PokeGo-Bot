@@ -43,7 +43,7 @@ module.exports = {
     async catchPokemon(userId, pokemon, candyAmount) {
         pokemon.ownerId = userId;
         //add pokemon
-        pokemon = await PokemonModel.query().insert(pokemon.insert).debug();
+        pokemon = await PokemonModel.query().insert(pokemon.insert);
 
         //add candy
         await CandyCommands.insertCandy(userId, pokemon.candyId, candyAmount);

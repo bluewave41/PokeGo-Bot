@@ -1,9 +1,7 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const CustomError = require('~/lib/errors/CustomError');
-const Powerups = require('~/knex/models/Powerups');
 const Command = require('./Command');
-const PlayerEncounters = require('../knex/models/PlayerEncounters');
 
 const options = {
     names: ['quit'],
@@ -17,22 +15,31 @@ class QuitCommand extends Command {
     }
     async validate() {
         super.validate();
-        isQuittable(this.msg.nextCommand);
+        if(!this.msg.nextCommand) {
+            throw new CustomError('NON_QUITTABLE');
+        }
     }
     async run() {
-        switch(this.msg.nextCommand) {
-            case 'powerup/PowerupResponse':
-                await Powerups.query().delete()
-                    .where('userId', this.msg.userId);
-                break;
-            case 'encounter/SelectSquare':
-                await PlayerEncounters.query().delete()
-                    .where('userId', this.msg.userId);
+        let command = require(`./${this.msg.nextCommand}`);
+        let embed;
+        if(command.options.canQuit) {
+            command = new command.class(this.msg);
+            if(command.quit) {
+                await command.quit();
+            }
+        }
+        else {
+            throw new CustomError('NON_QUITTABLE');
+        }
+
+        if(command.menu) { //this command shows a generic menu
+            embed = await command.menu.class.show(this.msg, command.menu.parameters);
+            return EmbedBuilder.edit(this.msg, embed);
         }
 
         await UserCommands.reset(this.msg.userId);
-    
-        const embed = {
+
+        embed = {
             title: 'Quit',
             description: `You quit.`
         }
@@ -44,24 +51,4 @@ class QuitCommand extends Command {
 module.exports = {
     options: options,
     class: QuitCommand
-}
-
-function isQuittable(nextCommand) {
-    switch(nextCommand) {
-        case 'encounter/SelectSquare':
-        case 'travel/SelectLocation':
-        case 'encounter/StartEncounter':
-        case 'transfer/ConfirmTransfer':
-        case 'mail/OpenMail':
-        case 'mail/ClaimRewards':
-        case 'starter/SelectStarterPokemon':
-        case 'powerup/PowerupResponse':
-        case 'team/SelectTeam':
-        case 'teams/QueryTeam':
-        case 'teams/SelectSlot':
-        case 'teams/SelectPokemon':
-            return true;
-        default:
-            throw new CustomError('NON_QUITTABLE');
-    }
 }

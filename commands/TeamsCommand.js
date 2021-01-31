@@ -17,8 +17,11 @@ class TeamsCommand extends Command {
         super.validate();
     }
     async run() {
-        const teams = await Teams.query().select('name')
-            .where('userId', this.msg.userId);
+        const teams = await Teams.query().select('*')
+            .withGraphFetched('pokemon')
+            .where('player_teams.userId', this.msg.userId).debug();
+
+        console.log('TEAMS', teams);
 
         await UserCommands.update(this.msg.userId, [
             { rowName: 'nextCommand', value: 'teams/QueryTeam' }

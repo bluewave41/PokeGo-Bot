@@ -11,6 +11,7 @@ const Command = require('../Command');
 const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const PokedexCommands = require('~/data/ModelHandlers/PokedexCommands');
 const TypeList = require('~/data/Lists/TypeList');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
 
 const options = {
     names: [],
@@ -18,6 +19,7 @@ const options = {
         { name: 'position', type: 'number', optional: false }
     ],
     nextCommand: 'encounter/SelectSquare',
+    canQuit: true,
 }
 
 class StartEncounter extends Command {
@@ -45,8 +47,8 @@ class StartEncounter extends Command {
         const encounter = sprites[this.position-1];
 
         if(encounter.type == 'pokestop') {
-            const receivedItems = await spinPokestop(userId, user.level, user.itemstorage, encounter);
-            embed = {
+            const receivedItems = await spinPokestop(this.msg.userId, user.level, user.itemstorage, encounter);
+            const embed = {
                 title: 'Items',
                 description: 'You received: \n' + ItemListBuilder.build(receivedItems),
             }

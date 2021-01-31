@@ -2,8 +2,8 @@
 exports.up = function(knex) {
   return knex.schema.createTable('rockets', function(table) {
 	  table.increments('rocketId');
-	  table.string('cell');
-	  //type?
+	  table.string('cell').notNullable();
+	  table.tinyint('type').notNullable();
   })
 };
 

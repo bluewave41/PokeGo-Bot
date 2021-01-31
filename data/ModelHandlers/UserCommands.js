@@ -51,7 +51,8 @@ module.exports = {
     async getSaved(userId) {
         const saved = await User.query().select('saved')
             .where('userId', userId)
-            .first();
+            .first().debug();
+        console.log('SAVED', saved, userId);
 		if(process.platform.startsWith('win')) {
 			return JSON.parse(saved.saved);
 		}
