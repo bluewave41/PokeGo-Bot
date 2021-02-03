@@ -23,6 +23,7 @@ class PlayerEncounters extends Model {
             chargeMove: this.chargeMove,
             gender: this.gender,
             shiny: this.shiny,
+            shadow: this.shadow,
         });
         return pokemon;
     }

@@ -7,7 +7,6 @@ const CustomError = require('../lib/errors/CustomError');
 const options = {
     names: ['starter'],
     expectedParameters: [],
-    nextCommand: 'starter/SelectStarterPokemon',
 }
 
 class StarterCommand extends Command {
@@ -29,7 +28,10 @@ class StarterCommand extends Command {
             description: 'Select a Pokemon:',
             fields: starters,
         }
-        await super.run();
+
+        await UserCommands.update(this.msg.userId, [
+            { rowName: 'nextCommand', value: 'starter/SelectStarterPokemon' }
+        ]);
         return EmbedBuilder.build(this.msg, embed);
     }
 }

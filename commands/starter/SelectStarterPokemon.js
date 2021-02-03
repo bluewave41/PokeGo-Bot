@@ -16,7 +16,6 @@ const options = {
     canQuit: true,
 }
 
-
 class SelectStarterPokemon extends Command {
     constructor(msg) {
         super(msg, options);

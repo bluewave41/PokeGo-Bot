@@ -3,6 +3,7 @@ const MailRewards = require("~/knex/models/MailRewards");
 const Emojis = require("~/data/Lists/EmojiList");
 const CustomError = require("~/lib/errors/CustomError");
 const LevelTable = require("~/data/Lists/LevelList");
+const ItemHandler = require("~/lib/ItemHandler");
 
 module.exports = {
     async addLevelUpMail(userId, level) {
@@ -75,7 +76,7 @@ module.exports = {
 function rewardsToMessage(rewards) {
     let rewardsArray = [];
     for(var i=0;i<rewards.length;i++) {
-        const item = Items.find(el => el.id == rewards[i].itemId);
+        const item = ItemHandler.getItem(rewards[i].itemId);
         rewardsArray.push({name: item.name, amount: rewards[i].amount, itemId: rewards[i].itemId});
     }
     return rewardsArray;

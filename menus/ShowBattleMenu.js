@@ -26,8 +26,6 @@ module.exports = {
             embed.image = process.env.trueUrl + `battle/${msg.userId}.png?=${id}`
         }
 
-        console.log('WE GOT HERE');
-
         return EmbedBuilder.edit(msg, embed);
     }
 }

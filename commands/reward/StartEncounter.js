@@ -6,6 +6,8 @@ const EncounterBuilder = require('~/data/Builders/EncounterBuilder');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 const TypeList = require('~/data/Lists/TypeList');
+const ItemHandler = require('~/lib/ItemHandler');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
 
 const options = {
     names: [],
@@ -48,13 +50,21 @@ class StartEncounter extends Command {
         
         const circleColor = insertedEncounter.catchChance;
 
+        const premierBall = ItemHandler.getItem(16);
+        premierBall.amount = 6;
+        premierBall.active = true;
+
         const data = {
-            pokemon: insertedEncounter.pokemon,
-            pokeBalls: [16, 6],
+            pokemon: pokemon,
+            pokeBalls: [premierBall],
             position: 1,
             catchChance: circleColor,
             type: 'pokemon'
         }
+
+        await UserCommands.update(this.msg.userId, [
+            { rowName: 'nextCommand', value: 'encounter/SelectSquare' }
+        ]);
 
         const embed = EncounterBuilder.build(this.msg, data);
         return EmbedBuilder.build(this.msg, embed);

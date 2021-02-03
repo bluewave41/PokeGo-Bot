@@ -47,7 +47,6 @@ module.exports = {
         return embed;
     },
     edit(msg, embed) {
-        console.log('EDIT CALLED');
         let message = msg.channel.messages.cache.get(msg.lastMessageId);
         if(message) {
             message.edit(this.build(msg, embed, message.embeds[0]));

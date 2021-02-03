@@ -25,12 +25,29 @@ class Pokemon extends Model {
         }
 	}
     get url() {
-        if(this.shiny) {
+        if(this.shadow) {
+            return process.env.sprites + `/shadow/${this.pokedexId}.png`;
+        }
+        else if(this.shiny) {
             return process.env.sprites + `/shiny/${this.pokedexId}.png`;
         }
         else {
             return process.env.sprites + `/normal/${this.pokedexId}.png`;
         }
+    }
+    getLearnableFastMoves(includeLegacy=false) {
+        let moves = PokemonData[this.pokedexId].fastMoves;
+        if(!includeLegacy) {
+            moves = moves.filter(el => !el[1]); //el[1] is isLegacy field
+        }
+        return moves;
+    }
+    getLearnableChargeMoves(includeLegacy=false) {
+        let moves = PokemonData[this.pokedexId].chargeMoves;
+        if(!includeLegacy) {
+            moves = moves.filter(el => !el[1]); //el[1] is isLegacy field
+        }
+        return moves;
     }
     get types() {
         return [PokemonData[this.pokedexId].type1, PokemonData[this.pokedexId].type2];
@@ -45,6 +62,9 @@ class Pokemon extends Model {
         }
         if(this.shiny) {
             name += ':sparkles:';
+        }
+        if(this.shadow) {
+            name += '<:shadow:738006884430119002>';
         }
         return name;
     }
@@ -114,7 +134,7 @@ class Pokemon extends Model {
         return (base.defense + this.defiv) * PowerupTable[this.level].multiplier;
     }
     get insert() {
-        return {
+        let info = {
             ownerId: this.ownerId,
             pokedexId: this.pokedexId,
             nickname: this.nickname,
@@ -127,10 +147,19 @@ class Pokemon extends Model {
             gender: this.gender,
             level: this.level,
             maxHP: this.hp,
-            fastMove: this.fastMove,
-            chargeMove: this.chargeMove,
             totaliv: this.totalIV,
+            shadow: this.shadow,
         }
+        //pokemon moves coming from encounter table aren't arrays
+        if(Array.isArray(this.fastMove)) {
+            info.fastMove = this.fastMove[0];
+            info.chargeMove = this.chargeMove[0];
+        }
+        else {
+            info.fastMove = this.fastMove;
+            info.chargeMove = this.chargeMove;
+        }
+        return info;
     }
     get rocketInsert() {
         return {

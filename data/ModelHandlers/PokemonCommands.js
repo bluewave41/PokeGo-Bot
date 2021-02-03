@@ -3,7 +3,6 @@ const PokemonModel = require('~/knex/models/Pokemon');
 const PokemonBuilder = require('~/lib/PokemonBuilder');
 const CustomError = require('~/lib/errors/CustomError');
 const Pokemon = require('~/knex/models/Pokemon');
-const UserCommands = require('./UserCommands');
 const PokedexCommands = require('./PokedexCommands');
 const MedalCommands = require('./MedalCommands');
 
@@ -49,7 +48,7 @@ module.exports = {
         await CandyCommands.insertCandy(userId, pokemon.candyId, candyAmount);
 
         //add stardust
-        await UserCommands.increment(userId, 'stardust', pokemon.catchDust);
+        //await UserCommands.increment(userId, 'stardust', pokemon.catchDust);
 
         //add pokedex entry
         await PokedexCommands.insert(userId, pokemon.pokedexId, true);
@@ -102,8 +101,6 @@ module.exports = {
         PokemonBuilder.calculateCP(pokemon);
         PokemonBuilder.calculateHP(pokemon);
 
-        console.log(pokemon);
-
         //Pokemon HP is refilled if they're evolved
         pokemon = await Pokemon.query().updateAndFetchById(pokemon.pokemonId, {
             pokedexId: pokemon.pokedexId,
@@ -126,5 +123,29 @@ module.exports = {
 	async getAllPokemon(userId) {
 		return await Pokemon.query().select('*')
 			.where('ownerId', userId);
-	}
+    },
+        /**
+     * Updates a column in the Pokemon table of the databae.
+     * @param {Integer} userId msg.userId
+     * @param {Array > objects} options Array of objects containing column to change, value to change it to and flags.
+     */
+    async update(pokemonId, options) {
+        const values = [].concat(options || []);
+        let query = Pokemon.query();
+        let updateObject = {};
+        for(var i=0;i<values.length;i++) {
+            let row = values[i];
+            updateObject[row.rowName] = row.value;
+        }
+        await Pokemon.query().update(updateObject)
+            .where('pokemonId', pokemonId);
+        await query;
+    },
+    async getFirstPokemon(userId) {
+        const pokemon = await Pokemon.query().select('*')
+            .where('ownerId', userId)
+            .limit(1)
+            .first();
+        return pokemon;
+    }
 }

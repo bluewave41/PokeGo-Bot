@@ -14,4 +14,7 @@ module.exports = {
     'MAX_REVIVE': 13,
     'MAX_POTION': 14,
     'TRAVEL_TICKET': 15,
+    'PREMIER_BALL': 16,
+    'FAST_TM': 17,
+    'CHARGE_TM': 18,
 }

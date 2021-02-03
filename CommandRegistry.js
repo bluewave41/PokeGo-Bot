@@ -7,39 +7,25 @@ var commands = Object.values(requireDir('./commands')).filter(el => el.options);
 const CustomError = require('~/lib/errors/CustomError');
 
 async function parse(client, msg) {
-    await init(msg);
-    const prefix = await getPrefix(msg.guild.id);
-    msg.prefix = prefix;
-    console.log(msg.mentions);
-    if(msg.mentions.has(client.user.id) && !msg.mentions.everyone) {
-        msg.reply(`My prefix is ${prefix}.`)
-        return;
-    }
-    //check for starter
-    //global commands
-    //next commands
-    //regular command
     let command;
-    let response;
+    
+    try {
+        command = await setupMessage(msg);
+    }
+    catch(e) {
+        return { error: true, message: e.getMessage() }
+    }
 
-    if(msg.content.startsWith(prefix)) {
-        const messageWithoutPrefix = msg.content.substring(prefix.length, msg.content.length);
-        const split = messageWithoutPrefix.split(' ');
-        command = commands.find(el => el.options.names.includes(split[0]));
-        if(!command.options.global && msg.nextCommand) {
-            const err = new CustomError('INVALID_RESPONSE');
-            return { error: true, message: err.getMessage() }
-        }
-        split.shift();
-        msg.parameters = split;
-    }
-    else if(msg.nextCommand) {
-        msg.parameters = msg.content.split(' ');
-        command = require('./commands/' + msg.nextCommand);
-    }
-    else {
+    if(msg.mentions.has(client.user.id) && !msg.mentions.everyone) {
+        msg.reply(`My prefix is ${msg.prefix}.`)
         return;
     }
+
+    if(!command) {
+        return;
+    }
+
+    let response;
 
     try {
         command = new command.class(msg);
@@ -76,7 +62,7 @@ async function parseReactions(reaction, user) {
 
 async function init(msg) {
     //this one uses discordId so we can't use UserCommands
-    let user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team')
+    let user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team', 'admin')
         .where('discordID', msg.author.id).first();
     if(!user) {
         user = await User.query().insert({
@@ -96,6 +82,7 @@ async function init(msg) {
         gotStarter: user.gotStarter,
         team: user.team,
         color: Colors[user.team],
+        admin: user.admin
     }
 	Object.assign(msg, info);
 }
@@ -113,7 +100,38 @@ async function getPrefix(guildId) {
     return server.prefix;
 }
 
+async function setupMessage(msg) {
+    let command;
+
+    await init(msg);
+
+    //get prefix
+    const prefix = await getPrefix(msg.guild.id);
+    msg.prefix = prefix;
+
+    if(msg.content.startsWith(prefix)) {
+        const messageWithoutPrefix = msg.content.substring(prefix.length, msg.content.length);
+        const split = messageWithoutPrefix.split(' ');
+        command = commands.find(el => el.options.names.includes(split[0]));
+        if(command.options.ownerOnly && !msg.admin) {
+            throw new CustomError('NOT_ADMIN');
+        }
+        if(!command.options.global && msg.nextCommand) {
+            throw new CustomError('INVALID_RESPONSE');
+        }
+        split.shift();
+        msg.parameters = split;
+    }
+    else if(msg.nextCommand) {
+        msg.parameters = msg.content.split(' ');
+        command = require('./commands/' + msg.nextCommand);
+    }
+
+    return command;
+}
+
 module.exports = {
     parse,
     parseReactions,
+    setupMessage,
 }

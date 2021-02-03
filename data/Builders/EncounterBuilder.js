@@ -2,8 +2,6 @@ const Emojis = require('~/data/Lists/EmojiList');
 
 module.exports = {
     build(msg, encounter) {
-        console.log(encounter);
-        console.log(encounter.emoji);
         let description = `Level ${encounter.pokemon.level} ${encounter.pokemon.displayName}\nCP: ${encounter.pokemon.cp} `;
         if(encounter.catchChance >= .80) {
             description += Emojis['GREEN_CIRCLE'] + '\n';
@@ -32,7 +30,7 @@ module.exports = {
         if(encounter.flag) {
             switch(encounter.flag) {
                 case 'caught':
-                    description += `Wow! You caught ${encounter.pokemon.name}!\nView it with ${msg.prefix}d ${encounter.pokemonId}`;
+                    description += `Wow! You caught ${encounter.pokemon.displayName}!\nView it with ${msg.prefix}d ${encounter.pokemonId}`;
                     embed.image = encounter.pokemon.url;
                     embed.footer = `You gained ${encounter.xpGained} XP, ${encounter.catchDust} stardust and received ${encounter.catchCandy} candy.`;
                 break;

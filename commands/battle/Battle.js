@@ -76,7 +76,6 @@ class Battle {
             }
         }
         const damage = Math.floor(0.5 * move.pvpPower * (attack/defense) * multiplier) + 1;
-        console.log(description);
         return damage;
     }
     handleRocketDamage(askedToUseShield=false, usedShield=false) {
@@ -102,7 +101,6 @@ class Battle {
             }
             if(this.rocketPokemon.energy >= this.rocketPokemon.requiredChargeEnergy) { //rocket can use charge attack
                 this.rocketPokemon.energy -= this.rocketPokemon.requiredChargeEnergy; //remove their energy
-                console.log(this.playerShields);
                 if(this.playerShields) { //if the user still has shields
                     this.menu = {
                         class: PromptShieldMenu,
@@ -215,7 +213,6 @@ class Battle {
 
         //this is up here because the first turn block is prioritized so the user can attempt a charge first turn
         if(action == 'c') {
-            console.log(this.playerPokemon.energy, this.playerPokemon.requiredChargeEnergy);
             if(this.playerPokemon.energy >= this.playerPokemon.requiredChargeEnergy) {
                 const playerDamage = this.calculateDamage(this.playerPokemon, this.rocketPokemon, this.playerChargeMove);
                 this.rocketPokemon.hp -= playerDamage;
@@ -282,7 +279,6 @@ class Battle {
             return status;
         }
 
-        console.log(this.playerDelay, this.rocketDelay)
         await this.updateFields();
 
         return {};

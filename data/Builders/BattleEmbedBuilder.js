@@ -37,7 +37,6 @@ module.exports = {
         return embed;
     },
     edit(msg, pokemon1, pokemon2, embed) {
-        console.log('EDIT CALLED');
         let message = msg.channel.messages.cache.get(msg.lastMessageId);
         if(message) {
             message.edit(this.build(msg, pokemon1, pokemon2, embed, message.embeds[0]));

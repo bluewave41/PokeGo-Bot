@@ -14,6 +14,8 @@ const NanabBerry = require('~/data/Items/NanabBerry');
 const PinapBerry = require('~/data/Items/PinapBerry');
 const TravelTicket = require('~/data/Items/TravelTicket');
 const PremierBall = require('~/data/Items/PremierBall');
+const FastTM = require('~/data/Items/FastTM');
+const ChargeTM = require('~/data/Items/ChargeTM');
 
 module.exports = [
     PokeBall,
@@ -32,4 +34,6 @@ module.exports = [
     MaxPotion,
     TravelTicket,
     PremierBall,
+    FastTM,
+    ChargeTM,
 ]

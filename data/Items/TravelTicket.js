@@ -1,5 +1,5 @@
 const fs = require('fs').promises;
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const User = require('~/knex/models/User');
 
 class TravelTicket {
     constructor() {
@@ -19,10 +19,11 @@ class TravelTicket {
     }
     async use(msg) {
         const json = { instantTravel: true }
-        await UserCommands.update(msg.userId, [
-            { rowName: 'nextCommand', value: 'travel/SelectLocation' },
-            { rowName: 'saved', value: JSON.stringify(json) }
-        ]);
+        await User.query().update({
+            nextCommand: 'travel/SelectLocation',
+            saved: JSON.stringify(json)
+        })
+        .where('userId', userId);
 
         const map = await fs.readFile('images/numberedmap.png', 'base64');
 

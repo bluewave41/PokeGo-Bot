@@ -9,7 +9,7 @@ const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const options = {
     names: [],
     expectedParameters: [
-        { name: 'choice', type: ['string'], optional: false}
+        { name: 'choice', type: ['string'], optional: false }
     ],
     canQuit: true,
 }
@@ -47,7 +47,8 @@ class ClaimRewards extends Command {
     
         const embed = {
             title: 'Claimed',
-            description: description
+            description: description,
+            fields: [],
         }
     
         return EmbedBuilder.edit(this.msg, embed);

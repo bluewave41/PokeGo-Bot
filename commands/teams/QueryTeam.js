@@ -83,7 +83,6 @@ class QueryTeam extends Command {
                     .where('userId', this.msg.userId)
                     .where('name', this.name)
                     .first();
-                console.log(team);
     
                 saved = { teamId: team.teamId }
             

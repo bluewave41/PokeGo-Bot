@@ -1,4 +1,4 @@
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const User = require('~/knex/models/User');
 
 class PokemonStorage {
     constructor() {
@@ -16,9 +16,8 @@ class PokemonStorage {
         this.type = 'storage';
     }
     async buy(userId) {
-        await UserCommands.update(userId, [
-            { rowName: 'storage', value: 50, flag: 'increment' }
-        ]);
+        await User.query().increment('storage', 50)
+            .where('userId', userId);
     }
 }
 

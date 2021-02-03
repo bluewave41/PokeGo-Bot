@@ -71,8 +71,6 @@ class SwitchPokemon extends Command {
         .where('teamId', this.battle.teamId)
         .where('pokemonId', this.pokemon.pokemonId);
 
-        console.log(this.battle.playerTeam.pokemon.find(el => el.active));
-
         //set timeout for switching
         if(this.battle.playerTeam.pokemon.find(el => el.active).hp != 0) {
             battleString = `Can't switch for 60000.`;

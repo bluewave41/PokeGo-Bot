@@ -8,6 +8,7 @@ const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Caught = require('~/knex/models/Caught');
 const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
+const ItemHandler = require('~/lib/ItemHandler');
 
 const options = {
     names: [],
@@ -32,14 +33,18 @@ class SelectSquare extends Command {
             .where('userId', this.msg.userId);
     }
     async run() {
+        //get the encounter
         const encounter = await PlayerEncounters.query().select('*')
             .where('userId', this.msg.userId).first();
 
-        //check that we have the type of pokeball that we're using
-        const { amount: pokeballCount } = await InventoryCommands.getItemCount(this.msg.userId, encounter.activePokeball);
+        //user isn't in a reward encounter
+        if(!encounter.premierBalls) {
+            //check that we have the type of pokeball that we're using
+            const { amount: pokeballCount } = await InventoryCommands.getItemCount(this.msg.userId, encounter.activePokeball);
 
-        if(pokeballCount <= 0) {
-            throw new CustomError('NO_POKEBALL_TYPE');
+            if(pokeballCount <= 0) {
+                throw new CustomError('NO_POKEBALL_TYPE');
+            }
         }
 
         let { pokemonPos } = encounter;
@@ -70,10 +75,13 @@ class SelectSquare extends Command {
                     { rowName: 'nextCommand', value: null}
                 ]);
 
-                await Caught.query().insert({
-                    userID: this.msg.userId,
-                    encounterId: encounter.encounterId,
-                });
+                //don't insert shadows into this
+                if(encounter.encounterId) {
+                    await Caught.query().insert({
+                        userID: this.msg.userId,
+                        encounterId: encounter.encounterId,
+                    });
+                }
 
                 //add pokemon
                 const pokemon = await PokemonCommands.catchPokemon(this.msg.userId, encounter.pokemon, encounter.candyEarned);
@@ -109,14 +117,23 @@ class SelectSquare extends Command {
             .where('userID', this.msg.userId);
         }
 
-        await InventoryCommands.removeItems(this.msg.userId, encounter.activePokeball, 1); //remove pokeball
+        let pokeBalls;
 
-        const pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
-
-        let activePokeball = pokeBalls.find(el => el.itemId == encounter.activePokeball);
-        //if the user has 1 pokeball and uses it then this fails. They should be prompted to swap poke balls
-        if(activePokeball) {
-            activePokeball.active = true;
+        if(encounter.premierBalls) {
+            await PlayerEncounters.query().decrement('premierBalls', 1);
+            let premierBall = ItemHandler.getItem(16);
+            premierBall.active = true;
+            premierBall.amount = encounter.premierBalls-1;
+            pokeBalls = [premierBall];
+        }
+        else {
+            await InventoryCommands.removeItems(this.msg.userId, encounter.activePokeball, 1); //remove pokeball
+            pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
+            let activePokeball = pokeBalls.find(el => el.itemId == encounter.activePokeball);
+            //if the user has 1 pokeball and uses it then this fails. They should be prompted to swap poke balls
+            if(activePokeball) {
+                activePokeball.active = true;
+            }
         }
 
         const totalPokeballs = pokeBalls.reduce((acc, { amount }) => acc + amount, 0);
@@ -128,7 +145,7 @@ class SelectSquare extends Command {
             ]);
 
             await PlayerEncounters.query().delete()
-                .where('userId', this.userId);
+                .where('userId', this.msg.userId);
         }
 
         reply.pokeBalls = pokeBalls;

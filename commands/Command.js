@@ -14,7 +14,6 @@ class Command {
         }
 
         if(expected.type == 'number' && expected.max && actual > expected.max) {
-            console.log('here');
             throw new CustomError('INVALID_RANGE_CHOICE', expected.max);
         }
 
@@ -42,13 +41,14 @@ class Command {
                 for(i=index-1;i<this.msg.parameters.length;i++) {
                     const type = this.determineVariableType(this.msg.parameters[i], expected.ofType);
                     if(type == expected.ofType || expected.ofType == 'any') {
-                        rest += this.msg.parameters[i] + expected.separator;
+                        rest += this.msg.parameters[i] + (expected.separator || '');
                     }
                     else {
                         break;
                     }
                 }
-                this[expected.name] = rest;
+                //remove any trailing spaces from separator
+                this[expected.name] = rest.trim();
                 return i;
         }
         return index;
@@ -67,7 +67,6 @@ class Command {
                 actual = actual.toLowerCase();
             }
             const actualType = this.determineVariableType(actual, expected.type); //what type is it?
-            console.log(expected, actual, actualType);
             if(expected.possible && !expected.possible.includes(actual)) {
                 throw new CustomError('INVALID_CHOICE', expected.name);
             }

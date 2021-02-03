@@ -2,12 +2,13 @@ require('dotenv').config();
 require('app-module-path').addPath(__dirname);
 const madge = require('madge');
 
-/*madge('./').then(res => {
-    console.log(res);
+madge('./', {
+	requireConfig: './config.js'
+}).then(res => {
     console.log(res.circular());
-})*/
+})
 
-const PokemonBuilder = require('~/lib/PokemonBuilder');
+/*const PokemonBuilder = require('~/lib/PokemonBuilder');
 const RocketPokemon = require('~/knex/models/RocketPokemon');
 require('~/lib/Database');
 
@@ -29,4 +30,4 @@ async function start() {
 	await RocketPokemon.query().insert(p3.rocketInsert);
 }
 
-start();
+start();*/

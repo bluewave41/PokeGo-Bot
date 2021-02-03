@@ -21,8 +21,6 @@ class TeamsCommand extends Command {
             .withGraphFetched('pokemon')
             .where('player_teams.userId', this.msg.userId).debug();
 
-        console.log('TEAMS', teams);
-
         await UserCommands.update(this.msg.userId, [
             { rowName: 'nextCommand', value: 'teams/QueryTeam' }
         ]);
