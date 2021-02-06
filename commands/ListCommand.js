@@ -65,9 +65,30 @@ async function buildQueryFromOptions(userId, offset, options) {
                 query.where('shiny', true);
                 count.where('shiny', true);
             }
+            else if(parameters[i] == 'shadow') {
+                query.where('shadow', true);
+                count.where('shadow', true);
+            }
             else if(parameters[i].startsWith('sort')) {
-                let split = parameters[i].split('=');
-                query.orderBy(split[1], 'DESC');
+                const split = parameters[i].split('=');
+                const sortColumn = split[1];
+                switch(sortColumn) {
+                    case 'cp':
+                        query.orderBy('cp', 'DESC');
+                        break;
+                    case 'iv':
+                        query.orderBy('totaliv', 'DESC');
+                        break;
+                    case 'level':
+                        query.orderBy('level', 'DESC');
+                        break;
+                    case 'id':
+                        query.orderBy('pokemonId', 'DESC');
+                        break;
+                    case 'pokedex':
+                        query.orderBy('pokedexId', 'DESC');
+                        break;
+                }
             }
             else {
                 let char = parameters[i].includes('<') ? '<' : parameters[i].includes('>') ? '>' : parameters[i].includes('=') ? '=' : '';

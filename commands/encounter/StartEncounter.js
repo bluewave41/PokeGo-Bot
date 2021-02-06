@@ -12,14 +12,17 @@ const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const PokedexCommands = require('~/data/ModelHandlers/PokedexCommands');
 const TypeList = require('~/data/Lists/TypeList');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const RocketTable = require('../battle/RocketTable');
+const SelectTeamMenu = require('~/menus/SelectTeamMenu');
+const TeamsCommands = require('~/data/ModelHandlers/TeamsCommands');
 
 const options = {
     names: [],
     expectedParameters: [
         { name: 'position', type: 'number', optional: false }
     ],
-    nextCommand: 'encounter/SelectSquare',
     canQuit: true,
+    info: 'Selecing an encounter'
 }
 
 class StartEncounter extends Command {
@@ -30,11 +33,11 @@ class StartEncounter extends Command {
         super.validate();
     }
     async run() {
-        const user = await User.query().select('level', 'itemstorage', 'secretId', 'location')
+        const user = await User.query().select('level', 'itemstorage', 'secretId', 'location', 'level')
             .withGraphFetched('medals')
             .where('userId', this.msg.userId).first();
 
-        const sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId);
+        const sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId, user.level);
 
         //make sure user is in an encounter
         if(!sprites) {
@@ -46,7 +49,7 @@ class StartEncounter extends Command {
 
         const encounter = sprites[this.position-1];
 
-        if(encounter.type == 'pokestop') {
+        if(encounter.encounterType == 'pokestop') {
             const receivedItems = await spinPokestop(this.msg.userId, user.level, user.itemstorage, encounter);
             const embed = {
                 title: 'Items',
@@ -56,12 +59,30 @@ class StartEncounter extends Command {
             await UserCommands.addXP(this.msg.userId, 100);
             return EmbedBuilder.build(this.msg, embed);
         }
-        /*else if(encounter.type == 'rocket') {
-            const top3 = await PokemonCommands.getTop3(userId);
-            
-            res.json(top3);
-            return res.end();
-        }*/
+        else if(encounter.encounterType == 'rocket') {
+            //user can only battle a rocket if they have a valid team
+            const teams = await TeamsCommands.getValidBattleTeams(this.msg.userId);
+            if(!teams.length) {
+                throw new CustomError('NO_TEAMS');
+            }
+
+            const rocket = RocketTable.find(el => el.type == encounter.type);
+            const json = { type: rocket.type, rocketId: encounter.rocketId }
+
+            await UserCommands.update(this.msg.userId, [
+                { rowName: 'nextCommand', value: 'battle/StartBattle' },
+                { rowName: 'saved', value: JSON.stringify(json) }
+            ]);
+
+            this.menu = {
+                class: SelectTeamMenu,
+                parameters: {
+                    rocketText: rocket.message,
+                    showInvalid: false,
+                }
+            }
+            return;
+        }
         else {
             let pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
             if(!pokeBalls.length) {
@@ -110,7 +131,10 @@ class StartEncounter extends Command {
                 type: 'pokemon'
             }
 
-            super.run();
+            await UserCommands.update(this.msg.userId, [
+                { rowName: 'nextCommand', value: 'encounter/SelectSquare' }
+            ])
+
             const embed = EncounterBuilder.build(this.msg, data);
             return EmbedBuilder.build(this.msg, embed);
         }

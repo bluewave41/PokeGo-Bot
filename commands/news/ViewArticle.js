@@ -2,13 +2,15 @@ const News = require('~/knex/models/News');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
 
 const options = {
     names: [],
     expectedParameters: [
         { name: 'articleId', type: ['number'], optional: false}
     ],
-    reset: true,
+    canQuit: true,
+    info: 'Viewing news articles',
 }
 
 class ViewArticle extends Command {
@@ -20,7 +22,9 @@ class ViewArticle extends Command {
     }
     async run() {
         const article = await News.query().select('title', 'body', 'created_at')
-            .where('id', this.articleId).first();
+            .where('id', this.articleId)
+            .first();
+
         if(!article) {
             throw new CustomError('INVALID_NEWS_ARTICLE');
         }
@@ -30,8 +34,9 @@ class ViewArticle extends Command {
             description: article.body,
             footer: article.created_at.toString().substring(0, 10)
         }
+
+        await UserCommands.reset(this.msg.userId);
         
-        super.run();
         return EmbedBuilder.build(this.msg, embed);
     }
 }

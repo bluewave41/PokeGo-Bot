@@ -17,6 +17,7 @@ const options = {
         { name: 'name', type: 'string', optional: false, sanitize: true, }
     ],
     canQuit: true,
+    info: 'Viewing teams'
 }
 
 class QueryTeam extends Command {
@@ -26,6 +27,10 @@ class QueryTeam extends Command {
     async validate() {
         super.validate();
         if(this.action == 'create') {
+            const regex = /^[a-zA-Z0-9 ]+$/;
+            if(!regex.test(this.name)) {
+                throw new CustomError('INVALID_NAME');
+            }
             const teamCount = await Teams.query().count('* as count')
                 .where('userId', this.msg.userId)
                 .first();

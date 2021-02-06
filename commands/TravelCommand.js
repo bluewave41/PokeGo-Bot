@@ -1,11 +1,13 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const fs = require('fs').promises;
 const TravelRequests = require('~/knex/models/TravelRequests');
+const User = require(`~/knex/models/User`);
 const Coordinates = require('~/data/Lists/CoordinateList');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
-const { add } = require('date-fns');
+const { add, differenceInMilliseconds } = require('date-fns');
 const Command = require('./Command');
 const CustomError = require('~/lib/errors/CustomError');
+const Utils = require('~/lib/Utils');
 
 const options = {
     names: ['travel'],
@@ -20,22 +22,69 @@ class TravelCommand extends Command {
     }
     async validate() {
         super.validate();
-        if(this.choice) {
+        if(this.choice && this.choice != 'cancel') {
             this.choice = this.choice.toUpperCase();
         }
     }
     async run() {
         //is the user already travelling?
         const travelRequest = await TravelRequests.query().select('*')
-            .where('userId', this.msg.userId);
+            .where('userId', this.msg.userId)
+            .first();
+
+        if(this.choice == 'cancel') {
+            if(!travelRequest) {
+                throw new CustomError('NOT_TRAVELING');
+            }
+            await TravelRequests.query().delete()
+                .where('userId', this.msg.userId);
+            return EmbedBuilder.build(this.msg, {
+                title: 'Travel Canceled',
+                description: `You've canceled your travel request.`
+            });
+        }
 
         //temporary code
-        if(travelRequest.length) {
-            throw new CustomError('ALREADY_TRAVELING');
+        if(travelRequest) {
+            const timeRemaining = Utils.msToTime(differenceInMilliseconds(new Date(travelRequest.endTime), Date.now()));
+            if(timeRemaining.seconds < 0 || timeRemaining.minutes < 0 || timeRemaining.hours < 0) {
+                //remove their request
+                await TravelRequests.query().delete()
+                    .where('userId', this.msg.userId);
+                //update user location
+                await User.query().update({
+                    location: travelRequest.location
+                })
+                .where('userId', this.msg.userId);
+
+                return EmbedBuilder.build(this.msg, {
+                    title: 'Traveled',
+                    description: `You've traveled to square ${travelRequest.location}!`
+                });
+            }
+            else {
+                let timeString = `You're already traveling to ${travelRequest.location}. You'll be there in`;
+                if(timeRemaining.hours) {
+                    timeString += ' ' + timeRemaining.hours + (timeRemaining.hours == 1 ? ' hour' : '  hours');
+                }
+                if(timeRemaining.minutes) {
+                    timeString += ' ' + timeRemaining.minutes + (timeRemaining.minutes == 1 ? ' minute' : ' minutes');
+                }
+                if(timeRemaining.seconds) {
+                    timeString += ' ' + timeRemaining.seconds + (timeRemaining.seconds == 1 ? ' second' : ' seconds');
+                }
+                timeString += '.';
+                const embed = {
+                    title: 'Already Traveling',
+                    description: timeString,
+                    footer: `You can stop at any time with ${this.msg.prefix}travel cancel.`
+                }
+                return EmbedBuilder.build(this.msg, embed);
+            }
         }
 
         if(this.choice) {
-            if(!Coordinates.all.includes(this.choice.toUpperCase())) {
+            if(!Coordinates.all.includes(this.choice)) {
                 throw new CustomError('INVALID_TRAVEL_LOCATION');
             }
 
@@ -50,7 +99,7 @@ class TravelCommand extends Command {
             await TravelRequests.query().insert({
                 userId: this.msg.userId,
                 location: this.choice,
-                end_time: endTime
+                endTime: endTime
             });
 
             await UserCommands.reset(this.msg.userId);

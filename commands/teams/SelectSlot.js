@@ -10,6 +10,7 @@ const options = {
         { name: 'slot', type: 'number', optional: false }
     ],
     canQuit: true,
+    info: 'Selecting a team slot to edit'
 }
 
 class SelectSlot extends Command {

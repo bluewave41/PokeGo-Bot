@@ -5,32 +5,41 @@ const Rockets = require("~/knex/models/Rockets");
 const SpunPokestops = require("~/knex/models/SpunPokestops");
 
 module.exports = {
-    async getSprites(userId, location, secretId) {
+    async getSprites(userId, location, secretId, level) {
         let pokemon = await CurrentEncounters.query().select('*')
-        .whereNotIn(
-            'encounterId', 
-            Caught.query().select('encounterId')
-            .where('userId', userId)
-        )
+            .whereNotIn(
+                'encounterId', 
+                Caught.query().select('encounterId')
+                    .where('userId', userId)
+            )
         .where('cell', location);
 
-        pokemon.forEach(el => el.type = 'pokemon');
+        pokemon.forEach(el => el.encounterType = 'pokemon');
     
         //get pokestops
         let pokestops = await Pokestops.query().select('*')
-        .whereNotIn(
-            'id',
-            SpunPokestops.query().select('pokestopId')
-            .where('userId', userId)
-        )
+            .whereNotIn(
+                'id',
+                SpunPokestops.query().select('pokestopId')
+                    .where('userId', userId)
+            )
         .where('cell', location);
 
-        pokestops.forEach(el => el.type = 'pokestop');
+        pokestops.forEach(el => el.encounterType = 'pokestop');
 
-        let rockets = await Rockets.query().select('*')
+        let rockets = [];
+
+        if(level >= 8) {
+            rockets = await Rockets.query().select('*')
+            .whereNotIn(
+                'rocketId',
+                Caught.query().select('encounterId')
+                    .where('userId', userId)
+            )
             .where('cell', location);
 
-        rockets.forEach(el => el.type = 'rocket');
+            rockets.forEach(el => el.encounterType = 'rocket');
+        }
 
         //add shiny markers
         if(pokemon.length) {

@@ -1,11 +1,13 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const MailCommands = require('../data/ModelHandlers/MailCommands');
 const Command = require('./Command');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const MailPageBuilder = require('~/data/Builders/MailPageBuilder');
 
 const options = {
     names: ['mail'],
     expectedParameters: [],
-    nextCommand: 'mail/OpenMail',
+    MAX_ENTIRES: 25,
 }
 
 class MailCommand extends Command {
@@ -14,29 +16,28 @@ class MailCommand extends Command {
     }
     async validate() {
         super.validate();
+        this.mail = await MailCommands.getMailTitles(this.msg.userId, 1);
+        this.mailCount = this.mail.length ? this.mail[0].count : 0;
     }
     async run() {
-        const mail = await MailCommands.getMailTitles(this.msg.userId);
+        const embed = MailPageBuilder.build(this.mail, 1);
 
-        let embed = {
-            title: 'Mail',
-            description: ''
+        if(this.mail.length) {
+            const saved = { page: 1, maxPage: Math.ceil(this.mailCount/options.MAX_ENTIRES) }
+            await UserCommands.update(this.msg.userId, [
+                { rowName: 'nextCommand', value: 'mail/OpenMail' },
+                { rowName: 'saved', value: JSON.stringify(saved) }
+            ]);
         }
-    
-        if(!mail.length) {
-            embed.description = 'You have no mail.';
-            return EmbedBuilder.build(this.msg, embed);
-            //return early so we don't set next command
-        }
-        else {
-            for(var i=0;i<mail.length;i++) {
-                embed.description += `${i+1}: ${mail[i].title} ${mail[i].read ? ':no_bell:' : ':bell:'}\
-                    ${mail[i].claimedrewards ? '' : ':exclamation:'}\n`; 
-            }
-        }
-    
-        super.run();
+
         return EmbedBuilder.build(this.msg, embed);
+    }
+    async afterSend(lastMessageId) {
+        if(this.mailCount > options.MAX_ENTIRES) {
+            const message = await this.msg.channel.messages.fetch(lastMessageId);
+            message.react('⬅️');
+            message.react('➡️');
+        }
     }
 }
 

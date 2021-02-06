@@ -8,9 +8,14 @@ module.exports = {
             .withGraphFetched('pokemon')
             .where('player_teams.userId', msg.userId);
 
+        let description = '';
+        if(parameters.rocketText) {
+            description += parameters.rocketText + '\n\n';
+        }
+
         const embed = {
             title: 'Teams',
-            description: TeamListBuilder.build(teams, parameters.showInvalid),
+            description: description + TeamListBuilder.build(teams, parameters.showInvalid),
         }
 
         return EmbedBuilder.build(msg, embed);

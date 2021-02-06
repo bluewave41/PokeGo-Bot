@@ -14,6 +14,7 @@ const options = {
         { name: 'choice', type: 'string', optional: false }
     ],
     canQuit: true,
+    info: 'Selecting a location to travel to'
 }
 
 class SelectLocation extends Command {
@@ -31,7 +32,7 @@ class SelectLocation extends Command {
 
         //instant travel for travel ticket usage
         const saved = await UserCommands.getSaved(this.msg.userId);
-        if(saved.instantTravel) {
+        if(saved && saved.instantTravel) {
             await TravelRequests.query().delete()
                 .where('userId', this.msg.userId);
 
@@ -62,7 +63,7 @@ class SelectLocation extends Command {
         await TravelRequests.query().insert({
             userId: this.msg.userId,
             location: this.choice,
-            end_time: endTime
+            endTime: endTime
         });
 
         await UserCommands.reset(this.msg.userId);

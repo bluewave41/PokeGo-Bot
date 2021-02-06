@@ -7,6 +7,8 @@ const Battles = require('~/knex/models/Battles');
 const RocketPokemon = require('~/knex/models/RocketPokemon');
 const ShowBattleMenu = require('~/menus/ShowBattleMenu');
 const TeamListings = require('~/knex/models/TeamListings');
+const Utils = require('~/lib/Utils');
+const Rockets = require('~/knex/models/Rockets');
 
 const options = {
     names: [],
@@ -14,6 +16,7 @@ const options = {
         { name: 'name', type: 'string', optional: false }
     ],
     canQuit: true,
+    info: 'Selecting a team for battle'
 }
 
 class StartBattle extends Command {
@@ -43,11 +46,17 @@ class StartBattle extends Command {
         }
     }
     async run() {
-        //create Pokemon (can't do this in server because Pokemon need to be associated with the user)
+        const user = await UserCommands.getFields(this.msg.userId, ['level', 'saved']);
+        const saved = Utils.parseJson(user.saved);
 
-        const p1 = PokemonBuilder.generateRocketPokemon(96, 40);
-        const p2 = PokemonBuilder.generateRocketPokemon(4, 40);
-        const p3 = PokemonBuilder.generateRocketPokemon(7, 40);
+        const rocket = await Rockets.query().select('*')
+            .where('rocketId', saved.rocketId)
+            .first();
+
+        const p1 = PokemonBuilder.generateRocketPokemon(rocket.pokemon1, user.level);
+        const p2 = PokemonBuilder.generateRocketPokemon(rocket.pokemon2, user.level);
+        const p3 = PokemonBuilder.generateRocketPokemon(rocket.pokemon3, user.level);
+
         p1.userId = this.msg.userId;
         p2.userId = this.msg.userId;
         p3.userId = this.msg.userId;
@@ -61,7 +70,7 @@ class StartBattle extends Command {
         await Battles.query().insert({
             userId: this.msg.userId,
             teamId: this.team.teamId,
-            rocketId: 1, //DEBUG
+            rocketId: saved.rocketId,
             turnTimeout: 0,
         });
 

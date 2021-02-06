@@ -3,7 +3,7 @@ module.exports = {
         let description = '';
         for(var i=0;i<spriteList.length;i++) {
             let sprite = spriteList[i];
-            switch(sprite.type) {
+            switch(sprite.encounterType) {
                 case 'pokemon':
                     description += `${i+1}. ${sprite.emoji} ${sprite.name} ${sprite.shiny ? ':sparkles:' : ''}\n`;
                     break;

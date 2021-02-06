@@ -40,7 +40,8 @@ class PlayerEncounters extends Model {
     get catchChance() {
         let chance;
         const catchRate = this.pokemon.captureRate/100;
-        chance = catchRate / (PowerupTable[this.level].multiplier * 2);
+        const multiplier = PowerupTable.find(el => el.level == this.level).multiplier;
+        chance = catchRate / (multiplier * 2);
         if(chance > 1) {
             return 1;
         }

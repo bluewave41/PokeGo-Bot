@@ -8,6 +8,7 @@ const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const ShowBattleMenu = require('~/menus/ShowBattleMenu');
 const WonBattleMenu = require('~/menus/WonBattleMenu');
 const Battle = require('./Battle');
+const Caught = require('~/knex/models/Caught');
 
 const options = {
     names: [],
@@ -16,6 +17,7 @@ const options = {
         { name: 'turns', type: 'number', optional: true, default: 1 }
     ],
     canQuit: true,
+    info: 'In a battle'
 }
 
 //fast, charge, switch
@@ -107,7 +109,12 @@ class SimulateTurn extends Command {
                 let nextRocketPokemon = battle.rocketTeam.find(el => el.hp > 0);
                 if(!nextRocketPokemon) {
                     await UserCommands.reset(this.msg.userId);
+                    await Caught.query().insert({
+                        userId: this.msg.userId,
+                        encounterId: battle.rocketId
+                    });
                     //open shadow catching screen
+
                     this.menu = {
                         class: WonBattleMenu,
                     }

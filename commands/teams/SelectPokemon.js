@@ -14,6 +14,7 @@ const options = {
         { name: 'pokemonId', type: 'number', optional: false }
     ],
     canQuit: true,
+    info: 'Selecting a Pokemon to add to their team'
 }
 
 class SelectPokemon extends Command {

@@ -1,7 +1,7 @@
 module.exports = {
     'INSUFFICIENT_CANDY': "You need at least {replace} candy to level this Pokemon up further!",
     'INVALID_NICKNAME_LENGTH': "Nicknames must be between 1 and 20 characters.",
-    'INVALID_NICKNAME': 'Nicknames can only contain letters and numbers.',
+    'INVALID_NAME': 'Names can only contain letters and numbers.',
     'INVALID_PURCHASE_AMOUNT': `You can't buy {replace} amount of items.`,
     'NO_ITEM_EXISTS': `There are no items with {replace} in them.`,
     'INVALID_TRAVEL_LOCATION': "There isn't anything there.",
@@ -17,6 +17,7 @@ module.exports = {
     'NO_POKEMON': "You don't have a Pokemon with the ID {replace}.",
     'NON_NUMERIC_SERVER_ID': "Server ID must numeric.",
     'INVALID_STARTER': "That isn't a valid starter Pokemon.",
+    'NO_STARTER': "You don't have a starter Pokemon! You need to get one before exploring.",
     'INVALID_PREFIX_LENGTH': "Prefixes must be between 1 and 3 characters.",
     'MISSING_PARAMETER': `You're missing a {replace}.`,
     'INVALID_TRANSFER_CHOICE': 'Cancelling transfer.',
@@ -62,4 +63,6 @@ module.exports = {
     'TOO_EARLY_TO_SWITCH': `It's too early for you to switch!`,
     'TOO_MANY_TEAMS': `You can only have a maximum of 20 teams.`,
     'NOT_ENOUGH_ENERGY': `You don't have enough energy for your charge move!`,
+    'NOT_TRAVELING': `You aren't traveling anywhere.`,
+    'NO_TEAMS': "You don't have any teams capable of battling!",
 }

@@ -11,6 +11,7 @@ const options = {
         { name: 'slot', type: 'number', optional: false, max: 3 }
     ],
     canQuit: true,
+    info: 'Switching Pokemon in battle'
 }
 
 class SwitchPokemon extends Command {

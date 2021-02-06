@@ -9,8 +9,8 @@ const options = {
     expectedParameters: [
         { name: 'choice', type: 'number', optional: false }
     ],
-    nextCommand: null,
     canQuit: true,
+    info: 'Selecting a team to join'
 }
 
 class SelectTeam extends Command {
@@ -35,7 +35,7 @@ class SelectTeam extends Command {
             color: ColorList[this.choice],
         }
     
-        super.run();
+        await UserCommands.reset(this.msg.userId);
         return EmbedBuilder.build(this.msg, embed);
     }
 }

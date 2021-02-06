@@ -4,6 +4,7 @@ const Emojis = require("~/data/Lists/EmojiList");
 const CustomError = require("~/lib/errors/CustomError");
 const LevelTable = require("~/data/Lists/LevelList");
 const ItemHandler = require("~/lib/ItemHandler");
+const { raw } = require('objection');
 
 module.exports = {
     async addLevelUpMail(userId, level) {
@@ -14,6 +15,7 @@ module.exports = {
             userId: userId,
             title: `Level ${level}!`,
             message: message,
+            hasRewards: true
         });
 
         rewards.forEach(el => el.mailId = mail.id);
@@ -30,14 +32,17 @@ module.exports = {
           message: message
       });
     },
-    async getMailTitles(userId) {
-        const mail = await Mail.query().select('title', 'read', 'claimedrewards')
-            .where('userId', userId);
+    async getMailTitles(userId, page) {
+        const mail = await Mail.query().select('title', 'read', 'claimedRewards', 'hasRewards', raw('COUNT(*) OVER() AS count'))
+            .where('userId', userId)
+            .orderBy('id')
+            .limit(25)
+            .offset((page-1)*25);
         return mail;
     },
     async getMailBody(userId, tableId) {
         tableId -= 1; //adjust for index starting at 0
-        const allMail = await Mail.query().select('id', 'title', 'message', 'claimedrewards')
+        const allMail = await Mail.query().select('id', 'title', 'message', 'claimedRewards', 'hasRewards')
             .withGraphFetched('rewards')
             .where('userId', userId);
 
@@ -57,13 +62,13 @@ module.exports = {
         return mail;
     },
     async getRewards(userId, mailId) {
-        const mail = await Mail.query().select('claimedrewards')
+        const mail = await Mail.query().select('claimedRewards')
             .withGraphFetched('rewards')
             .where('userId', userId)
             .where('id', mailId)
             .first();
 
-        if(mail.claimedrewards) {
+        if(mail.claimedRewards) {
             throw new CustomError('ALREADY_CLAIMED');
         }
 

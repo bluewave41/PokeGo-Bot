@@ -8,6 +8,7 @@ const options = {
     expectedParameters: [
         { name: 'prefix', type: ['string'], optional: false }
     ],
+    global: true,
 }
 
 class PrefixCommand extends Command {

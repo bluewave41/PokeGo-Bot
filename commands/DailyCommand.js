@@ -55,7 +55,6 @@ module.exports = {
     class: DailyCommand
 }
 
-
 function canWeDoDaily(lastDaily, streak) {
     if(!lastDaily) { //first time running daily
         return 1;

@@ -23,7 +23,7 @@ class NicknameCommand extends Command {
             throw new CustomError('INVALID_NICKNAME_LENGTH');
         }
         if(!nicknameRegex.test(this.nickname)) {
-            throw new CustomError('INVALID_NICKNAME');
+            throw new CustomError('INVALID_NAME');
         }
         //check that user owns pokemon
         this.pokemon = await PokemonCommands.getStrictPokemon(this.msg.userId, this.pokemonId);

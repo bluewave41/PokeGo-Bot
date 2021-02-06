@@ -26,13 +26,18 @@ class Pokemon extends Model {
 	}
     get url() {
         if(this.shadow) {
-            return process.env.sprites + `/shadow/${this.pokedexId}.png`;
+            if(this.shiny) {
+                return process.env.trueUrl + `sprites/shadow/shiny/${this.originalName.toLowerCase()}.png`;
+            }
+            else {
+                return process.env.trueUrl + `sprites/shadow/normal/${this.originalName.toLowerCase()}.png`;
+            }
         }
         else if(this.shiny) {
-            return process.env.sprites + `/shiny/${this.pokedexId}.png`;
+            return process.env.trueUrl + `sprites/shiny/${this.originalName.toLowerCase()}.png`;
         }
         else {
-            return process.env.sprites + `/normal/${this.pokedexId}.png`;
+            return process.env.trueUrl + `sprites/normal/${this.originalName.toLowerCase()}.png`;
         }
     }
     getLearnableFastMoves(includeLegacy=false) {
@@ -121,20 +126,22 @@ class Pokemon extends Model {
     }
     get attack() {
         const base = PokemonData[this.pokedexId];
+        const multiplier = PowerupTable.find(el => el.level == this.level).multiplier;
         if(this.shadow) {
-            return ((base.attack + this.atkiv) * PowerupTable[this.level].multiplier) * 1.2;
+            return ((base.attack + this.atkiv) * multiplier) * 1.2;
         }
-        return (base.attack + this.atkiv) * PowerupTable[this.level].multiplier;
+        return (base.attack + this.atkiv) * multiplier;
     }
     get defense() {
         const base = PokemonData[this.pokedexId];
+        const multiplier = PowerupTable.find(el => el.level == this.level).multiplier;
         if(this.shadow) {
-            return ((base.defense + this.defiv) * PowerupTable[this.level].multiplier) * 0.83;
+            return ((base.defense + this.defiv) * multiplier) * 0.83;
         }
-        return (base.defense + this.defiv) * PowerupTable[this.level].multiplier;
+        return (base.defense + this.defiv) * multiplier;
     }
     get insert() {
-        let info = {
+        return {
             ownerId: this.ownerId,
             pokedexId: this.pokedexId,
             nickname: this.nickname,
@@ -149,17 +156,9 @@ class Pokemon extends Model {
             maxHP: this.hp,
             totaliv: this.totalIV,
             shadow: this.shadow,
+            fastMove: this.fastMove,
+            chargeMove: this.chargeMove
         }
-        //pokemon moves coming from encounter table aren't arrays
-        if(Array.isArray(this.fastMove)) {
-            info.fastMove = this.fastMove[0];
-            info.chargeMove = this.chargeMove[0];
-        }
-        else {
-            info.fastMove = this.fastMove;
-            info.chargeMove = this.chargeMove;
-        }
-        return info;
     }
     get rocketInsert() {
         return {
@@ -174,7 +173,9 @@ class Pokemon extends Model {
             maxHP: this.hp,
             fastMove: this.fastMove,
             chargeMove: this.chargeMove,
-            userId: this.userId
+            userId: this.userId,
+            fastMove: this.fastMove,
+            chargeMove: this.chargeMove,
         }
     }
     get catchCandy() {

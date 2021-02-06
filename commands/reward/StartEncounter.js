@@ -8,6 +8,8 @@ const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 const TypeList = require('~/data/Lists/TypeList');
 const ItemHandler = require('~/lib/ItemHandler');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const Battles = require('~/knex/models/Battles');
+const TeamListings = require('~/knex/models/TeamListings');
 
 const options = {
     names: [],
@@ -20,6 +22,24 @@ class StartEncounter extends Command {
     }
     async validate() {
         super.validate();
+    }
+    async quit() {
+        //remove battle
+        //remove rocket pokemon
+        //clear energy, delay, etc
+        const battle = await Battles.query().select('teamId')
+            .where('userID', this.msg.userId)
+            .first();
+        await Battles.query().delete()
+            .where('userId', this.msg.userId);
+        await RocketPokemon.query().delete()
+            .where('userId', this.msg.userId);
+        await TeamListings.query().update({
+            energy: 0,
+            delay: 0
+        })
+        .where('userId', this.msg.userId)
+        .where('teamId', battle.teamId);
     }
     async run() {
         const user = await User.query().select('secretId')
@@ -61,6 +81,8 @@ class StartEncounter extends Command {
             catchChance: circleColor,
             type: 'pokemon'
         }
+
+        await this.quit();
 
         await UserCommands.update(this.msg.userId, [
             { rowName: 'nextCommand', value: 'encounter/SelectSquare' }

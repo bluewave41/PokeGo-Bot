@@ -27,42 +27,29 @@ class InfoCommand extends Command {
         const itemCount = await InventoryCommands.getTotalItemCount(this.msg.userId);
         const requiredXP = LevelList[user.level].requiredXP;
 
+        let status = 'Nothing right now';
+
+        if(this.msg.nextCommand) {
+            const command = require(`./${this.msg.nextCommand}`);
+            status = command.options.info;
+        }
+
         const embed = {
             title: this.msg.author.username + "'s Info",
             description: '',
             thumbnail: process.env.sprites + `/teams/${this.msg.team}.png`,
             fields: [
-                ['Pokemon Count', pokemonCount, false],
                 ['Currency', user.currency + ' ' + Emojis.COIN, true],
                 ['Stardust', user.stardust + Emojis.STARDUST, true],
                 ['Location', user.location.toUpperCase(), false],
                 ['Pokemon Storage', pokemonCount + '/' + user.storage, true],
                 ['Item Storage',  itemCount + '/' + user.itemstorage, true],
-                ['Player Progress', `Level: ${user.level}\nXP: ${user.xp}/${requiredXP} - ${user.totalxp} total XP`],
-                ['Current Status', getStatus(this.msg.nextCommand), false],
+                ['Player Progress', `Level: ${user.level}\nXP: ${user.xp}/${requiredXP}\n${user.totalxp} total XP`],
+                ['Current Status', status, false],
             ]
         }
     
         return EmbedBuilder.build(this.msg, embed);
-    }
-}
-
-function getStatus(nextCommand) {
-    switch(nextCommand) {
-        case 'encounter/SelectSquare':
-            return 'Catching a Pokemon.';
-        case 'travel/SelectLocation':
-            return 'Selecting a new travel location.';
-        case 'encounter/StartEncounter':
-            return 'Browsing Pokemon in the area.';
-        case 'starter/SelectStarterPokemon':
-            return 'Selecting a starter Pokemon.';
-        case 'transfer/ConfirmTransfer':
-            return 'Transferring a Pokemon.';
-        case 'mail/OpenMail':
-            return 'Browsing mail.';
-        default:
-            return 'Nothing right now.';
     }
 }
 

@@ -2,6 +2,7 @@ const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const MailCommands = require('../../data/ModelHandlers/MailCommands');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Command = require('../Command');
+const MailPageBuilder = require('~/data/Builders/MailPageBuilder');
 
 const options = {
     names: [],
@@ -9,6 +10,7 @@ const options = {
         { name: 'tableId', type: ['number'], optional: false}
     ],
     canQuit: true,
+    info: 'Selecing mail to read'
 }
 
 class OpenMail extends Command {
@@ -25,9 +27,11 @@ class OpenMail extends Command {
             { rowName: 'saved', value: JSON.stringify(saved) }
         ]);
 
+        console.log(mail)
+
         let fields = [];
 
-        if(mail.rewards && !mail.claimedrewards) {
+        if(mail.rewards && !mail.claimedRewards) {
             await UserCommands.update(this.msg.userId, [
                 { rowName: 'nextCommand', value: 'mail/ClaimRewards' }
             ]);
@@ -42,7 +46,7 @@ class OpenMail extends Command {
 
         let description = mail.message;
 
-        if(!mail.claimedrewards) {
+        if(mail.hasRewards && !mail.claimedRewards) {
             description += `\n\nYou can claim your rewards by typing "claim" or use the quit command to leave.`;
         }
 
@@ -50,12 +54,46 @@ class OpenMail extends Command {
             title: mail.title,
             description: description,
             fields: fields,
-        }
-
-        if(!mail.claimedrewards) {
-            embed.des
+            footer: null,
         }
     
+        return EmbedBuilder.edit(this.msg, embed);
+    }
+    async handleReactionAdd(reaction) {
+        const validEmojis = ['⬅️', '➡️'];
+        let updateDisplay = false;
+        if(!validEmojis.includes(reaction.emoji.name)) {
+            return;
+        }
+        const saved = await UserCommands.getSaved(this.msg.userId);
+        switch(reaction.emoji.name) {
+            case '⬅️':
+                if(saved.page-1 > 0) {
+                    saved.page--;
+                    updateDisplay = true;
+                }
+                break;
+            case '➡️':
+                if(saved.page+1 <= saved.maxPage) {
+                    saved.page++;
+                    updateDisplay = true;
+                }
+        }
+
+        await reaction.users.remove(this.msg.author.id);
+
+        if(!updateDisplay) {
+            return;
+        }
+
+        await UserCommands.update(this.msg.userId, [
+            { rowName: 'saved', value: JSON.stringify(saved) }
+        ]);
+
+        const mail = await MailCommands.getMailTitles(this.msg.userId, saved.page);
+
+        const embed = MailPageBuilder.build(mail, saved.page);
+
         return EmbedBuilder.edit(this.msg, embed);
     }
 }

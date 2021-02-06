@@ -1,0 +1,6 @@
+February 6 2021
+- Added Heal command
+- Added addMail command
+- Added page support for mail command
+- Fixed battles not working if Pokemon had a half level
+- Added shadow flag to List command

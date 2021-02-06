@@ -2,7 +2,6 @@ const Command = require('../Command');
 const Battle = require('./Battle');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const SelectTeamMemberMenu = require('~/menus/SelectTeamMemberMenu');
-const BattleEmbedBuilder = require('~/data/Builders/BattleEmbedBuilder');
 const ShowBattleMenu = require('~/menus/ShowBattleMenu');
 
 const options = {
@@ -10,6 +9,7 @@ const options = {
     expectedParameters: [
         { name: 'confirmation', type: 'string', possible: ['y', 'n', 'yes', 'no'], optional: false }
     ],
+    info: 'Using a shield in battle'
 }
 
 /*This only gets called if the user has shields to use*/

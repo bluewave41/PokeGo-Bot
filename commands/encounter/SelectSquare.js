@@ -16,6 +16,7 @@ const options = {
         { name: 'toss', type: 'string', optional: false }
     ],
     canQuit: true,
+    info: 'Catching a Pokemon'
 }
 
 class SelectSquare extends Command {

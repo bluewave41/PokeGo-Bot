@@ -15,6 +15,7 @@ const options = {
         { name: 'response', type: ['number', 'string'], optional: false }
     ],
     canQuit: true,
+    info: 'Powering up a Pokemon'
 }
 
 class PowerupResponse extends Command {

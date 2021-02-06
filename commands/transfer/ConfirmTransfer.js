@@ -10,6 +10,7 @@ const options = {
         { name: 'confirm', type: ['string'], optional: false }
     ],
     canQuit: true,
+    info: 'Transfering a Pokemon'
 }
 
 class ConfirmTransfer extends Command {

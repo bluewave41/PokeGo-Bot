@@ -20,8 +20,8 @@ class SearchCommand extends Command {
         await canAccess(this.msg.userId);
     }
     async run() {
-        const user = await UserCommands.getFields(this.msg.userId, ['location', 'secretId']);
-        const sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId);
+        const user = await UserCommands.getFields(this.msg.userId, ['location', 'secretId', 'level']);
+        const sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId, user.level);
         if(!sprites.length) {
             throw new CustomError('CELL_EMPTY');
         }

@@ -12,6 +12,7 @@ const options = {
         { name: 'choice', type: ['string'], optional: false }
     ],
     canQuit: true,
+    info: 'Reading mail message'
 }
 
 class ClaimRewards extends Command {
@@ -23,6 +24,10 @@ class ClaimRewards extends Command {
         if(this.choice != 'claim') {
             throw new CustomError('INVALID_RESPONSE');
         }
+    }
+    async quit() {
+        const message = await this.msg.channel.messages.fetch(this.msg.lastMessageId);
+        await message.delete();
     }
     async run() {
         const saved = await UserCommands.getSaved(this.msg.userId);
@@ -39,7 +44,7 @@ class ClaimRewards extends Command {
     
         //update mail flag
         await Mail.query().update({
-            claimedrewards: true
+            claimedRewards: true
         })
         .where('id', mailId);
 

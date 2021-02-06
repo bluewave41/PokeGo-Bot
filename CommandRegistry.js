@@ -11,8 +11,15 @@ async function parse(client, msg) {
     
     try {
         command = await setupMessage(msg);
+        if(!command) {
+            return;
+        }
+        if(!msg.nextCommand && !command.options.global && !msg.gotStarter && !command.options.names.includes('starter')) {
+            throw new CustomError('NO_STARTER');
+        }
     }
     catch(e) {
+        console.log(e);
         return { error: true, message: e.getMessage() }
     }
 
@@ -54,7 +61,7 @@ async function parseReactions(reaction, user) {
             let command = require('./commands/' + msg.nextCommand);
             command = new command.class(msg);
             if(command.handleReactionAdd) {
-                await command.handleReactionAdd(reaction, msg);
+                await command.handleReactionAdd(reaction);
             }
         }
     }
@@ -113,6 +120,9 @@ async function setupMessage(msg) {
         const messageWithoutPrefix = msg.content.substring(prefix.length, msg.content.length);
         const split = messageWithoutPrefix.split(' ');
         command = commands.find(el => el.options.names.includes(split[0]));
+        if(!command) {
+            return null;
+        }
         if(command.options.ownerOnly && !msg.admin) {
             throw new CustomError('NOT_ADMIN');
         }
@@ -125,6 +135,10 @@ async function setupMessage(msg) {
     else if(msg.nextCommand) {
         msg.parameters = msg.content.split(' ');
         command = require('./commands/' + msg.nextCommand);
+    }
+
+    if(!command) {
+        return null;
     }
 
     return command;

@@ -1,11 +1,11 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Command = require('./Command');
 const News = require('~/knex/models/News');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
 
 const options = {
     names: ['news'],
     expectedParameters: [],
-    nextCommand: 'news/ViewArticle',
 }
 
 class NewsCommand extends Command {
@@ -21,8 +21,15 @@ class NewsCommand extends Command {
         let description = '';
 
         if(!titles.length) {
-            description = "There are currently no news articles.";
+            return EmbedBuilder.build(this.msg, {
+                title: 'News',
+                description: "There are currently no news articles."
+            });
         }
+
+        await UserCommands.update(this.msg.userId, [
+            { rowName: 'nextCommand', value: 'news/ViewArticle' }
+        ]);
         
         for(var i=0;i<titles.length;i++) {
             description += i+1 + ': **' + titles[i].title + '** - *' + titles[i].created_at.toString().substring(0, 10) + '*\n';
@@ -33,7 +40,6 @@ class NewsCommand extends Command {
             description: description
         }
     
-        super.run();
         return EmbedBuilder.build(this.msg, embed);
     }
 }

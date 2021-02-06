@@ -12,8 +12,8 @@ const options = {
     expectedParameters: [
         { name: 'pokemonName', type: ['string'], optional: false }
     ],
-    nextCommand: null,
     canQuit: true,
+    info: 'Selecting a starter'
 }
 
 class SelectStarterPokemon extends Command {
@@ -42,7 +42,8 @@ class SelectStarterPokemon extends Command {
             description: `Congratulations! You obtained a level ${pokemon.level} ${pokemon.name}!`,
             image: pokemon.url
         }
-        super.run();
+
+        await UserCommands.reset(this.msg.userId);
         return EmbedBuilder.build(this.msg, embed);
     }
 }
