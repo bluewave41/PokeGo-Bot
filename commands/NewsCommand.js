@@ -1,11 +1,15 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Command = require('./Command');
-const News = require('~/knex/models/News');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const NewsCommands = require('~/data/ModelHandlers/NewsCommands');
 
 const options = {
     names: ['news'],
     expectedParameters: [],
+    pagination: {
+        emojis: ['⬅️', '➡️'],
+        MAX_ENTRIES: 25
+    }
 }
 
 class NewsCommand extends Command {
@@ -14,13 +18,13 @@ class NewsCommand extends Command {
     }
     async validate() {
         super.validate();
+        this.articles = await NewsCommands.getNewsArticles(1, this.pagination.MAX_ENTRIES);
+        this.entryCount = this.articles.length ? this.articles[0].count : 0;
     }
     async run() {
-        const titles = await News.query().select('title', 'created_at');
-
         let description = '';
 
-        if(!titles.length) {
+        if(!this.articles.length) {
             return EmbedBuilder.build(this.msg, {
                 title: 'News',
                 description: "There are currently no news articles."
@@ -31,16 +35,16 @@ class NewsCommand extends Command {
             { rowName: 'nextCommand', value: 'news/ViewArticle' }
         ]);
         
-        for(var i=0;i<titles.length;i++) {
-            description += i+1 + ': **' + titles[i].title + '** - *' + titles[i].created_at.toString().substring(0, 10) + '*\n';
+        for(var i=0;i<this.articles.length;i++) {
+            let article = this.articles[i];
+            description += i+1 + ': **' + article.title + '** - *' + article.created_at.toString().substring(0, 10) + '*\n';
         }
     
-        const embed = {
+        return EmbedBuilder.build(this.msg, {
             title: 'News',
-            description: description
-        }
-    
-        return EmbedBuilder.build(this.msg, embed);
+            description: description,
+            footer: `Page 1 of ${Math.ceil(this.entryCount/this.pagination.MAX_ENTRIES)} - ${this.entryCount} results.`
+        });
     }
 }
 

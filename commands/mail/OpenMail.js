@@ -10,7 +10,11 @@ const options = {
         { name: 'tableId', type: ['number'], optional: false}
     ],
     canQuit: true,
-    info: 'Selecing mail to read'
+    info: 'Selecing mail to read',
+    pagination: {
+        emojis: ['⬅️', '➡️'],
+        MAX_ENTRIES: 25,
+    }
 }
 
 class OpenMail extends Command {
@@ -20,14 +24,31 @@ class OpenMail extends Command {
     async validate() {
         super.validate();
     }
+    async buildNewPage(page) {
+        const mail = await MailCommands.getMailTitles(this.msg.userId, page);
+
+        let embed = {
+            title: 'Mail',
+            description: '',
+            footer: `Page ${page} of ${Math.ceil(mail[0].count/this.pagination.MAX_ENTRIES)} - ${mail[0].count} results.`
+        }
+
+        for(var i=0;i<mail.length;i++) {
+            embed.description += `${i+(page-1)*25+1}: ${mail[i].title} ${mail[i].read ? ':no_bell:' : ':bell:'}`;
+            if(mail[i].hasRewards && !mail[i].claimedRewards) {
+                embed.description += ':exclamation:';
+            }
+            embed.description += '\n';
+        }
+
+        return EmbedBuilder.edit(this.msg, embed);
+    }
     async run() {
         const mail = await MailCommands.getMailBody(this.msg.userId, this.tableId);
         const saved = { mailId: mail.id }
         await UserCommands.update(this.msg.userId, [
             { rowName: 'saved', value: JSON.stringify(saved) }
         ]);
-
-        console.log(mail)
 
         let fields = [];
 
@@ -57,43 +78,6 @@ class OpenMail extends Command {
             footer: null,
         }
     
-        return EmbedBuilder.edit(this.msg, embed);
-    }
-    async handleReactionAdd(reaction) {
-        const validEmojis = ['⬅️', '➡️'];
-        let updateDisplay = false;
-        if(!validEmojis.includes(reaction.emoji.name)) {
-            return;
-        }
-        const saved = await UserCommands.getSaved(this.msg.userId);
-        switch(reaction.emoji.name) {
-            case '⬅️':
-                if(saved.page-1 > 0) {
-                    saved.page--;
-                    updateDisplay = true;
-                }
-                break;
-            case '➡️':
-                if(saved.page+1 <= saved.maxPage) {
-                    saved.page++;
-                    updateDisplay = true;
-                }
-        }
-
-        await reaction.users.remove(this.msg.author.id);
-
-        if(!updateDisplay) {
-            return;
-        }
-
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'saved', value: JSON.stringify(saved) }
-        ]);
-
-        const mail = await MailCommands.getMailTitles(this.msg.userId, saved.page);
-
-        const embed = MailPageBuilder.build(mail, saved.page);
-
         return EmbedBuilder.edit(this.msg, embed);
     }
 }

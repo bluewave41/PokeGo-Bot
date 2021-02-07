@@ -33,8 +33,8 @@ class QuitCommand extends Command {
         }
 
         if(command.menu) { //this command shows a generic menu
-            embed = await command.menu.class.show(this.msg, command.menu.parameters);
-            return EmbedBuilder.edit(this.msg, embed);
+            await command.menu.class.show(this.msg, command.menu.parameters);
+            return;
         }
 
         await UserCommands.reset(this.msg.userId);

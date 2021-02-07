@@ -56,12 +56,41 @@ async function parseReactions(reaction, user) {
     msg.author = user; //change the author 
     await init(msg);
     if(msg.nextCommand) {
-        const { lastMessageId } = await UserCommands.getFields(msg.userId, ['lastMessageId']);
-        if(lastMessageId == reaction.message.id) {
+        const user = await UserCommands.getFields(msg.userId, ['lastMessageId', 'page', 'maxPage']);
+        //ensure the message being reacted to belongs to the user
+        if(user.lastMessageId == reaction.message.id) {
             let command = require('./commands/' + msg.nextCommand);
             command = new command.class(msg);
-            if(command.handleReactionAdd) {
-                await command.handleReactionAdd(reaction);
+            //is the emoji a valid one?
+            if(command.pagination.emojis.includes(reaction.emoji.name)) {
+                let updateDisplay = false;
+                //for now these are the only 2 emojis I'm using so hardcode this
+                switch(reaction.emoji.name) {
+                    case '⬅️':
+                        if(user.page-1 > 0) {
+                            user.page--;
+                            updateDisplay = true;
+                        }
+                        break;
+                    case '➡️':
+                        if(user.page+1 <= user.maxPage) {
+                            user.page++;
+                            updateDisplay = true;
+                        }
+                    break;
+                }
+
+                //remove the reaction regardless of if it's valid or not
+                await reaction.users.remove(msg.author.id);
+
+                //if a valid page change was made
+                if(updateDisplay) {
+                    await UserCommands.update(msg.userId, [
+                        { rowName: 'page', value: user.page }
+                    ]);
+
+                    await command.buildNewPage(user.page);
+                }
             }
         }
     }

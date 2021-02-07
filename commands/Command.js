@@ -119,6 +119,20 @@ class Command {
             ]);
         }
     }
+    async handlePagination(lastMessageId) {
+        console.log(this.entryCount, this.pagination.MAX_ENTRIES);
+        if(this.entryCount > this.pagination.MAX_ENTRIES) {
+            await UserCommands.update(this.msg.userId, [
+                { rowName: 'page', value: 1 },
+                { rowName: 'maxPage', value: Math.ceil(this.entryCount/this.pagination.MAX_ENTRIES) } 
+            ]);
+
+            const message = await this.msg.channel.messages.fetch(lastMessageId);
+            for(var i=0;i<this.pagination.emojis.length;i++) {
+                message.react(this.pagination.emojis[i]);
+            }
+        }
+    }
 }
 
 module.exports = Command;

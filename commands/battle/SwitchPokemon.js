@@ -33,12 +33,19 @@ class SwitchPokemon extends Command {
         await this.setup();
 
         this.pokemon = this.battle.playerTeam.pokemon.find(el => el.slot == this.slot);
+        if(this.pokemon.active) {
+            throw new CustomError('POKEMON_ALREADY_OUT');
+        }
         if(this.pokemon.hp <= 0) {
             throw new CustomError('SELECTED_FAINTED_POKEMON');
         }
     }
     async quit() {
         await this.setup();
+        const pokemon = this.battle.playerTeam.pokemon.find(el => el.active);
+        if(pokemon.hp <= 0) {
+            throw new CustomError('FAINTED_POKEMON');
+        }
         await UserCommands.update(this.msg.userId, [
             { rowName: 'nextCommand', value: 'battle/SimulateTurn' }
         ]);
@@ -49,7 +56,7 @@ class SwitchPokemon extends Command {
                 generate: true,
                 title: 'Battle',
                 description: 'Battle',
-                p1: this.pokemon,
+                p1: pokemon,
                 p2: this.battle.rocketTeam[0],
                 p1Shields: this.battle.playerShields,
                 p2Shields: this.battle.rocketShields,

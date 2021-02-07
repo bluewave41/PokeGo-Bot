@@ -70,23 +70,25 @@ async function buildQueryFromOptions(userId, offset, options) {
                 count.where('shadow', true);
             }
             else if(parameters[i].startsWith('sort')) {
-                const split = parameters[i].split('=');
+                const char = parameters[i].includes('<') ? '<' : parameters[i].includes('>') ? '>' : '';
+                const dir = char == '>' ? 'ASC' : char == '<' ? 'DESC' : '';
+                const split = parameters[i].split(char);
                 const sortColumn = split[1];
                 switch(sortColumn) {
                     case 'cp':
-                        query.orderBy('cp', 'DESC');
+                        query.orderBy('cp', dir);
                         break;
                     case 'iv':
-                        query.orderBy('totaliv', 'DESC');
+                        query.orderBy('totaliv', dir);
                         break;
                     case 'level':
-                        query.orderBy('level', 'DESC');
+                        query.orderBy('level', dir);
                         break;
                     case 'id':
-                        query.orderBy('pokemonId', 'DESC');
+                        query.orderBy('pokemonId', dir);
                         break;
                     case 'pokedex':
-                        query.orderBy('pokedexId', 'DESC');
+                        query.orderBy('pokedexId', dir);
                         break;
                 }
             }

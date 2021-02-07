@@ -36,8 +36,8 @@ client.on('message', async msg => {
     else {
         //TODO: delete the message?
         let response = await msg.channel.send(message.message);
-        if(message.command.afterSend) {
-            await message.command.afterSend(response.id);
+        if(message.command.pagination) {
+            await message.command.handlePagination(response.id);
         }
         await UserCommands.update(msg.userId, [
             { rowName: 'lastMessageId', value: response.id }

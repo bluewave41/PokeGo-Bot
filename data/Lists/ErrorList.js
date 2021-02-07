@@ -65,4 +65,6 @@ module.exports = {
     'NOT_ENOUGH_ENERGY': `You don't have enough energy for your charge move!`,
     'NOT_TRAVELING': `You aren't traveling anywhere.`,
     'NO_TEAMS': "You don't have any teams capable of battling!",
+    'FAINTED_POKEMON': "You can't quit! Your Pokemon fainted and you need to select another.",
+    'POKEMON_ALREADY_OUT': "That Pokemon is already out!",
 }

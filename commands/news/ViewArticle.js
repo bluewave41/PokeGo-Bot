@@ -1,8 +1,8 @@
-const News = require('~/knex/models/News');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const NewsCommands = require('~/data/ModelHandlers/NewsCommands');
 
 const options = {
     names: [],
@@ -11,6 +11,10 @@ const options = {
     ],
     canQuit: true,
     info: 'Viewing news articles',
+    pagination: {
+        emojis: ['⬅️', '➡️'],
+        MAX_ENTRIES: 25
+    }
 }
 
 class ViewArticle extends Command {
@@ -20,10 +24,29 @@ class ViewArticle extends Command {
     async validate() {
         super.validate();
     }
+    async buildNewPage(page) {
+        const articles = await NewsCommands.getNewsArticles(page, this.pagination.MAX_ENTRIES);
+
+        let embed = {
+            title: 'News',
+            description: '',
+            footer: `Page ${page} of ${Math.ceil(articles[0].count/this.pagination.MAX_ENTRIES)} - ${articles[0].count} results.`
+        }
+    
+        if(!articles.length) {
+            embed.description = 'There are currently no news articles.';
+            return embed;
+        }
+
+        for(var i=0;i<articles.length;i++) {
+            let article = articles[i];
+            embed.description += i+(page-1)*25+1 + ': **' + article.title + '** - *' + article.created_at.toString().substring(0, 10) + '*\n';
+        }
+
+        return EmbedBuilder.edit(this.msg, embed);
+    }
     async run() {
-        const article = await News.query().select('title', 'body', 'created_at')
-            .where('id', this.articleId)
-            .first();
+        const article = await NewsCommands.getArticle(this.articleId);
 
         if(!article) {
             throw new CustomError('INVALID_NEWS_ARTICLE');
