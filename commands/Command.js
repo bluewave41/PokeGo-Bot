@@ -120,7 +120,6 @@ class Command {
         }
     }
     async handlePagination(lastMessageId) {
-        console.log(this.entryCount, this.pagination.MAX_ENTRIES);
         if(this.entryCount > this.pagination.MAX_ENTRIES) {
             await UserCommands.update(this.msg.userId, [
                 { rowName: 'page', value: 1 },

@@ -44,12 +44,19 @@ class SelectPokemon extends Command {
 
         //TODO: upsert pokemon here
 
-        await TeamListings.query().insert({
-            userId: this.msg.userId,
-            teamId: saved.teamId,
-            pokemonId: this.pokemonId,
-            slot: saved.slot,
-        });
+        const update = await TeamListings.query().update({
+            pokemonId: this.pokemonId
+        })
+        .where('slot', saved.slot);
+
+        if(!update) {
+            await TeamListings.query().insert({
+                userId: this.msg.userId,
+                teamId: saved.teamId,
+                pokemonId: this.pokemonId,
+                slot: saved.slot,
+            });
+        }
 
         team = await Teams.query().select('*')
             .withGraphFetched('pokemon')

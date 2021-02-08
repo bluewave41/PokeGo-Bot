@@ -11,3 +11,7 @@ February 7 2021
 - Added createNews command
 - Fixed issue where you could switch to a Pokemon already out in battles
 - Fixed quit command issue where you couldn't quit while switching Pokemon
+
+February 8th 20201
+- Fixed issue where swapping Pokemon out of team inserted a 4th row
+- Fixed sprite placements in battle
