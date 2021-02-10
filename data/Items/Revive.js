@@ -1,3 +1,8 @@
+const HealPokemonMenu = require('~/menus/HealPokemonMenu');
+const Pokemon = require('~/knex/models/Pokemon');
+const CustomError = require('~/lib/errors/CustomError');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
+
 class Revive {
     constructor() {
         this.id = 10;
@@ -13,6 +18,24 @@ class Revive {
         this.requiredLevel = 5;
         this.requiresEncounter = false;
         this.type = 'revive';
+    }
+    async use(userId) {
+        const pokemon = await Pokemon.query().select('*')
+            .where('ownerId', userId);
+        if(!pokemon.length) {
+            throw new CustomError('NO_FAINTED_POKEMON');
+        }
+        await UserCommands.update(userId, [
+            { rowName: 'nextCommand', value: 'items/RevivePokemon' },
+            { rowName: 'saved', value: JSON.stringify({ multiplier: 0.5 })}
+        ]);
+        this.menu = {
+            class: HealPokemonMenu,
+            parameters: {
+                title: 'Revive Pokemon',
+                pokemon: pokemon,
+            }
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 module.exports = {
     'INSUFFICIENT_CANDY': "You need at least {replace} candy to level this Pokemon up further!",
-    'INVALID_NICKNAME_LENGTH': "Nicknames must be between 1 and 20 characters.",
+    'INVALID_NAME_LENGTH': "Names must be between 1 and 20 characters.",
     'INVALID_NAME': 'Names can only contain letters and numbers.',
     'INVALID_PURCHASE_AMOUNT': `You can't buy {replace} amount of items.`,
     'NO_ITEM_EXISTS': `There are no items with {replace} in them.`,
@@ -67,4 +67,5 @@ module.exports = {
     'NO_TEAMS': "You don't have any teams capable of battling!",
     'FAINTED_POKEMON': "You can't quit! Your Pokemon fainted and you need to select another.",
     'POKEMON_ALREADY_OUT': "That Pokemon is already out!",
+    'NO_FAINTED_POKEMON': "You don't have any fainted Pokemon to revive."
 }

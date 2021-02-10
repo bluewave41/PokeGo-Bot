@@ -5,17 +5,20 @@ module.exports = {
 	1: {
 		requiredXP: 1000,
 		totalXP: 1000,
-		rewards: [{ itemId: items.POKE_BALL, amount: 10}]
+		rewards: [{ itemId: items.POKE_BALL, amount: 10}],
+        rewardString: '10 Poke Balls',
 	},
 	2: {
 		requiredXP: 2000,
 		totalXP: 3000,
-		rewards: [{ itemId: items.POKE_BALL, amount: 15}]
+		rewards: [{ itemId: items.POKE_BALL, amount: 15}],
+        rewardString: '15 Poke Balls',
 	},
 	3: {
 		requiredXP: 3000,
 		totalXP: 6000,
-		rewards: [{ itemId: items.POKE_BALL, amount: 15}]
+		rewards: [{ itemId: items.POKE_BALL, amount: 15}],
+        rewardString: '15 Poke Balls',
 	},
 	4: {
 		requiredXP: 4000,
@@ -24,7 +27,8 @@ module.exports = {
                   { itemId: items.POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 10},
                   //incense
-                 ]
+                 ],
+        rewardString: '20 Poke Balls,10 Potions,10 Revives'
     },
     5: {
         requiredXP: 5000,
@@ -33,7 +37,8 @@ module.exports = {
                   { itemId: items.POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 5},
                   //incubator
-                 ]
+                 ],
+        rewardString: '15 Poke Balls,10 Potions,5 Revives'
     },
     6: {
         requiredXP: 6000,
@@ -42,7 +47,8 @@ module.exports = {
                   { itemId: items.POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 5},
                   //incense
-                ]
+                ],
+        rewardString: '15 Poke Balls,10 Potions,5 Revives',
     },
     7: {
         requiredXP: 7000,
@@ -52,7 +58,8 @@ module.exports = {
                   { itemId: items.REVIVE, amount: 5},
                   { itemId: items.RAZZ_BERRY, amount: 10}
                   //lure module
-                 ]
+                 ],
+        rewardString: '15 Poke Balls,10 Potions,5 Revives,10 Razz Berries',
     },
     8: {
         requiredXP: 8000,
@@ -62,7 +69,8 @@ module.exports = {
                   { itemId: items.REVIVE, amount: 5},
                   { itemId: items.RAZZ_BERRY, amount: 3}
                   //lucky egg
-                ]
+                ],
+        rewardString: '15 Poke Balls,10 Potions,5 Revives,3 Razz Berries',
     },
     9: {
         requiredXP: 9000,
@@ -75,7 +83,8 @@ module.exports = {
                   //lucky egg
                   //incubator
                   //lure module
-                ]
+                ],
+        rewardString: '20 Poke Balls,20 Super Potions,10 Revives,10 Razz Berries'
     },
     10: {
         requiredXP: 10000,
@@ -83,7 +92,8 @@ module.exports = {
         rewards: [{ itemId: items.POKE_BALL, amount: 15},
                   { itemId: items.SUPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 3},
-                  { itemId: items.RAZZ_BERRY, amount: 3}]
+                  { itemId: items.RAZZ_BERRY, amount: 3}],
+        rewardString: '15 Poke Balls,10 Super Potions,3 Revives,3 Razz Berries'
     },
     11: {
         requiredXP: 10000,
@@ -91,7 +101,8 @@ module.exports = {
         rewards: [{ itemId: items.GREAT_BALL, amount: 20},
                   { itemId: items.SUPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 3},
-                  { itemId: items.RAZZ_BERRY, amount: 3}]
+                  { itemId: items.RAZZ_BERRY, amount: 3}],
+        rewardString: '20 Great Balls,10 Super Potions,3 Revives,3 Razz Berries'
     },
     12: {
         requiredXP: 10000,
@@ -99,7 +110,8 @@ module.exports = {
         rewards: [{ itemId: items.GREAT_BALL, amount: 10},
                   { itemId: items.SUPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 3},
-                  { itemId: items.RAZZ_BERRY, amount: 3}]
+                  { itemId: items.RAZZ_BERRY, amount: 3}],
+        rewardString: '10 Great Balls,10 Super Potions,3 Revives,3 Razz Berries'
     },
     13: {
         requiredXP: 10000,
@@ -107,7 +119,8 @@ module.exports = {
         rewards: [{ itemId: items.GREAT_BALL, amount: 10},
                   { itemId: items.SUPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 3},
-                  { itemId: items.RAZZ_BERRY, amount: 3}]
+                  { itemId: items.RAZZ_BERRY, amount: 3}],
+        rewardString: '10 Great Balls,10 Super Potions,3 Revives,3 Razz Berries'
     },
     14: {
         requiredXP: 15000,
@@ -120,7 +133,8 @@ module.exports = {
                   //lucky egg
                   //incubator
                   //lure module
-                 ]
+                 ],
+        rewardString: '15 Great Balls,20 Hyper Potions,10 Revives,10 Razz Berries'
     },
     15: {
         requiredXP: 20000,
@@ -128,7 +142,8 @@ module.exports = {
         rewards: [{ itemId: items.GREAT_BALL, amount: 10},
                   { itemId: items.HYPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 5},
-                  { itemId: items.RAZZ_BERRY, amount: 5}]
+                  { itemId: items.RAZZ_BERRY, amount: 5}],
+        rewardString: '10 Great Balls,10 Hyper Potions,5 Revives,5 Razz Berries'
     },
     16: {
         requiredXP: 20000,
@@ -136,7 +151,8 @@ module.exports = {
         rewards: [{ itemId: items.GREAT_BALL, amount: 10},
                   { itemId: items.HYPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 5},
-                  { itemId: items.RAZZ_BERRY, amount: 5}]
+                  { itemId: items.RAZZ_BERRY, amount: 5}],
+        rewardString: '10 Great Balls,10 Hyper Potions,5 Revives,5 Razz Berries'
     },
     17: {
         requiredXP: 20000,
@@ -144,7 +160,8 @@ module.exports = {
         rewards: [{ itemId: items.GREAT_BALL, amount: 10},
                   { itemId: items.HYPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 5},
-                  { itemId: items.RAZZ_BERRY, amount: 5}]
+                  { itemId: items.RAZZ_BERRY, amount: 5}],
+        rewardString: '10 Great Balls,10 Hyper Potions,5 Revives,5 Razz Berries'
     },
     18: {
         requiredXP: 25000,
@@ -152,7 +169,8 @@ module.exports = {
         rewards: [{ itemId: items.GREAT_BALL, amount: 15},
                   { itemId: items.HYPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 5},
-                  { itemId: items.RAZZ_BERRY, amount: 5}]
+                  { itemId: items.RAZZ_BERRY, amount: 5}],
+        rewardString: '15 Great Balls,10 Hyper Potions,5 Revives,5 Razz Berries'
     },
     19: {
         requiredXP: 25000,
@@ -165,7 +183,8 @@ module.exports = {
                   //lucky egg x2
                   //incubator x2
                   //lure module x2
-                 ]
+                 ],
+        rewardString: '20 Ultra Balls,20 Hyper Potions,20 Revives,20 Razz Berries'
     },
     20: {
         requiredXP: 50000,
@@ -173,7 +192,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.HYPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 10},
-                  { itemId: items.PINAP_BERRY, amount: 10}]
+                  { itemId: items.PINAP_BERRY, amount: 10}],
+        rewardString: '10 Ultra Balls,10 Hyper Potions,10 Revives,10 Pinap Berries'
     },
     21: {
         requiredXP: 75000,
@@ -181,7 +201,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.HYPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 10},
-                  { itemId: items.RAZZ_BERRY, amount: 10}]
+                  { itemId: items.RAZZ_BERRY, amount: 10}],
+        rewardString: '10 Ultra Balls,10 Hypper Potions,10 Revives,10 Razz Berries'
     },
     22: {
         requiredXP: 100000,
@@ -189,7 +210,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.HYPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 10},
-                  { itemId: items.NANAB_BERRY, amount: 10}]
+                  { itemId: items.NANAB_BERRY, amount: 10}],
+        rewardString: '10 Ultra Balls,10 Hyper Potions,10 Revives,10 Nanab Berries'
     },
     23: {
         requiredXP: 125000,
@@ -197,7 +219,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 15},
                   { itemId: items.HYPER_POTION, amount: 10},
                   { itemId: items.REVIVE, amount: 10},
-                  { itemId: items.RAZZ_BERRY, amount: 10}]
+                  { itemId: items.RAZZ_BERRY, amount: 10}],
+        rewardString: '15 Ultra Balls,10 Hyper Potions,10 Revives,10 Razz Berries'
     },
     24: {
         requiredXP: 150000,
@@ -210,7 +233,8 @@ module.exports = {
                   //lucky egg
                   //incubator
                   //lure module
-                 ]
+                 ],
+        rewardString: '25 Ultra Balls\20 Max Potions,15 Revives,15 Pinap Berries'
     },
     25: {
         requiredXP: 190000,
@@ -218,7 +242,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.MAX_POTION, amount: 15},
                   { itemId: items.REVIVE, amount: 10},
-                  { itemId: items.RAZZ_BERRY, amount: 15}]
+                  { itemId: items.RAZZ_BERRY, amount: 15}],
+        rewardString: '10 Ultra Balls,15 Max Potions,10 Revives,15 Razz Berries'
     },
     26: {
         requiredXP: 200000,
@@ -226,7 +251,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.MAX_POTION, amount: 15},
                   { itemId: items.REVIVE, amount: 10},
-                  { itemId: items.NANAB_BERRY, amount: 15}]
+                  { itemId: items.NANAB_BERRY, amount: 15}],
+        rewardString: '10 Ultra Balls,15 Max Potions,10 Revives,15 Nanab Berries'
     },
     27: {
         requiredXP: 250000,
@@ -234,7 +260,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.MAX_POTION, amount: 15},
                   { itemId: items.REVIVE, amount: 10},
-                  { itemId: items.RAZZ_BERRY, amount: 15}]
+                  { itemId: items.RAZZ_BERRY, amount: 15}],
+        rewardString: '10 Ultra Balls,15 Max Potions,10 Revives,15 Razz Berries'
     },
     28: {
         requiredXP: 300000,
@@ -242,7 +269,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.MAX_POTION, amount: 15},
                   { itemId: items.REVIVE, amount: 10},
-                  { itemId: items.PINAP_BERRY, amount: 15}]
+                  { itemId: items.PINAP_BERRY, amount: 15}],
+        rewardString: '10 Ultra Balls,15 Max Potions,10 Revives,15 Pinap Berries'
     },
     29: {
         requiredXP: 350000,
@@ -255,7 +283,8 @@ module.exports = {
                   //lucky egg x3
                   //incubator x3
                   //lure module x3
-                ]
+                ],
+        rewardString: '30 Ultra Balls,20 Max Potions,20 Max Revives,20 Razz Berries'
     },
     30: {
         requiredXP: 500000,
@@ -263,7 +292,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.MAX_POTION, amount: 15},
                   { itemId: items.MAX_REVIVE, amount: 10},
-                  { itemId: items.NANAB_BERRY, amount: 15}]
+                  { itemId: items.NANAB_BERRY, amount: 15}],
+        rewardString: '10 Ultra Balls,15 Max Potions,10 Max Revives,15 Nanab Berries'
     },
     31: {
         requiredXP: 500000,
@@ -271,7 +301,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.MAX_POTION, amount: 15},
                   { itemId: items.MAX_REVIVE, amount: 10},
-                  { itemId: items.RAZZ_BERRY, amount: 15}]
+                  { itemId: items.RAZZ_BERRY, amount: 15}],
+        rewardString: '10 Ultra Balls,15 Max Potions,10 Max Revives,15 Razz Berries'
     },
     32: {
         requiredXP: 750000,
@@ -279,7 +310,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.MAX_POTION, amount: 15},
                   { itemId: items.MAX_REVIVE, amount: 10},
-                  { itemId: items.PINAP_BERRY, amount: 15}]
+                  { itemId: items.PINAP_BERRY, amount: 15}],
+        rewardString: '10 Ultra Balls,15 Max Potions,10 Max Revives,15 Pinap Berries'
     },
     33: {
         requiredXP: 1000000,
@@ -287,7 +319,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 10},
                   { itemId: items.MAX_POTION, amount: 15},
                   { itemId: items.MAX_REVIVE, amount: 10},
-                  { itemId: items.RAZZ_BERRY, amount: 15}]
+                  { itemId: items.RAZZ_BERRY, amount: 15}],
+        rewardString: '10 Ultra Balls,15 Max Potions,10 Max Revives,15 Razz Berries'
     },
     34: {
         requiredXP: 1250000,
@@ -299,7 +332,8 @@ module.exports = {
                   //incense x2
                   //lucky egg
                   //lure module  
-                ]
+                ],
+        rewardString: '30 Ultra Balls,20 Max Potions,20 Max Revives,20 Nanab Berries'
     },
     35: {
         requiredXP: 1500000,
@@ -307,15 +341,17 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 20},
                   { itemId: items.MAX_POTION, amount: 20},
                   { itemId: items.MAX_REVIVE, amount: 10},
-                  { itemId: items.RAZZ_BERRY, amount: 20}]
+                  { itemId: items.RAZZ_BERRY, amount: 20}],
+        rewardString: '20 Ultra Balls,20 Max Potions,10 Max Revives,20 Razz Berries'
     },
     36: {
         requiredXP: 2000000,
         totalXP: 9500000,
-        rewaeds: [{ itemId: items.ULTRA_BALL, amount: 20},
+        rewards: [{ itemId: items.ULTRA_BALL, amount: 20},
                   { itemId: items.MAX_POTION, amount: 20},
                   { itemId: items.MAX_REVIVE, amount: 10},
-                  { itemId: items.PINAP_BERRY, amount: 20}]
+                  { itemId: items.PINAP_BERRY, amount: 20}],
+        rewardString: '20 Ultra Balls,20 Max Potions,10 Max Revives,20 Pinap Berries'
     },
     37: {
         requiredXP: 2500000,
@@ -323,7 +359,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 20},
                   { itemId: items.MAX_POTION, amount: 20},
                   { itemId: items.MAX_REVIVE, amount: 10},
-                  { itemId: items.RAZZ_BERRY, amount: 20}]
+                  { itemId: items.RAZZ_BERRY, amount: 20}],
+        rewardString: '20 Ultra Balls,20 Max Potions,10 Max Revives,20 Razz Berries'
     },
     38: {
         requiredXP: 3000000,
@@ -331,7 +368,8 @@ module.exports = {
         rewards: [{ itemId: items.ULTRA_BALL, amount: 20},
                   { itemId: items.MAX_POTION, amount: 20},
                   { itemId: items.MAX_REVIVE, amount: 10},
-                  { itemId: items.NANAB_BERRY, amount: 20}]
+                  { itemId: items.NANAB_BERRY, amount: 20}],
+        rewardString: '20 Ultra Balls,20 Max Potions,10 Max Revives,20 Nanab Berries'
     },
     39: {
         requiredXP: 5000000,
@@ -344,6 +382,7 @@ module.exports = {
                   //lucky egg x4
                   //incubator x4
                   //lure module x4
-                ]
+                ],
+        rewardString: '40 Ultra Balls,40 Max Potions,40 Max Revives,40 Razz Berries'
     }
 }

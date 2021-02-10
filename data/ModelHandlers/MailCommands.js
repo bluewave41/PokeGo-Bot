@@ -2,20 +2,22 @@ const Mail = require("~/knex/models/Mail");
 const MailRewards = require("~/knex/models/MailRewards");
 const Emojis = require("~/data/Lists/EmojiList");
 const CustomError = require("~/lib/errors/CustomError");
-const LevelTable = require("~/data/Lists/LevelList");
-const ItemHandler = require("~/lib/ItemHandler");
+const LevelList = require("~/data/Lists/LevelList");
 const { raw } = require('objection');
 
 module.exports = {
     async addLevelUpMail(userId, level) {
-        const message = `Congratulations! You're now level ${level}. You can claim your rewards attached to this message.`;
-        let rewards = LevelTable[level-1].rewards;
+        const message = `Congratulations! You are now level ${level}. You can claim your rewards attached to this message.`;
+        let rewards = LevelList[level-1].rewards;
+        let rewardString = LevelList[level-1].rewardString;
+        console.log(level, rewards, rewardString)
 
         const mail = await Mail.query().insert({
             userId: userId,
             title: `Level ${level}!`,
             message: message,
-            hasRewards: true
+            hasRewards: true,
+            rewardString: rewardString
         });
 
         rewards.forEach(el => el.mailId = mail.id);
@@ -42,7 +44,7 @@ module.exports = {
     },
     async getMailBody(userId, tableId) {
         tableId -= 1; //adjust for index starting at 0
-        const allMail = await Mail.query().select('id', 'title', 'message', 'claimedRewards', 'hasRewards')
+        const allMail = await Mail.query().select('id', 'title', 'message', 'claimedRewards', 'hasRewards', 'rewardString')
             .withGraphFetched('rewards')
             .where('userId', userId);
 
@@ -57,12 +59,12 @@ module.exports = {
         })
         .where('id', mail.id);
 
-        mail.rewards = rewardsToMessage(mail.rewards);
+        mail.rewardDisplay = mail.rewardString.split(',');
 
         return mail;
     },
     async getRewards(userId, mailId) {
-        const mail = await Mail.query().select('claimedRewards')
+        const mail = await Mail.query().select('claimedRewards', 'rewardString')
             .withGraphFetched('rewards')
             .where('userId', userId)
             .where('id', mailId)
@@ -72,17 +74,8 @@ module.exports = {
             throw new CustomError('ALREADY_CLAIMED');
         }
 
-        mail.rewards = rewardsToMessage(mail.rewards);
+        mail.rewardDisplay = mail.rewardString.split(',');
 
-        return mail.rewards;
+        return mail;
     }
-}
-
-function rewardsToMessage(rewards) {
-    let rewardsArray = [];
-    for(var i=0;i<rewards.length;i++) {
-        const item = ItemHandler.getItem(rewards[i].itemId);
-        rewardsArray.push({name: item.name, amount: rewards[i].amount, itemId: rewards[i].itemId});
-    }
-    return rewardsArray;
 }

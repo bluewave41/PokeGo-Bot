@@ -57,7 +57,7 @@ async function buildQueryFromOptions(userId, offset, options) {
     if(options) {
         const parameters = options.split(',');
         for(var i=0;i<parameters.length;i++) {
-            if(parameters[i] == 'favorite') {
+            if(parameters[i] == 'favorite' || parameters[i] == 'favourite') {
                 query.where('favorite', true);
                 count.where('favorite', true);
             }

@@ -31,6 +31,9 @@ class QueryTeam extends Command {
             if(!regex.test(this.name)) {
                 throw new CustomError('INVALID_NAME');
             }
+            if(this.name.length > 20) {
+                throw new CustomError('INVALID_NAME_LENGTH');
+            }
             const teamCount = await Teams.query().count('* as count')
                 .where('userId', this.msg.userId)
                 .first();

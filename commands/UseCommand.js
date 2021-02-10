@@ -58,7 +58,13 @@ class UseCommand extends Command {
         else {
             await InventoryCommands.removeItems(this.msg.userId, this.item.id, 1);
             const embed = await this.item.use(this.msg.userId, this.pokemonId);
-            return EmbedBuilder.build(this.msg, embed);
+            if(this.item.menu) {
+                this.menu = this.item.menu;
+                return;
+            }
+            else {
+                return EmbedBuilder.build(this.msg, embed);
+            }
         }
     }
 }

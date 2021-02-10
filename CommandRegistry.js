@@ -14,6 +14,7 @@ async function parse(client, msg) {
         if(!command) {
             return;
         }
+        //this is ugly
         if(!msg.nextCommand && !command.options.global && !msg.gotStarter && !command.options.names.includes('starter')) {
             throw new CustomError('NO_STARTER');
         }
@@ -96,11 +97,11 @@ async function parseReactions(reaction, user) {
     }
 }
 
-async function init(msg) {
+async function init(msg, shouldInsert=true) {
     //this one uses discordId so we can't use UserCommands
     let user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team', 'admin')
         .where('discordID', msg.author.id).first();
-    if(!user) {
+    if(!user && shouldInsert) {
         user = await User.query().insert({
             discordID: msg.author.id,
             username: msg.author.username,
@@ -109,6 +110,9 @@ async function init(msg) {
             stardust: 5000,
             secretId: Math.floor(Math.random() * 500) + 1,
         });
+    }
+    if(!user) {
+        return;
     }
     const info = {
         userId: user.userId,
@@ -139,11 +143,11 @@ async function getPrefix(guildId) {
 async function setupMessage(msg) {
     let command;
 
-    await init(msg);
-
     //get prefix
     const prefix = await getPrefix(msg.guild.id);
     msg.prefix = prefix;
+
+    await init(msg, msg.content.startsWith(prefix));
 
     if(msg.content.startsWith(prefix)) {
         const messageWithoutPrefix = msg.content.substring(prefix.length, msg.content.length);

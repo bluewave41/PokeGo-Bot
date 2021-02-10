@@ -32,14 +32,16 @@ class ClaimRewards extends Command {
     async run() {
         const saved = await UserCommands.getSaved(this.msg.userId);
         const mailId = saved.mailId;
-        const rewards = await MailCommands.getRewards(this.msg.userId, mailId);
+        const mail = await MailCommands.getRewards(this.msg.userId, mailId);
 
         let description = 'You received: \n';
 
-        for(var i=0;i<rewards.length;i++) {
-            let reward = rewards[i];
-            description += rewards[i].amount + ' ' + rewards[i].name + '\n';
-            await InventoryCommands.addItems(this.msg.userId, reward.itemId, reward.amount);
+        for(var i=0;i<mail.rewardDisplay.length;i++) {
+            const reward = mail.rewardDisplay[i].split(' ');
+            const amount = reward.shift();
+            const name = reward.join(' ');
+            description += `${amount} ${name}\n`;
+            await InventoryCommands.addItems(this.msg.userId, mail.rewards[i].itemId, mail.rewards[i].amount);
         }
     
         //update mail flag
@@ -54,6 +56,7 @@ class ClaimRewards extends Command {
             title: 'Claimed',
             description: description,
             fields: [],
+            footer: '', //TODO: add claim string here
         }
     
         return EmbedBuilder.edit(this.msg, embed);

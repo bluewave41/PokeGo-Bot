@@ -20,7 +20,7 @@ class NicknameCommand extends Command {
         super.validate();
         const nicknameRegex = /^[a-zA-Z0-9 ]+$/;
         if(this.nickname.length > 20) {
-            throw new CustomError('INVALID_NICKNAME_LENGTH');
+            throw new CustomError('INVALID_NAME_LENGTH');
         }
         if(!nicknameRegex.test(this.nickname)) {
             throw new CustomError('INVALID_NAME');

@@ -1,5 +1,4 @@
 const { Model } = require('objection');
-const Medals = require('./Medals');
 
 class User extends Model {
 	static get tableName() {
@@ -13,6 +12,7 @@ class User extends Model {
         const Pokemon = require('./Pokemon');
         const PlayerEncounters = require('./PlayerEncounters');
         const Inventory = require('./Inventory');
+        const Medals = require('./Medals');
 		
 		return {
 			pokemon: {

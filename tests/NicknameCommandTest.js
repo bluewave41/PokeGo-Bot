@@ -37,7 +37,7 @@ describe('NicknameCommand', function() {
                 await command.validate();
             }
             catch(e) {
-                assert(e.message == 'INVALID_NICKNAME_LENGTH');
+                assert(e.message == 'INVALID_NAME_LENGTH');
             }
         })
         it('should fail if name contains symbols', async function() {

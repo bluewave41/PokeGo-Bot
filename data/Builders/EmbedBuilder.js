@@ -41,7 +41,7 @@ module.exports = {
                 embed.addField(embedObject.fields[i][0], embedObject.fields[i][1], embedObject.fields[i][2]);
             }
         }
-        if(embedObject.footer) {
+        if(embedObject.hasOwnProperty('footer')) {
             embed.setFooter(embedObject.footer);
         }
         return embed;

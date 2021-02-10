@@ -40,7 +40,7 @@ class SearchCommand extends Command {
 }
 
 async function canAccess(userId) {
-    const storageAmount = await UserCommands.getRows(userId, 'storage');
+    const storageAmount = await UserCommands.getFields(userId, 'storage');
     const pokemonCount = await PokemonCommands.getPokemonCount(userId);
     if(pokemonCount+1 > storageAmount) {
         throw new CustomError('STORAGE_FULL');

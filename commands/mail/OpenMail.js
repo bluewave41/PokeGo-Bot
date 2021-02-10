@@ -56,9 +56,11 @@ class OpenMail extends Command {
             await UserCommands.update(this.msg.userId, [
                 { rowName: 'nextCommand', value: 'mail/ClaimRewards' }
             ]);
-            for(var i=0;i<mail.rewards.length;i++) {
-                let reward = mail.rewards[i];
-                fields.push([reward.name, reward.amount, false]);
+            for(var i=0;i<mail.rewardDisplay.length;i++) {
+                const reward = mail.rewardDisplay[i].split(' ');
+                const amount = reward.shift();
+                const name = reward.join(' ');
+                fields.push([name, amount, false]);
             }
         }
         else {
@@ -75,7 +77,7 @@ class OpenMail extends Command {
             title: mail.title,
             description: description,
             fields: fields,
-            footer: null,
+            footer: '',
         }
     
         return EmbedBuilder.edit(this.msg, embed);

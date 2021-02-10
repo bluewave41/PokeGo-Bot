@@ -50,6 +50,8 @@ class DisplayCommand extends Command {
             ['Moves', moves, false],
             ['Evolution', evolveString, false],
         ]
+
+        console.log(this.pokemon.url)
     
         let embed = {
             title: `Level ${this.pokemon.level} ${this.pokemon.displayName}`,

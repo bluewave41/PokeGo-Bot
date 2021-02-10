@@ -59,7 +59,8 @@ class ShopCommand extends Command {
                     //add item to inv
                     await InventoryCommands.addItems(this.msg.userId, item.id, this.amount);
                 }
-                await UserCommands.removeCurrency(this.msg.userId, item.price * this.amount);
+                await User.query().decrement('currency', item.price * this.amount)
+                    .where('userId', this.msg.userId);
 
                 embed.description = `You bought ${this.amount} ${this.amount == 1 ? item.name : item.plural} for ${item.price*this.amount} ${EmojiList.COIN}!`;
                 embed.footer = `You now have: ${user.currency - item.price * this.amount}₽.`
@@ -71,7 +72,8 @@ class ShopCommand extends Command {
                 canSellItems(itemCount, this.amount);
         
                 await InventoryCommands.removeItems(this.msg.userId, item.id, this.amount);
-                await UserCommands.addCurrency(this.msg.userId, item.sellPrice * this.amount);
+                await User.query().increment('currency', item.sellPrice * this.amount)
+                    .where('userId', this.msg.userId);
         
                 embed.description = `You sold ${this.amount} ${this.amount == 1 ? item.name : item.plural} for ${item.sellPrice * this.amount} ${EmojiList.COIN}.`;
                 embed.footer = `You now have: ${user.currency + item.sellPrice * this.amount}₽.`
