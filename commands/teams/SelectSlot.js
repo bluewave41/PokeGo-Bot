@@ -1,8 +1,8 @@
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Pokemon = require('~/knex/models/Pokemon');
 const PokemonListBuilder = require('~/data/Builders/PokemonListBuilder');
 const Command = require('../Command');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -21,9 +21,11 @@ class SelectSlot extends Command {
         super.validate();
     }
     async run() {
-        const { teamId } = await UserCommands.getSaved(this.msg.userId)
+        const user = await User.query().select('saved')
+            .where('userId', this.msg.userId)
+            .first();
 
-        const saved = { teamId: teamId, slot: this.slot, page: 0 }
+        const saved = { teamId: user.json.teamId, slot: this.slot, page: 0 }
 
         const pokemon = await Pokemon.query().select('*')
             .offset(saved.page*25)
@@ -37,11 +39,13 @@ class SelectSlot extends Command {
 
         saved.count = count.pokemonCount;
         saved.maxPage = Math.ceil(count.pokemonCount/25);
-        
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'teams/SelectPokemon' },
-            { rowName: 'saved', value: JSON.stringify(saved) }
-        ]);
+
+        await User.query().update({
+            nextCommand: 'teams/SelectPokemon',
+            saved: JSON.stringify(saved)
+        })
+        .where('userId', this.msg.userId);
+
 
         const embed = {
             title: 'List',

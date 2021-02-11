@@ -2,7 +2,6 @@ var requireDir = require('require-dir');
 const Server = require('./knex/models/Server');
 const User = require('./knex/models/User');
 const Colors = require('./data/Lists/ColorList');
-const UserCommands = require('./data/ModelHandlers/UserCommands');
 var commands = Object.values(requireDir('./commands')).filter(el => el.options);
 const CustomError = require('~/lib/errors/CustomError');
 
@@ -57,7 +56,8 @@ async function parseReactions(reaction, user) {
     msg.author = user; //change the author 
     await init(msg);
     if(msg.nextCommand) {
-        const user = await UserCommands.getFields(msg.userId, ['lastMessageId', 'page', 'maxPage']);
+        const user = await User.query().select('lastMessageId', 'page', 'maxPage')
+            .where('userId', msg.userId);
         //ensure the message being reacted to belongs to the user
         if(user.lastMessageId == reaction.message.id) {
             let command = require('./commands/' + msg.nextCommand);
@@ -86,11 +86,16 @@ async function parseReactions(reaction, user) {
 
                 //if a valid page change was made
                 if(updateDisplay) {
-                    await UserCommands.update(msg.userId, [
-                        { rowName: 'page', value: user.page }
-                    ]);
+                    await User.query().update({
+                        page: user.page
+                    })
+                    .where('userId', msg.userId);
 
                     await command.buildNewPage(user.page);
+
+                    if(command.menu) { //this command shows a generic menu
+                        response = await command.menu.class.show(msg, command.menu.parameters);
+                    }
                 }
             }
         }

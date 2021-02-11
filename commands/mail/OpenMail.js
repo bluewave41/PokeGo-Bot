@@ -1,8 +1,8 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const MailCommands = require('../../data/ModelHandlers/MailCommands');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Command = require('../Command');
 const MailPageBuilder = require('~/data/Builders/MailPageBuilder');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -46,16 +46,16 @@ class OpenMail extends Command {
     async run() {
         const mail = await MailCommands.getMailBody(this.msg.userId, this.tableId);
         const saved = { mailId: mail.id }
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'saved', value: JSON.stringify(saved) }
-        ]);
+        await User.query().update({
+            saved: JSON.stringify({ mailId: mail.id })
+        })
+        .where('userId', this.msg.userId);
 
         let fields = [];
 
         if(mail.rewards && !mail.claimedRewards) {
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: 'mail/ClaimRewards' }
-            ]);
+            await User.setNextCommand(this.msg.userId, 'mail/ClaimRewards');
+
             for(var i=0;i<mail.rewardDisplay.length;i++) {
                 const reward = mail.rewardDisplay[i].split(' ');
                 const amount = reward.shift();
@@ -64,7 +64,7 @@ class OpenMail extends Command {
             }
         }
         else {
-            await UserCommands.reset(this.msg.userId);
+            await User.reset(this.msg.userId);
         }
 
         let description = mail.message;

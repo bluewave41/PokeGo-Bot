@@ -1,5 +1,4 @@
 const Command = require('../Command');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Teams = require('~/knex/models/Teams');
 const CustomError = require('~/lib/errors/CustomError');
 const PokemonBuilder = require('~/lib/PokemonBuilder');
@@ -9,6 +8,7 @@ const ShowBattleMenu = require('~/menus/ShowBattleMenu');
 const TeamListings = require('~/knex/models/TeamListings');
 const Utils = require('~/lib/Utils');
 const Rockets = require('~/knex/models/Rockets');
+const User = require(`~/knex/models/User`);
 
 const options = {
     names: [],
@@ -46,8 +46,11 @@ class StartBattle extends Command {
         }
     }
     async run() {
-        const user = await UserCommands.getFields(this.msg.userId, ['level', 'saved']);
-        const saved = Utils.parseJson(user.saved);
+        const user = await User.query().select('level', 'saved')
+            .where('userID', this.msg.userId)
+            .first();
+
+        const saved = user.json;
 
         const rocket = await Rockets.query().select('*')
             .where('rocketId', saved.rocketId)
@@ -82,9 +85,7 @@ class StartBattle extends Command {
         .where('teamId', this.team.teamId);
 
         //update command
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'battle/SimulateTurn' }
-        ]);
+        await User.setNextCommand(this.msg.userId, 'battle/SimulateTurn');
 
         this.menu = {
             class: ShowBattleMenu,

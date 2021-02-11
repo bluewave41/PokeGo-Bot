@@ -1,12 +1,12 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Coordinates = require('~/data/Lists/CoordinateList');
 const { add } = require('date-fns');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const TravelRequests = require('~/knex/models/TravelRequests');
 const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
 const ItemEnums = require('~/data/Lists/ItemEnums');
 const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -31,18 +31,22 @@ class SelectLocation extends Command {
         }
 
         //instant travel for travel ticket usage
-        const saved = await UserCommands.getSaved(this.msg.userId);
+        const user = await User.query().select('saved')
+            .where('userId', this.msg.userId)
+            .first();
+        const saved = user.json;
         if(saved && saved.instantTravel) {
             await TravelRequests.query().delete()
                 .where('userId', this.msg.userId);
 
             await InventoryCommands.removeItems(this.msg.userId, ItemEnums.TRAVEL_TICKET, 1);
 
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: null },
-                { rowName: 'saved', value: null, },
-                { rowName: 'location', value: this.choice }
-            ]);
+            await User.query().update({
+                nextCommand: null,
+                saved: null,
+                location: this.choice
+            })
+            .where('userId', this.msg.userId);
 
             const embed = {
                 title: 'Traveled!',
@@ -52,10 +56,12 @@ class SelectLocation extends Command {
             return EmbedBuilder.build(this.msg, embed);
         }
 
-        const oldLocation = (await UserCommands.getFields(this.msg.userId, 'location')).location;
+        const user = await User.query().select('location')
+            .where('userId', this.msg.userId)
+            .first();
 
-        const distance = Math.abs(oldLocation.charCodeAt(0) - this.choice.charCodeAt(0)) +
-                Math.abs(parseInt(oldLocation.slice(1)) - parseInt(this.choice.slice(1)));
+        const distance = Math.abs(user.location.charCodeAt(0) - this.choice.charCodeAt(0)) +
+                Math.abs(parseInt(user.location.slice(1)) - parseInt(this.choice.slice(1)));
 
         const endTime = add(Date.now(), { minutes: distance*5 });
 
@@ -66,7 +72,7 @@ class SelectLocation extends Command {
             endTime: endTime
         });
 
-        await UserCommands.reset(this.msg.userId);
+        await User.reset(this.msg.userId);
 
         let embed = {
             title: 'Traveling',

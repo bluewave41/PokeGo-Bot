@@ -2,7 +2,7 @@ const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Teams = require('~/data/Lists/TeamList');
 const ColorList = require('~/data/Lists/ColorList');
 const Command = require('../Command');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -25,9 +25,10 @@ class SelectTeam extends Command {
     }
     async run() {
         const team = Teams.teams[this.choice-1];
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'team', value: this.choice }
-        ]);
+        await User.query().update({
+            team: this.choice
+        })
+        .where('userId', this.msg.userId);
 
         const embed = {
             title: 'Team selected',
@@ -35,7 +36,7 @@ class SelectTeam extends Command {
             color: ColorList[this.choice],
         }
     
-        await UserCommands.reset(this.msg.userId);
+        await User.reset(this.msg.userId);
         return EmbedBuilder.build(this.msg, embed);
     }
 }

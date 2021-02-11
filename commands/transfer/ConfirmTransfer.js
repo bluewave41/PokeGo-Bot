@@ -1,8 +1,8 @@
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
 const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -22,7 +22,10 @@ class ConfirmTransfer extends Command {
         isConfirmation(this.confirm);
     }
     async run() {
-        const saved = await UserCommands.getSaved(this.msg.userId);
+        const user = await User.query().select('saved')
+            .where('userId', this.msg.userId)
+            .fitst();
+        const saved = user.json;
         const pokemonId = saved.pokemonId;
         let pokemon = await PokemonCommands.getStrictPokemon(this.msg.userId, pokemonId);
         pokemon = await PokemonCommands.transferPokemon(this.msg.userId, pokemon.pokemonId);
@@ -33,7 +36,7 @@ class ConfirmTransfer extends Command {
             image: pokemon.url
         }
 
-        await UserCommands.reset(this.msg.userId);
+        await User.reset(this.msg.userId);
         return EmbedBuilder.build(this.msg, embed);
     }
 }

@@ -5,7 +5,7 @@ const CustomError = require('~/lib/errors/CustomError');
 const PokemonBuilder = require('~/lib/PokemonBuilder');
 const InventoryCommands = require('../../data/ModelHandlers/InventoryCommands');
 const PokemonCommands = require('../../data/ModelHandlers/PokemonCommands');
-const UserCommands = require('../../data/ModelHandlers/UserCommands');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -33,9 +33,10 @@ class SelectStarterPokemon extends Command {
         
         await PokemonCommands.catchPokemon(this.msg.userId, pokemon, 3);
         await InventoryCommands.addItems(this.msg.userId, 1, 5);
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'gotStarter', value: true},
-        ]);
+        await User.query().update({
+            gotStarter: true
+        })
+        .where('userId', this.msg.userId);
         
         let embed = {
             title: 'Starter',
@@ -43,7 +44,8 @@ class SelectStarterPokemon extends Command {
             image: pokemon.url
         }
 
-        await UserCommands.reset(this.msg.userId);
+        await User.reset(this.msg.userId);
+
         return EmbedBuilder.build(this.msg, embed);
     }
 }

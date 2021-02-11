@@ -1,4 +1,3 @@
-const UserCommands = require("../data/ModelHandlers/UserCommands");
 const CustomError = require("../lib/errors/CustomError");
 const Utils = require("../lib/Utils");
 
@@ -105,26 +104,14 @@ class Command {
         }
         return 'string';
     }
-    async run() {
-        //setup the next command
-        if(this.reset) {
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: null },
-                { rowName: 'saved', value: null }
-            ]);
-        }
-        if(this.nextCommand !== undefined) {
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: this.nextCommand }
-            ]);
-        }
-    }
+    async run() {}
     async handlePagination(lastMessageId) {
-        if(this.entryCount > this.pagination.MAX_ENTRIES) {
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'page', value: 1 },
-                { rowName: 'maxPage', value: Math.ceil(this.entryCount/this.pagination.MAX_ENTRIES) } 
-            ]);
+        if(this.pagination.entryCount > this.pagination.MAX_ENTRIES) {
+            await User.query().update({
+                page: 1,
+                maxPage: Math.ceil(this.pagination.entryCount/this.pagination.MAX_ENTRIES)
+            })
+            .where('userId', this.msg.userId);
 
             const message = await this.msg.channel.messages.fetch(lastMessageId);
             for(var i=0;i<this.pagination.emojis.length;i++) {

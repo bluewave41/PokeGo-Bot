@@ -1,8 +1,8 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Teams = require('~/knex/models/Teams');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Command = require('./Command');
 const TeamListBuilder = require('~/data/Builders/TeamListBuilder');
+const User = require('~/knex/models/User');
 
 const options = {
     names: ['teams'],
@@ -19,11 +19,12 @@ class TeamsCommand extends Command {
     async run() {
         const teams = await Teams.query().select('*')
             .withGraphFetched('pokemon')
-            .where('player_teams.userId', this.msg.userId).debug();
-
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'teams/QueryTeam' }
-        ]);
+            .where('player_teams.userId', this.msg.userId);
+        
+        await User.query().update({
+            nextCommand: 'teams/QueryTeam'
+        })
+        .where('userId', this.msg.userId);
 
         const embed = {
             title: 'Teams',

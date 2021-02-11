@@ -2,8 +2,8 @@ const Command = require('../Command');
 const Battles = require('~/knex/models/Battles');
 const CustomError = require('~/lib/errors/CustomError');
 const TeamListings = require('~/knex/models/TeamListings');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const ShowBattleMenu = require('~/menus/ShowBattleMenu');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -46,9 +46,7 @@ class SwitchPokemon extends Command {
         if(pokemon.hp <= 0) {
             throw new CustomError('FAINTED_POKEMON');
         }
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'battle/SimulateTurn' }
-        ]);
+        await User.setNextCommand(this.msg.userId, 'battle/Simulateturn');
 
         this.menu = {
             class: ShowBattleMenu,
@@ -88,9 +86,7 @@ class SwitchPokemon extends Command {
             .where('userId', this.msg.userId);
         }
 
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'battle/SimulateTurn' }
-        ]);
+        await User.setNextCommand(this.msg.userId, 'battle/SimulateTurn');
 
         this.menu = {
             class: ShowBattleMenu,

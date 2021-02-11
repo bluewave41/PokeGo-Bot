@@ -15,9 +15,9 @@ class PokemonStorage {
         this.requiredLevel = 0;
         this.type = 'storage';
     }
-    async buy(userId) {
+    async buy(msg) {
         await User.query().increment('storage', 50)
-            .where('userId', userId);
+            .where('userId', msg.userId);
     }
 }
 

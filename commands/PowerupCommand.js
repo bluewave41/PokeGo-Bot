@@ -3,16 +3,15 @@ const PowerupBuilder = require('./powerup/PowerupBuilder');
 const PowerupList = require('~/data/Lists/PowerupList');
 const CustomError = require('../lib/errors/CustomError');
 const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const CandyCommands = require('~/data/ModelHandlers/CandyCommands');
 const Command = require('./Command');
+const User = require('~/knex/models/User');
 
 const options = {
     names: ['powerup'],
     expectedParameters: [
         { name: 'pokemonId', type: ['number'], optional: false }
     ],
-    nextCommand: 'powerup/PowerupResponse',
 }
 
 class PowerupCommand extends Command {
@@ -51,9 +50,11 @@ class PowerupCommand extends Command {
                 requiredCandy: nextLevel.candy,
                 times: 1,
             }
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'saved', value: JSON.stringify(saved) }
-            ]);
+
+            await User.query().update({
+                saved: JSON.stringify(saved)
+            })
+            .where('userId', this.msg.userId);
 
             const data = {
                 pokemon: this.pokemon,
@@ -64,7 +65,7 @@ class PowerupCommand extends Command {
                 howManyLevels: howManyLevels
             }
 
-            super.run();
+            await User.setNextCommand(this.msg.userId, 'powerup/PowerupResponse');
             return EmbedBuilder.build(this.msg, PowerupBuilder.build(this.msg, data));
         }
         else {

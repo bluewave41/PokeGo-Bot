@@ -1,10 +1,10 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Emojis = require('~/data/Lists/EmojiList');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const PokemonCommands = require('../data/ModelHandlers/PokemonCommands');
 const InventoryCommands = require('../data/ModelHandlers/InventoryCommands');
 const LevelList = require('~/data/Lists/LevelList');
 const Command = require('./Command');
+const User = require('~/knex/models/User');
 
 const options = {
     names: ['info'],
@@ -20,8 +20,9 @@ class InfoCommand extends Command {
         super.validate();
     }
     async run() {
-        const infoParameters = ['xp', 'level', 'currency', 'totalxp', 'stardust', 'storage', 'itemstorage', 'location'];
-        const user = await UserCommands.getFields(this.msg.userId, infoParameters);
+        const user = await User.query().select('xp', 'level', 'currency', 'totalxp', 'stardust', 'storage', 'itemstorage', 'location')
+            .where('userId', this.msg.userId)
+            .first();
 
         const pokemonCount = await PokemonCommands.getPokemonCount(this.msg.userId);
         const itemCount = await InventoryCommands.getTotalItemCount(this.msg.userId);

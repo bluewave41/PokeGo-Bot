@@ -1,7 +1,7 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const MailCommands = require('../data/ModelHandlers/MailCommands');
 const Command = require('./Command');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const User = require('~/knex/models/User');
 const MailPageBuilder = require('~/data/Builders/MailPageBuilder');
 
 const options = {
@@ -20,15 +20,16 @@ class MailCommand extends Command {
     async validate() {
         super.validate();
         this.mail = await MailCommands.getMailTitles(this.msg.userId, 1);
-        this.entryCount = this.mail.length ? this.mail[0].count : 0;
+        this.pagination.entryCount = this.mail.length ? this.mail[0].count : 0;
     }
     async run() {
         const embed = MailPageBuilder.build(this.mail, 1);
 
         if(this.mail.length) {
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: 'mail/OpenMail' },
-            ]);
+            await User.query().update({
+                nextCommand: 'mail/OpenMail'
+            })
+            .where('userID', this.msg.userId)
         }
 
         return EmbedBuilder.build(this.msg, embed);

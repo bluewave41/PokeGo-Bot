@@ -1,7 +1,7 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const CustomError = require('~/lib/errors/CustomError');
 const Command = require('./Command');
+const User = require('~/knex/models/User');
 
 const options = {
     names: ['quit'],
@@ -37,7 +37,7 @@ class QuitCommand extends Command {
             return;
         }
 
-        await UserCommands.reset(this.msg.userId);
+        await User.reset(this.msg.userId);
 
         embed = {
             title: 'Quit',

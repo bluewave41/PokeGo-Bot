@@ -1,7 +1,9 @@
-const HealPokemonMenu = require('~/menus/HealPokemonMenu');
 const Pokemon = require('~/knex/models/Pokemon');
+const User = require('~/knex/models/User');
 const CustomError = require('~/lib/errors/CustomError');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const ItemState = require('~/lib/ItemState');
+const HealPokemonBuilder = require('~/data/Builders/HealPokemonBuilder');
+const { raw } = require('objection');
 
 class Revive {
     constructor() {
@@ -19,23 +21,27 @@ class Revive {
         this.requiresEncounter = false;
         this.type = 'revive';
     }
-    async use(userId) {
-        const pokemon = await Pokemon.query().select('*')
-            .where('ownerId', userId);
+    async use(msg) {
+        const pokemon = await Pokemon.query().select('*', raw('COUNT(*) OVER() AS count'))
+            .limit(25)
+            .where('hp', 0)
+            .where('ownerId', msg.userId);
+
         if(!pokemon.length) {
             throw new CustomError('NO_FAINTED_POKEMON');
         }
-        await UserCommands.update(userId, [
-            { rowName: 'nextCommand', value: 'items/RevivePokemon' },
-            { rowName: 'saved', value: JSON.stringify({ multiplier: 0.5 })}
-        ]);
-        this.menu = {
-            class: HealPokemonMenu,
-            parameters: {
-                title: 'Revive Pokemon',
-                pokemon: pokemon,
-            }
-        }
+
+        await User.query().update({
+            nextCommand: 'items/RevivePokemon',
+            saved: JSON.stringify({ multiplier: 0.5 })
+        })
+        .where('userId', msg.userId);
+
+        return new ItemState('Revive Pokemon', HealPokemonBuilder.build(pokemon), {
+            emojis: ['⬅️', '➡️'],
+            MAX_ENTRIES: 25,
+            entryCount: pokemon[0].count
+        })
     }
 }
 

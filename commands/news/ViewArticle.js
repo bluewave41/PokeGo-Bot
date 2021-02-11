@@ -1,8 +1,8 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const NewsCommands = require('~/data/ModelHandlers/NewsCommands');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -58,7 +58,7 @@ class ViewArticle extends Command {
             footer: article.created_at.toString().substring(0, 10)
         }
 
-        await UserCommands.reset(this.msg.userId);
+        await User.reset(this.msg.userId);
         
         return EmbedBuilder.build(this.msg, embed);
     }

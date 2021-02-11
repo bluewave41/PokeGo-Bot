@@ -1,6 +1,6 @@
 const Command = require('../Command');
 const Battle = require('./Battle');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const User = require('~/knex/models/User');
 const SelectTeamMemberMenu = require('~/menus/SelectTeamMemberMenu');
 const ShowBattleMenu = require('~/menus/ShowBattleMenu');
 
@@ -43,15 +43,11 @@ class UseShield extends Command {
                     team: battle.getTeam()
                 }
             }
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: 'battle/SwitchPokemon' }
-            ]);
+            await User.setNextCommand(this.msg.userId, 'battle/SwitchPokemon');
             return;
         }
         else {
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: 'battle/SimulateTurn' }
-            ]);
+            await User.setNextCommand(this.msg.userId, 'battle/SimulateTurn');
         }
 
         //unsure if this one is needed

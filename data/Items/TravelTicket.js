@@ -23,7 +23,7 @@ class TravelTicket {
             nextCommand: 'travel/SelectLocation',
             saved: JSON.stringify(json)
         })
-        .where('userId', userId);
+        .where('userId', msg.userId);
 
         const map = await fs.readFile('images/numberedmap.png', 'base64');
 

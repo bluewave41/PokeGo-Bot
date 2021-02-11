@@ -1,10 +1,10 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Teams = require('~/knex/models/Teams');
 const Command = require('../Command');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const TeamBuilder = require('~/data/Builders/TeamBuilder');
 const CustomError = require('~/lib/errors/CustomError');
 const TeamListBuilder = require('~/data/Builders/TeamListBuilder');
+const User = require('~/knex/models/User');
 
 //create name - done
 //delete name - done
@@ -54,7 +54,7 @@ class QueryTeam extends Command {
         }
     }
     async run() {
-        let team, saved, embed;
+        let team, embed;
         switch(this.action) {
             case 'create':
                 let { highest } = await Teams.query().max('teamId as highest')
@@ -71,12 +71,12 @@ class QueryTeam extends Command {
                     name: this.name
                 });
 
-                saved = { teamId: team.teamId }
-        
-                await UserCommands.update(this.msg.userId, [
-                    { rowName: 'nextCommand', value: 'teams/SelectSlot' },
-                    { rowName: 'saved', value: JSON.stringify(saved) }
-                ]);
+
+                await User.query().update({
+                    nextCommand: 'teams/SelectSlot',
+                    saved: JSON.stringify({ teamId: team.teamId })
+                })
+                .where('userId', this.msg.userId);
 
                 //this was just created so we don't need TeamBuilder here as it's empty
                 embed = {
@@ -92,12 +92,11 @@ class QueryTeam extends Command {
                     .where('name', this.name)
                     .first();
     
-                saved = { teamId: team.teamId }
-            
-                await UserCommands.update(this.msg.userId, [
-                    { rowName: 'nextCommand', value: 'teams/SelectSlot' },
-                    { rowName: 'saved', value: JSON.stringify(saved) }
-                ]);
+                await User.query().update({
+                    nextCommand: 'teams/SelectSlot',
+                    saved: JSON.stringify({ teamId: team.teamId })
+                })
+                .where('userId', this.msg.userId);
     
                 embed = {
                     title: this.name,

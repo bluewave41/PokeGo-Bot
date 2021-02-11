@@ -4,11 +4,11 @@ const Battles = require('../../knex/models/Battles');
 const CustomError = require('../../lib/errors/CustomError');
 const TeamListings = require('~/knex/models/TeamListings');
 const SelectTeamMemberMenu = require('~/menus/SelectTeamMemberMenu');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const ShowBattleMenu = require('~/menus/ShowBattleMenu');
 const WonBattleMenu = require('~/menus/WonBattleMenu');
 const Battle = require('./Battle');
 const Caught = require('~/knex/models/Caught');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -69,9 +69,7 @@ class SimulateTurn extends Command {
             const response = await battle.handleTurn(this.action);
             if(battle.menu) {
                 this.menu = battle.menu;
-                await UserCommands.update(this.msg.userId, [
-                    { rowName: 'nextCommand', value: 'battle/UseShield' }
-                ]);
+                await User.setNextCommand(this.msg.userId, 'battle/UseShield');
                 return;
             }
             if(response.player) {
@@ -83,9 +81,7 @@ class SimulateTurn extends Command {
                         team: battle.getTeam()
                     }
                 }
-                await UserCommands.update(this.msg.userId, [
-                    { rowName: 'nextCommand', value: 'battle/SwitchPokemon' }
-                ]);
+                await User.setNextCommand(this.msg.userId, 'battle/SwitchPokemon');
                 return;
             }
             else if(response.switch) {
@@ -100,15 +96,13 @@ class SimulateTurn extends Command {
                         team: battle.getTeam()
                     }
                 }
-                await UserCommands.update(this.msg.userId, [
-                    { rowName: 'nextCommand', value: 'battle/SwitchPokemon' }
-                ]);
+                await User.setNextCommand(this.msg.userId, 'battle/SwitchPokemon');
                 return;
             }
             if(response.rocket) {
                 let nextRocketPokemon = battle.rocketTeam.find(el => el.hp > 0);
                 if(!nextRocketPokemon) {
-                    await UserCommands.reset(this.msg.userId);
+                    await User.reset(this.msg.userId);
                     await Caught.query().insert({
                         userId: this.msg.userId,
                         encounterId: battle.rocketId
@@ -118,9 +112,7 @@ class SimulateTurn extends Command {
                     this.menu = {
                         class: WonBattleMenu,
                     }
-                    await UserCommands.update(this.msg.userId, [
-                        { rowName: 'nextCommand', value: 'reward/StartEncounter' }
-                    ]);
+                    await User.setNextCommand(this.msg.userId, 'reward/StartEncounter');
                 }
                 else {
                     this.menu = {

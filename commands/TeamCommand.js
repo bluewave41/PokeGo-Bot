@@ -1,6 +1,6 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Teams = require('~/data/Lists/TeamList');
+const User = require('~/knex/models/User');
 const Command = require('./Command');
 const CustomError = require('~/lib/errors/CustomError');
 
@@ -16,7 +16,10 @@ class TeamCommand extends Command {
     }
     async validate() {
         super.validate();
-        const user = await UserCommands.getFields(this.msg.userId, ['team', 'level']);
+        const user = await User.query().select('team',' level')
+            .where('userId', this.msg.userId)
+            .first();
+
         if(user.team) {
             throw new CustomError('ALREADY_SELECTED_TEAM');
         }
@@ -32,13 +35,17 @@ class TeamCommand extends Command {
             let team = teams[i];
             description += `${i+1}. ${team.name} ${team.emoji}\n`
         }
+
+        await User.query().update({
+            nextCommand: 'team/SelectTeam'
+        })
+        .where('userId', this.msg.userId);
     
         const embed = {
             title: 'Select a team',
             description: description,
         }
     
-        super.run();
         return EmbedBuilder.build(this.msg, embed);
     }
 }

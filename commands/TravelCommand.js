@@ -3,7 +3,6 @@ const fs = require('fs').promises;
 const TravelRequests = require('~/knex/models/TravelRequests');
 const User = require(`~/knex/models/User`);
 const Coordinates = require('~/data/Lists/CoordinateList');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const { add, differenceInMilliseconds } = require('date-fns');
 const Command = require('./Command');
 const CustomError = require('~/lib/errors/CustomError');
@@ -88,10 +87,12 @@ class TravelCommand extends Command {
                 throw new CustomError('INVALID_TRAVEL_LOCATION');
             }
 
-            const oldLocation = (await UserCommands.getFields(this.msg.userId, 'location')).location;
+            const user = await User.query().select('location')
+                .where('userId', this.msg.userId)
+                .first();
 
-            const distance = Math.abs(oldLocation.charCodeAt(0) - this.choice.charCodeAt(0)) +
-                    Math.abs(parseInt(oldLocation.slice(1)) - parseInt(this.choice.slice(1)));
+            const distance = Math.abs(user.location.charCodeAt(0) - this.choice.charCodeAt(0)) +
+                    Math.abs(parseInt(user.location.slice(1)) - parseInt(this.choice.slice(1)));
 
             const endTime = add(Date.now(), { minutes: distance*5 });
 
@@ -102,7 +103,7 @@ class TravelCommand extends Command {
                 endTime: endTime
             });
 
-            await UserCommands.reset(this.msg.userId);
+            await User.reset(this.msg.userId);
 
             let embed = {
                 title: 'Travelling',
@@ -112,9 +113,10 @@ class TravelCommand extends Command {
             return EmbedBuilder.build(this.msg, embed);
         }
         else {
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: 'travel/SelectLocation' }
-            ]);
+            await User.query().update({
+                nextCommand: 'travel/SelectLocation'
+            })
+            .where('userId', this.msg.userId);
 
             const map = await fs.readFile('images/numberedmap.png', 'base64');
 

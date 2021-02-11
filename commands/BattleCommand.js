@@ -1,5 +1,4 @@
 const Command = require('./Command');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Battles = require('../knex/models/Battles');
 const RocketPokemon = require('../knex/models/RocketPokemon');
 const SelectTeamMenu = require('~/menus/SelectTeamMenu');
@@ -27,9 +26,10 @@ class BattleCommand extends Command {
         await Battles.query().delete();
         await RocketPokemon.query().delete();
 
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'battle/StartBattle' }
-        ]);
+        await User,query().update({
+            nextCommand: 'battle/StartBattle'
+        })
+        .where('userId', this.msg.userId);
     }
 }
 

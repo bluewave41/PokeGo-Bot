@@ -18,11 +18,11 @@ class FastTM {
         this.requiresEncounter = false;
         this.type = 'tm';
     }
-    async use(userId, pokemonId) {
+    async use(msg, pokemonId) {
         if(!pokemonId) {
             throw new CustomError('MISSING_PARAMETER', 'pokemonId');
         }
-        const pokemon = await PokemonCommands.getStrictPokemon(userId, pokemonId);
+        const pokemon = await PokemonCommands.getStrictPokemon(msg.userId, pokemonId);
         let moves = pokemon.getLearnableFastMoves(false).filter(el => el[0] != pokemon.fastMove)
         const newMove = MoveList[moves[Math.floor(Math.random() * moves.length)][0]];
 

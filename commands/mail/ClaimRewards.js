@@ -2,9 +2,9 @@ const Mail = require('~/knex/models/Mail');
 const CustomError = require('~/lib/errors/CustomError');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Command = require('../Command');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const MailCommands = require('~/data/ModelHandlers/MailCommands');
 const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
+const User = require('~/knex/models/User');
 
 const options = {
     names: [],
@@ -30,7 +30,9 @@ class ClaimRewards extends Command {
         await message.delete();
     }
     async run() {
-        const saved = await UserCommands.getSaved(this.msg.userId);
+        const user = await User.query().select('saved')
+            .where('userId', this.msg.userId);
+        const saved = user.json;
         const mailId = saved.mailId;
         const mail = await MailCommands.getRewards(this.msg.userId, mailId);
 
@@ -50,7 +52,7 @@ class ClaimRewards extends Command {
         })
         .where('id', mailId);
 
-        await UserCommands.reset(this.msg.userId);
+        await User.reset(this.msg.userId);
     
         const embed = {
             title: 'Claimed',

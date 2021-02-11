@@ -1,5 +1,8 @@
 module.exports = {
-    build(pokemonList) {
+    build(pokemonList, type) {
+        if(!pokemonList.length) {
+            return `You have no Pokemon to ${type}.`;
+        }
         let description = '';
         for(var i=0;i<pokemonList.length;i++) {
             let pokemon = pokemonList[i];

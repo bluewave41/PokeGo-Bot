@@ -55,7 +55,7 @@ class StartEncounter extends Command {
                 title: 'Items',
                 description: 'You received: \n' + ItemListBuilder.build(receivedItems),
             }
-            await UserCommands.reset(this.msg.userId);
+            await User.reset(this.msg.userId);
             await UserCommands.addXP(this.msg.userId, 100);
             return EmbedBuilder.build(this.msg, embed);
         }
@@ -67,12 +67,12 @@ class StartEncounter extends Command {
             }
 
             const rocket = RocketTable.find(el => el.type == encounter.type);
-            const json = { type: rocket.type, rocketId: encounter.rocketId }
 
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: 'battle/StartBattle' },
-                { rowName: 'saved', value: JSON.stringify(json) }
-            ]);
+            await User.query().update({
+                nextCommand: 'battle/StartBattle',
+                saved: JSON.stringify({ type: rocket.type, rocketId: encounter.rocketId })
+            })
+            .where('userId', this.msg.userId);
 
             this.menu = {
                 class: SelectTeamMenu,
@@ -131,9 +131,7 @@ class StartEncounter extends Command {
                 type: 'pokemon'
             }
 
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: 'encounter/SelectSquare' }
-            ])
+            await User.setNextCommand(this.msg.userId, 'encounter/SelectSquare');
 
             const embed = EncounterBuilder.build(this.msg, data);
             return EmbedBuilder.build(this.msg, embed);

@@ -2,10 +2,11 @@ const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Emojis = require('~/data/Lists/EmojiList');
 const Command = require('./Command');
 const { differenceInMilliseconds, add } = require('date-fns');
-const UserCommands = require('../data/ModelHandlers/UserCommands');
+const User = require('~/knex/models/Users');
 const CustomError = require('~/lib/errors/CustomError');
 const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const ItemEnums = require('~/data/Lists/ItemEnums');
+const { ref } = require('objection');
 
 const options = {
     names: ['daily'],
@@ -20,20 +21,26 @@ class DailyCommand extends Command {
         super.validate();
     }
     async run() {
-        const user = await UserCommands.getFields(this.msg.userId, ['streak',' lastDaily', 'currency']);
+        const user = await User.query().select('streak', 'lastDaily', 'currency')  
+            .where('userID', this.msg.userId)
+            .first();
+
         const newStreak = canWeDoDaily(user.lastDaily, user.streak);
 
         const earned = newStreak*100;
         if(earned > 2000) {
             earned = 2000;
         }
-    
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'streak', value: user.newStreak },
-            { rowName: 'currency', value: earned, flag: 'increment' },
-            { rowName: 'lastdaily', value: new Date() }
-        ]);
 
+        await User.query().update({
+            streak: user.newStreak,
+            currency: ref('currency') + earned,
+            lastDaily: new Date()
+        })
+        .where('userId',this.msg.userId);
+    
+
+        //TODO: should this be given every 3 days?
         await InventoryCommands.addItems(this.msg.userId, ItemEnums.TRAVEL_TICKET, 1);
 
         let description = `You're on a ${newStreak} day streak! You received:\n`;

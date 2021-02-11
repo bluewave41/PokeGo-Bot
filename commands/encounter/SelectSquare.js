@@ -6,6 +6,7 @@ const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const PowerupList = require('~/data/Lists/PowerupList');
 const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Caught = require('~/knex/models/Caught');
+const User = require('~/knex/models/User');
 const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
 const ItemHandler = require('~/lib/ItemHandler');
@@ -72,9 +73,7 @@ class SelectSquare extends Command {
                 }
 
                 await UserCommands.addXP(this.msg.userId, xpGained);
-                await UserCommands.update(this.msg.userId, [
-                    { rowName: 'nextCommand', value: null}
-                ]);
+                await User.reset(this.msg.userId);
 
                 //don't insert shadows into this
                 if(encounter.encounterId) {
@@ -141,9 +140,7 @@ class SelectSquare extends Command {
 
         //User has no Pokeballs so we should force quit the encounter
         if(totalPokeballs <= 0) {
-            await UserCommands.update(this.msg.userId, [
-                { rowName: 'nextCommand', value: null}
-            ]);
+            await User.reset(this.msg.userId);
 
             await PlayerEncounters.query().delete()
                 .where('userId', this.msg.userId);

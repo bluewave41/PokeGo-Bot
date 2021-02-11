@@ -1,8 +1,8 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const StarterList = require('~/data/Lists/StartersList');
 const Command = require('./Command');
 const CustomError = require('../lib/errors/CustomError');
+const User = require('~/knex/models/User');
 
 const options = {
     names: ['starter'],
@@ -15,8 +15,10 @@ class StarterCommand extends Command {
     }
     async validate() {
         super.validate();
-        const { gotStarter } = await UserCommands.getFields(this.msg.userId, 'gotStarter');
-        if(gotStarter) {
+        const user = await User.query().select('gotStarter')
+            .where('userId', this.msg.userId)
+            .first();
+        if(user.gotStarter) {
             throw new CustomError('ALREADY_HAVE_STARTER');
         }
     }
@@ -29,9 +31,11 @@ class StarterCommand extends Command {
             fields: starters,
         }
 
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'starter/SelectStarterPokemon' }
-        ]);
+        await User.query().update({
+            nextCommand: 'starter/SelectStarterPokemon'
+        })
+        .where('userID', this.msg.userId);
+
         return EmbedBuilder.build(this.msg, embed);
     }
 }

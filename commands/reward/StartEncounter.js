@@ -7,8 +7,8 @@ const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 const TypeList = require('~/data/Lists/TypeList');
 const ItemHandler = require('~/lib/ItemHandler');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Battles = require('~/knex/models/Battles');
+const User = require('~/knex/models/User');
 const TeamListings = require('~/knex/models/TeamListings');
 
 const options = {
@@ -84,9 +84,7 @@ class StartEncounter extends Command {
 
         await this.quit();
 
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'encounter/SelectSquare' }
-        ]);
+        await User.setNextCommand(this.msg.userId, 'encounter/SelectSquare');
 
         const embed = EncounterBuilder.build(this.msg, data);
         return EmbedBuilder.build(this.msg, embed);

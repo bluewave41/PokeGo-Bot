@@ -7,6 +7,20 @@ class User extends Model {
     static get idColumn() {
         return 'userId';
     }
+
+    static async reset(userId) {
+        await this.query().update({
+            nextCommand: null,
+            saved: null
+        })
+        .where('userId', userId);
+    }
+    static async setNextCommand(userId, nextCommand) {
+        await this.query().update({
+            nextCommand: nextCommand
+        })
+        .where('userId', userId);
+    }
 	
 	static get relationMappings() {
         const Pokemon = require('./Pokemon');
@@ -48,6 +62,9 @@ class User extends Model {
                 }
             }
 		}
+    }
+    get json() {
+        return JSON.parse(this.saved);
     }
 }
 

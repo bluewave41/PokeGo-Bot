@@ -1,7 +1,7 @@
 const Command = require("../Command");
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const Pokemon = require('~/knex/models/Pokemon');
+const User = require('~/knex/models/User');
 const PokemonListBuilder = require('~/data/Builders/PokemonListBuilder');
 const Teams = require('~/knex/models/Teams');
 const TeamBuilder = require('~/data/Builders/TeamBuilder');
@@ -26,7 +26,10 @@ class SelectPokemon extends Command {
         await PokemonCommands.getStrictPokemon(this.msg.userId, this.pokemonId);
     }
     async run() {
-        const saved = await UserCommands.getSaved(this.msg.userId);
+        const user = await User.query().select('saved')
+            .where('userID', this.msg.userId)
+            .first();
+        const saved = user.json;
 
         let team = await Teams.query().select('*')
             .withGraphFetched('pokemon')
@@ -64,9 +67,7 @@ class SelectPokemon extends Command {
             .where('teamId', saved.teamId)
             .first();
 
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'teams/SelectSlot' }
-        ]);
+        await User.setNextCommand(this.msg.userId, 'teams/SelectSlot');
 
         const embed = {
             title: team.name,
@@ -80,7 +81,10 @@ class SelectPokemon extends Command {
         if(!validEmojis.includes(reaction.emoji.name)) {
             return;
         }
-        const saved = await UserCommands.getSaved(msg.userId);
+        const user = await User.query().select('saved')
+            .where('userId', this.msg.userId)
+            .first();
+        const saved = user.json;
         switch(reaction.emoji.name) {
             case '⬅️':
                 if(saved.page-1 >= 0) {

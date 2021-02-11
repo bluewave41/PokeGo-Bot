@@ -4,7 +4,6 @@ const User = require('~/knex/models/User');
 const ItemHandler = require('~/lib/ItemHandler');
 const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const EmojiList = require('~/data/Lists/EmojiList');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const CustomError = require('~/lib/errors/CustomError');
 
 const options = {

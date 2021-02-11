@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const SocketServer = require('./SocketServer');
 const CommandRegistry = require('./CommandRegistry');
-const UserCommands = require('./data/ModelHandlers/UserCommands');
 require('./lib/Database');
 
 const server = new SocketServer(client);
@@ -39,9 +38,10 @@ client.on('message', async msg => {
         if(message.command.pagination) {
             await message.command.handlePagination(response.id);
         }
-        await UserCommands.update(msg.userId, [
-            { rowName: 'lastMessageId', value: response.id }
-        ]);
+        await User.query().update({
+            lastMessageId: response.id
+        })
+        .where('userId', msg.userId);
     }
 });
 

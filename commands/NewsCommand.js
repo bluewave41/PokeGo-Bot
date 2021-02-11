@@ -1,7 +1,7 @@
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const Command = require('./Command');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const NewsCommands = require('~/data/ModelHandlers/NewsCommands');
+const User = require('~/knex/models/User');
 
 const options = {
     names: ['news'],
@@ -19,7 +19,7 @@ class NewsCommand extends Command {
     async validate() {
         super.validate();
         this.articles = await NewsCommands.getNewsArticles(1, this.pagination.MAX_ENTRIES);
-        this.entryCount = this.articles.length ? this.articles[0].count : 0;
+        this.pagination.entryCount = this.articles.length ? this.articles[0].count : 0;
     }
     async run() {
         let description = '';
@@ -31,9 +31,10 @@ class NewsCommand extends Command {
             });
         }
 
-        await UserCommands.update(this.msg.userId, [
-            { rowName: 'nextCommand', value: 'news/ViewArticle' }
-        ]);
+        await User.query().update({
+            nextCommand: 'news/ViewArticle'
+        })
+        .where('userId', this.msg.userId);
         
         for(var i=0;i<this.articles.length;i++) {
             let article = this.articles[i];
@@ -43,7 +44,7 @@ class NewsCommand extends Command {
         return EmbedBuilder.build(this.msg, {
             title: 'News',
             description: description,
-            footer: `Page 1 of ${Math.ceil(this.entryCount/this.pagination.MAX_ENTRIES)} - ${this.entryCount} results.`
+            footer: `Page 1 of ${Math.ceil(this.pagination.entryCount/this.pagination.MAX_ENTRIES)} - ${this.pagination.entryCount} results.`
         });
     }
 }
