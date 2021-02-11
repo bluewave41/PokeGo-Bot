@@ -26,10 +26,7 @@ class MailCommand extends Command {
         const embed = MailPageBuilder.build(this.mail, 1);
 
         if(this.mail.length) {
-            await User.query().update({
-                nextCommand: 'mail/OpenMail'
-            })
-            .where('userID', this.msg.userId)
+            await User.setNextCommand(this.msg.userId, 'mail/OpenMail');
         }
 
         return EmbedBuilder.build(this.msg, embed);

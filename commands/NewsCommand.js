@@ -31,10 +31,7 @@ class NewsCommand extends Command {
             });
         }
 
-        await User.query().update({
-            nextCommand: 'news/ViewArticle'
-        })
-        .where('userId', this.msg.userId);
+        await User.setNextCommand(this.msg.userId, 'news/ViewArticle');
         
         for(var i=0;i<this.articles.length;i++) {
             let article = this.articles[i];

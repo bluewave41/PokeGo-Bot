@@ -57,7 +57,8 @@ async function parseReactions(reaction, user) {
     await init(msg);
     if(msg.nextCommand) {
         const user = await User.query().select('lastMessageId', 'page', 'maxPage')
-            .where('userId', msg.userId);
+            .where('userId', msg.userId)
+            .first();
         //ensure the message being reacted to belongs to the user
         if(user.lastMessageId == reaction.message.id) {
             let command = require('./commands/' + msg.nextCommand);

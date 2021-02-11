@@ -44,7 +44,8 @@ class StartEncounter extends Command {
     async run() {
         const user = await User.query().select('secretId')
             .withGraphFetched('medals')
-            .where('userId', this.msg.userId).first();
+            .where('userId', this.msg.userId)
+            .first();
 
         const pokemon = await RocketPokemon.query().select('pokedexId', 'cp', 'hp', 'hpiv', 'atkiv', 'defiv', 'fastMove', 'chargeMove', 'level', 'gender', 'shadow') 
             .where('userId', this.msg.userId)

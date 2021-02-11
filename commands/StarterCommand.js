@@ -31,10 +31,7 @@ class StarterCommand extends Command {
             fields: starters,
         }
 
-        await User.query().update({
-            nextCommand: 'starter/SelectStarterPokemon'
-        })
-        .where('userID', this.msg.userId);
+        await User.setNextCommand(this.msg.userId, 'starter/SelectStarterPokemon');
 
         return EmbedBuilder.build(this.msg, embed);
     }

@@ -7,7 +7,6 @@ const CustomError = require('~/lib/errors/CustomError');
 const options = {
     names: ['team'],
     expectedParameters: [],
-    nextCommand: 'Team/SelectTeam'
 }
 
 class TeamCommand extends Command {
@@ -36,10 +35,7 @@ class TeamCommand extends Command {
             description += `${i+1}. ${team.name} ${team.emoji}\n`
         }
 
-        await User.query().update({
-            nextCommand: 'team/SelectTeam'
-        })
-        .where('userId', this.msg.userId);
+        await User.setNextCommand(this.msg.userId, 'team/SelectTeam');
     
         const embed = {
             title: 'Select a team',

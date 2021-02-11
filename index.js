@@ -5,6 +5,7 @@ const client = new Discord.Client();
 const SocketServer = require('./SocketServer');
 const CommandRegistry = require('./CommandRegistry');
 require('./lib/Database');
+const User = require('~/knex/models/User');
 
 const server = new SocketServer(client);
 

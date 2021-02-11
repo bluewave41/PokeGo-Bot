@@ -1,7 +1,6 @@
 const Pokemon = require('~/knex/models/Pokemon');
 const User = require('~/knex/models/User');
 const CustomError = require('~/lib/errors/CustomError');
-const ItemState = require('~/lib/ItemState');
 const HealPokemonBuilder = require('~/data/Builders/HealPokemonBuilder');
 const { raw } = require('objection');
 
@@ -24,6 +23,8 @@ class Revive {
     async use(msg) {
         const pokemon = await Pokemon.query().select('*', raw('COUNT(*) OVER() AS count'))
             .limit(25)
+            .orderBy('cp', 'DESC')
+            .orderBy('pokemonId', 'DESC')
             .where('hp', 0)
             .where('ownerId', msg.userId);
 
@@ -37,11 +38,18 @@ class Revive {
         })
         .where('userId', msg.userId);
 
-        return new ItemState('Revive Pokemon', HealPokemonBuilder.build(pokemon), {
-            emojis: ['⬅️', '➡️'],
-            MAX_ENTRIES: 25,
-            entryCount: pokemon[0].count
-        })
+        return {
+            pagination: {
+                emojis: ['⬅️', '➡️'],
+                MAX_ENTRIES: 25,
+                entryCount: pokemon[0].count
+            },
+            embed: {
+                title: 'Revive Pokemon',
+                description: HealPokemonBuilder.build(pokemon, 'revive'),
+                footer: `Page 1 of ${Math.ceil(pokemon[0].count/25)} - ${pokemon[0].count} results.`
+            }
+        }
     }
 }
 

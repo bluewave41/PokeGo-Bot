@@ -31,7 +31,8 @@ class ShopCommand extends Command {
         }
 
         const user = await User.query().select('level', 'currency')
-            .where('userId', this.msg.userId).first();
+            .where('userId', this.msg.userId)
+            .first();
 
         let item;
 

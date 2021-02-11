@@ -31,10 +31,7 @@ class SelectLocation extends Command {
         }
 
         //instant travel for travel ticket usage
-        const user = await User.query().select('saved')
-            .where('userId', this.msg.userId)
-            .first();
-        const saved = user.json;
+        const saved = await User.getJSON(this.msg.userId);
         if(saved && saved.instantTravel) {
             await TravelRequests.query().delete()
                 .where('userId', this.msg.userId);

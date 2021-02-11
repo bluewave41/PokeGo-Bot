@@ -1,5 +1,6 @@
 const CustomError = require("../lib/errors/CustomError");
 const Utils = require("../lib/Utils");
+const User = require('~/knex/models/User');
 
 class Command {
     constructor(msg, options) {

@@ -21,10 +21,7 @@ class TeamsCommand extends Command {
             .withGraphFetched('pokemon')
             .where('player_teams.userId', this.msg.userId);
         
-        await User.query().update({
-            nextCommand: 'teams/QueryTeam'
-        })
-        .where('userId', this.msg.userId);
+        await User.setNextCommand(this.msg.userId, 'teams/QueryTeam');
 
         const embed = {
             title: 'Teams',

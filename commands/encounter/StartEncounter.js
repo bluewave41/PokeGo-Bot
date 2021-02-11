@@ -1,20 +1,22 @@
 const CurrentEncounters = require('~/knex/models/CurrentEncounters');
+const User = require('~/knex/models/User');
+const SpunPokestops = require('~/knex/models/SpunPokestops');
+const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const EncounterBuilder = require('~/data/Builders/EncounterBuilder');
 const ItemListBuilder = require('~/data/Builders/ItemListBuilder');
-const User = require('~/knex/models/User');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const EncounterCommands = require('~/data/ModelHandlers/EncounterCommands');
+const PokedexCommands = require('~/data/ModelHandlers/PokedexCommands');
+const UserCommands = require('~/data/ModelHandlers/UserCommands');
+const TeamsCommands = require('~/data/ModelHandlers/TeamsCommands');
 const CustomError = require('~/lib/errors/CustomError');
 const Utils = require('~/lib/Utils');
-const PlayerEncounters = require('../../knex/models/PlayerEncounters');
+const ItemHandler = require('~/lib/ItemHandler');
 const Command = require('../Command');
-const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
-const PokedexCommands = require('~/data/ModelHandlers/PokedexCommands');
 const TypeList = require('~/data/Lists/TypeList');
-const UserCommands = require('~/data/ModelHandlers/UserCommands');
 const RocketTable = require('../battle/RocketTable');
 const SelectTeamMenu = require('~/menus/SelectTeamMenu');
-const TeamsCommands = require('~/data/ModelHandlers/TeamsCommands');
 
 const options = {
     names: [],
@@ -35,7 +37,8 @@ class StartEncounter extends Command {
     async run() {
         const user = await User.query().select('level', 'itemstorage', 'secretId', 'location', 'level')
             .withGraphFetched('medals')
-            .where('userId', this.msg.userId).first();
+            .where('userId', this.msg.userId)
+            .first();
 
         const sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId, user.level);
 
@@ -150,7 +153,7 @@ async function spinPokestop(userId, level, storageLimit, pokestop) {
         throw new CustomError('ITEM_STORAGE_FULL');
     }
 
-    const possibleItems = ItemList.getPokestopItems(level);
+    const possibleItems = ItemHandler.getPokestopItems(level);
     let receivedItems = [];
     let amount = Math.floor(Math.random() * 3) + 3;
     for(var i=0;i<amount;i++) {
@@ -159,7 +162,10 @@ async function spinPokestop(userId, level, storageLimit, pokestop) {
         await InventoryCommands.addItems(userId, item.id, 1);
     }
 
-    await PokestopCommands.spin(userId, pokestop.id);
+    await SpunPokestops.query().insert({
+        userId: userId,
+        pokestopId: pokestop.id
+    });
 
     return receivedItems;
 }

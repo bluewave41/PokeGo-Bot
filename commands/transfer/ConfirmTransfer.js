@@ -22,10 +22,7 @@ class ConfirmTransfer extends Command {
         isConfirmation(this.confirm);
     }
     async run() {
-        const user = await User.query().select('saved')
-            .where('userId', this.msg.userId)
-            .fitst();
-        const saved = user.json;
+        const saved = await User.getJSON(this.msg.userId);
         const pokemonId = saved.pokemonId;
         let pokemon = await PokemonCommands.getStrictPokemon(this.msg.userId, pokemonId);
         pokemon = await PokemonCommands.transferPokemon(this.msg.userId, pokemon.pokemonId);

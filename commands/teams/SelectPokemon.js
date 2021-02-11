@@ -26,10 +26,7 @@ class SelectPokemon extends Command {
         await PokemonCommands.getStrictPokemon(this.msg.userId, this.pokemonId);
     }
     async run() {
-        const user = await User.query().select('saved')
-            .where('userID', this.msg.userId)
-            .first();
-        const saved = user.json;
+        const saved = User.getJSON(this.msg.userId);
 
         let team = await Teams.query().select('*')
             .withGraphFetched('pokemon')
@@ -81,10 +78,7 @@ class SelectPokemon extends Command {
         if(!validEmojis.includes(reaction.emoji.name)) {
             return;
         }
-        const user = await User.query().select('saved')
-            .where('userId', this.msg.userId)
-            .first();
-        const saved = user.json;
+        const saved = await User.getJSON(this.msg.userId);
         switch(reaction.emoji.name) {
             case '⬅️':
                 if(saved.page-1 >= 0) {

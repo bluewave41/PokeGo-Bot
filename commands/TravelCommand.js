@@ -113,10 +113,7 @@ class TravelCommand extends Command {
             return EmbedBuilder.build(this.msg, embed);
         }
         else {
-            await User.query().update({
-                nextCommand: 'travel/SelectLocation'
-            })
-            .where('userId', this.msg.userId);
+            await User.setNextCommand(this.msg.userId, 'travel/SelectLocation');
 
             const map = await fs.readFile('images/numberedmap.png', 'base64');
 

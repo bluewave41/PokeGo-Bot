@@ -63,6 +63,12 @@ class User extends Model {
             }
 		}
     }
+    static async getJSON(userId) {
+        const user = await this.query().select('saved')
+            .where('userId', userId)
+            .first();
+        return JSON.parse(user.saved); 
+    }
     get json() {
         return JSON.parse(this.saved);
     }

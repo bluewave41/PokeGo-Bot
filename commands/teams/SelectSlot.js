@@ -21,11 +21,9 @@ class SelectSlot extends Command {
         super.validate();
     }
     async run() {
-        const user = await User.query().select('saved')
-            .where('userId', this.msg.userId)
-            .first();
+        let saved = await User.getJSON(this.msg.userId);
 
-        const saved = { teamId: user.json.teamId, slot: this.slot, page: 0 }
+        saved = { teamId: saved.teamId, slot: this.slot, page: 0 }
 
         const pokemon = await Pokemon.query().select('*')
             .offset(saved.page*25)

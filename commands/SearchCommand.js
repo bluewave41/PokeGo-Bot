@@ -23,7 +23,11 @@ class SearchCommand extends Command {
     async validate() {
         super.validate();
         await this.setup();
-        await canAccess(this.msg.userId);
+
+        const pokemonCount = await PokemonCommands.getPokemonCount(this.msg.userId);
+        if(pokemonCount+1 > this.user.storage) {
+            throw new CustomError('STORAGE_FULL');
+        }
     }
     async run() {
         const sprites = await EncounterCommands.getSprites(this.msg.userId, this.user.location, this.user.secretId,
@@ -38,21 +42,10 @@ class SearchCommand extends Command {
             description: SpriteListBuilder.build(sprites)
         }
 
-        await User.query().update({
-            nextCommand: 'encounter/StartEncounter'
-        })
-        .where('userId', this.msg.userId);
+        await User.setNextCommand(this.msg.userId, 'encounter/StartEncounter');
     
         return EmbedBuilder.build(this.msg, embed);
     }
-}
-
-async function canAccess(userId) {
-    const pokemonCount = await PokemonCommands.getPokemonCount(userId);
-    if(pokemonCount+1 > this.user.storage) {
-        throw new CustomError('STORAGE_FULL');
-    }
-    return true;
 }
 
 module.exports = {

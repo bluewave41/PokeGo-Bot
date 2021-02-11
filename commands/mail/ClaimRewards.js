@@ -30,9 +30,7 @@ class ClaimRewards extends Command {
         await message.delete();
     }
     async run() {
-        const user = await User.query().select('saved')
-            .where('userId', this.msg.userId);
-        const saved = user.json;
+        const saved = await User.getJSON(this.msg.userId);
         const mailId = saved.mailId;
         const mail = await MailCommands.getRewards(this.msg.userId, mailId);
 

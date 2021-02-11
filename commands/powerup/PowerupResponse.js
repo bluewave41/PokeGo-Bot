@@ -30,9 +30,7 @@ class PowerupResponse extends Command {
             .where('userId', this.msg.userId);
     }
     async run() {
-        const user = await User.query().select('saved')
-            .where('userId', this.msg.userId);
-        const saved = user.json;
+        const saved = await User.getJSON(this.msg.userId);
 
         const pokemon = await PokemonCommands.getStrictPokemon(this.msg.userId, saved.pokemonId);
         const candy = await CandyCommands.getCandyForPokemon(this.msg.userId, pokemon.candyId);
