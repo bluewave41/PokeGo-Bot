@@ -63,6 +63,8 @@ class HealPokemon extends Command {
         })
         .where('pokemonId', this.pokemonId);
 
+        this.msg.delete();
+
         pokemon = await this.getPokemon(user.page);
         if(!pokemon.length && user.page > 1) {
             pokemon = await this.getPokemon(user.page-1);

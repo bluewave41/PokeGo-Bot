@@ -9,6 +9,7 @@ const WonBattleMenu = require('~/menus/WonBattleMenu');
 const Battle = require('./Battle');
 const Caught = require('~/knex/models/Caught');
 const User = require('~/knex/models/User');
+const { raw } = require('objection');
 
 const options = {
     names: [],
@@ -107,12 +108,17 @@ class SimulateTurn extends Command {
                         userId: this.msg.userId,
                         encounterId: battle.rocketId
                     });
+
                     //open shadow catching screen
+                    await User.query().update({
+                        nextCommand: 'reward/StartEncounter',
+                        rocketWinCount: raw('rocketWinCount + 1')
+                    })
+                    .where('userId', this.msg.userId);
 
                     this.menu = {
                         class: WonBattleMenu,
                     }
-                    await User.setNextCommand(this.msg.userId, 'reward/StartEncounter');
                 }
                 else {
                     this.menu = {

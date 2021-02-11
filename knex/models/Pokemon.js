@@ -17,7 +17,15 @@ class Pokemon extends Model {
         return MoveList[this.chargeMove].pvpEnergy;
     }
 	get path() {
-		if(this.shiny) {
+        if(this.shadow) {
+            if(this.shiny) {
+                return `public/sprites/shadow/shiny/${this.originalName.toLowerCase()}.png`;
+            }
+            else {
+                return `public/sprites/shadow/normal/${this.originalName.toLowerCase()}.png`;
+            }
+        }
+        else if(this.shiny) {
             return `public/sprites/shiny/${this.originalName.toLowerCase()}.png`;
         }
         else {

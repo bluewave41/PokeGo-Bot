@@ -8,12 +8,12 @@ const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 const TypeList = require('~/data/Lists/TypeList');
 const ItemHandler = require('~/lib/ItemHandler');
 const Battles = require('~/knex/models/Battles');
-const User = require('~/knex/models/User');
 const TeamListings = require('~/knex/models/TeamListings');
 
 const options = {
     names: [],
     expectedParameters: [],
+    info: 'Waiting to receive reward encounter'
 }
 
 class StartEncounter extends Command {

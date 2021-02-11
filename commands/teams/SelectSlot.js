@@ -49,6 +49,7 @@ class SelectSlot extends Command {
             title: 'List',
             description: PokemonListBuilder.build(pokemon),
             footer: `Page ${saved.page+1} of ${Math.ceil(count.pokemonCount/25)} - ${count.pokemonCount} results.`,
+            fields: [],
         }
 
         return EmbedBuilder.edit(this.msg, embed);

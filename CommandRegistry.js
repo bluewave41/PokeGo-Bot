@@ -10,6 +10,12 @@ async function parse(client, msg) {
     
     try {
         command = await setupMessage(msg);
+
+        if(msg.mentions.has(client.user.id) && !msg.mentions.everyone) {
+            msg.reply(`My prefix is \`${msg.prefix}\`.`)
+            return;
+        }
+
         if(!command) {
             return;
         }
@@ -21,11 +27,6 @@ async function parse(client, msg) {
     catch(e) {
         console.log(e);
         return { error: true, message: e.getMessage() }
-    }
-
-    if(msg.mentions.has(client.user.id) && !msg.mentions.everyone) {
-        msg.reply(`My prefix is ${msg.prefix}.`)
-        return;
     }
 
     if(!command) {

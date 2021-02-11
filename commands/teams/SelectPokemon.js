@@ -26,7 +26,7 @@ class SelectPokemon extends Command {
         await PokemonCommands.getStrictPokemon(this.msg.userId, this.pokemonId);
     }
     async run() {
-        const saved = User.getJSON(this.msg.userId);
+        const saved = await User.getJSON(this.msg.userId);
 
         let team = await Teams.query().select('*')
             .withGraphFetched('pokemon')
@@ -42,11 +42,10 @@ class SelectPokemon extends Command {
                 .where('pokemonId', this.pokemonId);
         }
 
-        //TODO: upsert pokemon here
-
         const update = await TeamListings.query().update({
             pokemonId: this.pokemonId
         })
+        .where('teamId', saved.teamId)
         .where('slot', saved.slot);
 
         if(!update) {
