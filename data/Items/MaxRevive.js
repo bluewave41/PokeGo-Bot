@@ -1,3 +1,9 @@
+const Pokemon = require('~/knex/models/Pokemon');
+const User = require('~/knex/models/User');
+const CustomError = require('~/lib/errors/CustomError');
+const HealPokemonBuilder = require('~/data/Builders/HealPokemonBuilder');
+const { raw } = require('objection');
+
 class MaxRevive {
     constructor() {
         this.id = 13;
@@ -13,6 +19,37 @@ class MaxRevive {
         this.requiredLevel = 30;
         this.requiresEncounter = false;
         this.type = 'revive';
+    }
+    async use(msg) {
+        const pokemon = await Pokemon.query().select('*', raw('COUNT(*) OVER() AS count'))
+            .limit(25)
+            .orderBy('cp', 'DESC')
+            .orderBy('pokemonId', 'DESC')
+            .where('hp', 0)
+            .where('ownerId', msg.userId);
+
+        if(!pokemon.length) {
+            throw new CustomError('NO_FAINTED_POKEMON');
+        }
+
+        await User.query().update({
+            nextCommand: 'items/RevivePokemon',
+            saved: JSON.stringify({ multiplier: 1 })
+        })
+        .where('userId', msg.userId);
+
+        return {
+            pagination: {
+                emojis: ['⬅️', '➡️'],
+                MAX_ENTRIES: 25,
+                entryCount: pokemon[0].count
+            },
+            embed: {
+                title: 'Revive Pokemon',
+                description: HealPokemonBuilder.build(pokemon, 'revive'),
+                footer: `Page 1 of ${Math.ceil(pokemon[0].count/25)} - ${pokemon[0].count} results.`
+            }
+        }
     }
 }
 
