@@ -68,5 +68,7 @@ module.exports = {
     'FAINTED_POKEMON': "You can't quit! Your Pokemon fainted and you need to select another.",
     'POKEMON_ALREADY_OUT': "That Pokemon is already out!",
     'NO_FAINTED_POKEMON': "You don't have any fainted Pokemon to revive.",
+    'NO_HURT_POKEMON': "You have no Pokemon that need healing.",
     'NOT_FAINTED': "That Pokemon hasn't fainted.",
+    'NOT_HURT': "That Pokemon doesn't need healing."
 }
