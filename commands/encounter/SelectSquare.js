@@ -35,6 +35,7 @@ class SelectSquare extends Command {
             .where('userId', this.msg.userId);
     }
     async run() {
+        this.msg.delete();
         //get the encounter
         const encounter = await PlayerEncounters.query().select('*')
             .where('userId', this.msg.userId).first();
