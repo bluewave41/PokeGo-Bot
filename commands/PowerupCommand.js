@@ -6,6 +6,7 @@ const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
 const CandyCommands = require('~/data/ModelHandlers/CandyCommands');
 const Command = require('./Command');
 const User = require('~/knex/models/User');
+const Constants = require('~/lib/Constants');
 
 const options = {
     names: ['powerup'],
@@ -22,13 +23,18 @@ class PowerupCommand extends Command {
         super.validate();
         this.pokemon = await PokemonCommands.getStrictPokemon(this.msg.userId, this.pokemonId);
         this.candy = await CandyCommands.getCandyForPokemon(this.msg.userId, this.pokemon.candyId);
+        if(this.pokemon.level >= Constants.MAX_POKEMON_LEVEL) {
+            throw new CustomError('MAX_POKEMON_LEVEL_REACHED');
+        }
         //TODO: get user level
         //check stardust
-        //TODO: check pokemon level, max is 40
     }
     async run() {
         const powerupIndex = PowerupList.findIndex(el => el.level == this.pokemon.level);
         const nextLevel = PowerupList[powerupIndex+1];
+        const user = await User.query().select('level')
+            .where('userId', this.msg.userId)
+            .first();
     
         //first check if we can power them up once
         if(nextLevel.candy <= this.candy) {
@@ -38,6 +44,10 @@ class PowerupCommand extends Command {
     
             //calculate how many times we can power them up
             for(var i=powerupIndex+1;i<PowerupList.length;i++) {
+                //only allow Pokemon to be leveled to your level + 2
+                if(PowerupList[i].level > user.level+2) {
+                    break;
+                }
                 candyTotal += PowerupList[i].candy;
                 howManyLevels++;
                 if(candyTotal >= this.candy) {

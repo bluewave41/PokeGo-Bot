@@ -35,10 +35,10 @@ class Pokemon extends Model {
     get url() {
         if(this.shadow) {
             if(this.shiny) {
-                return process.env.trueUrl + `sprites/shadow/shiny/${this.originalName.toLowerCase()}.png`;
+                return process.env.url + `sprites/shadow/shiny/${this.originalName.toLowerCase()}.png`;
             }
             else {
-                return process.env.trueUrl + `sprites/shadow/normal/${this.originalName.toLowerCase()}.png`;
+                return process.env.url + `sprites/shadow/normal/${this.originalName.toLowerCase()}.png`;
             }
         }
         else if(this.shiny) {

@@ -34,7 +34,6 @@ class PowerupResponse extends Command {
 
         const pokemon = await PokemonCommands.getStrictPokemon(this.msg.userId, saved.pokemonId);
         const candy = await CandyCommands.getCandyForPokemon(this.msg.userId, pokemon.candyId);
-
         if(typeof this.response == 'number') { //user chose a new level
             if(this.response > saved.maximumTimes) { //user chose a level higher than they can do
                 //TODO: implement player level limit

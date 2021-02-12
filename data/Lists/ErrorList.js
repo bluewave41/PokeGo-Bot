@@ -70,5 +70,6 @@ module.exports = {
     'NO_FAINTED_POKEMON': "You don't have any fainted Pokemon to revive.",
     'NO_HURT_POKEMON': "You have no Pokemon that need healing.",
     'NOT_FAINTED': "That Pokemon hasn't fainted.",
-    'NOT_HURT': "That Pokemon doesn't need healing."
+    'NOT_HURT': "That Pokemon doesn't need healing.",
+    'MAX_POKEMON_LEVEL_REACHED': "This Pokemon has reached its maximum level."
 }
