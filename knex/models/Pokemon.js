@@ -42,10 +42,10 @@ class Pokemon extends Model {
             }
         }
         else if(this.shiny) {
-            return process.env.trueUrl + `sprites/shiny/${this.originalName.toLowerCase()}.png`;
+            return process.env.url + `sprites/shiny/${this.originalName.toLowerCase()}.png`;
         }
         else {
-            return process.env.trueUrl + `sprites/normal/${this.originalName.toLowerCase()}.png`;
+            return process.env.url + `sprites/normal/${this.originalName.toLowerCase()}.png`;
         }
     }
     getLearnableFastMoves(includeLegacy=false) {

@@ -21,9 +21,9 @@ module.exports = {
         }
 
         if(parameters.generate) {
-            await axios.post(process.env.trueUrl + 'api/image/generate', { userId: msg.userId, p1: p1, p2: p2,
+            await axios.post(process.env.url + 'api/image/generate', { userId: msg.userId, p1: p1, p2: p2,
                 p1Shields: p1Shields, p2Shields: p2Shields });
-            embed.image = process.env.trueUrl + `battle/${msg.userId}.png?=${id}`
+            embed.image = process.env.url + `battle/${msg.userId}.png?=${id}`
         }
 
         return EmbedBuilder.edit(msg, embed);

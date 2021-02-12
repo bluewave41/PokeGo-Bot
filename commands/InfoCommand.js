@@ -38,7 +38,7 @@ class InfoCommand extends Command {
         const embed = {
             title: this.msg.author.username + "'s Info",
             description: '',
-            thumbnail: process.env.sprites + `/teams/${this.msg.team}.png`,
+            thumbnail: process.env.url + `/sprites/misc/${this.msg.team}.png`,
             fields: [
                 ['Currency', user.currency + ' ' + Emojis.COIN, true],
                 ['Stardust', user.stardust + Emojis.STARDUST, true],
