@@ -6,7 +6,7 @@ const User = require('~/knex/models/User');
 const CustomError = require('~/lib/errors/CustomError');
 const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const ItemEnums = require('~/data/Lists/ItemEnums');
-const { ref } = require('objection');
+const { raw } = require('objection');
 
 const options = {
     names: ['daily'],
@@ -34,7 +34,7 @@ class DailyCommand extends Command {
 
         await User.query().update({
             streak: user.newStreak,
-            currency: ref('currency') + earned,
+            currency: raw('currency') + amount,
             lastDaily: new Date()
         })
         .where('userId',this.msg.userId);
