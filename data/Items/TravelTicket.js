@@ -27,13 +27,13 @@ class TravelTicket {
 
         const map = await fs.readFile('images/numberedmap.png', 'base64');
 
-        let embed = {
-            title: 'Map',
-            description: `Where would you like to go?\n**Current position: ** ${msg.location}`,
-            base64: map,
+        return {
+            embed: {
+                title: 'Map',
+                description: `Where would you like to go?\n**Current position: ** ${msg.location}`,
+                base64: map,
+            }
         }
-
-        return embed;
     }
 }
 
