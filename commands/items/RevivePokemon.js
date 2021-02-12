@@ -34,7 +34,6 @@ class RevivePokemon extends Command {
             .where('ownerId', this.msg.userId).debug();
     }
     async buildNewPage(page) {
-        console.log(page);
         const pokemon = await this.getPokemon(page);
 
         return EmbedBuilder.edit(this.msg, {

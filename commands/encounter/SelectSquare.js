@@ -251,7 +251,5 @@ function determineCircleColor(pokemon, multiplier) {
 function tryToCatch(pokemon, hitObjectMultiplier, multiplier) {
     const chance = determineCircleColor(pokemon, (hitObjectMultiplier * multiplier));
     const percent = Math.random();
-    console.log('PERCENT', percent);
-    console.log('CHANCE', chance);
     return percent < chance;
 }

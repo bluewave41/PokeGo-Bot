@@ -10,7 +10,6 @@ module.exports = {
         const message = `Congratulations! You are now level ${level}. You can claim your rewards attached to this message.`;
         let rewards = LevelList[level-1].rewards;
         let rewardString = LevelList[level-1].rewardString;
-        console.log(level, rewards, rewardString)
 
         const mail = await Mail.query().insert({
             userId: userId,
