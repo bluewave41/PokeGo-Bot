@@ -71,5 +71,6 @@ module.exports = {
     'NO_HURT_POKEMON': "You have no Pokemon that need healing.",
     'NOT_FAINTED': "That Pokemon hasn't fainted.",
     'NOT_HURT': "That Pokemon doesn't need healing.",
-    'MAX_POKEMON_LEVEL_REACHED': "This Pokemon has reached its maximum level."
+    'MAX_POKEMON_LEVEL_REACHED': "This Pokemon has reached its maximum level.",
+    'TRAVEL_IN_PROGRESS': "You can't search for Pokemon while travelling!",
 }

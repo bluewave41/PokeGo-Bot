@@ -5,6 +5,7 @@ const Command = require('./Command');
 const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
 const CustomError = require('~/lib/errors/CustomError');
 const User = require('~/knex/models/User');
+const TravelRequests = require('~/knex/models/TravelRequests');
 
 const options = {
     names: ['search'],
@@ -27,6 +28,13 @@ class SearchCommand extends Command {
         const pokemonCount = await PokemonCommands.getPokemonCount(this.msg.userId);
         if(pokemonCount+1 > this.user.storage) {
             throw new CustomError('STORAGE_FULL');
+        }
+
+        const travelRequest = await TravelRequests.query().select('userId')
+            .where('userId', this.msg.userId)
+            .first();
+        if(travelRequest) {
+            throw new CustomError('TRAVEL_IN_PROGRESS');
         }
     }
     async run() {
