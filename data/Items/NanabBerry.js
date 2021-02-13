@@ -1,3 +1,5 @@
+const PlayerEncounters = require('~/knex/models/PlayerEncounters');
+
 class NanabBerry {
     constructor() {
         this.id = 8;
@@ -13,6 +15,15 @@ class NanabBerry {
         this.requiredLevel = 14;
         this.requiresEncounter = true;
         this.type = 'berry';
+    }
+    async use(msg) {
+        await PlayerEncounters.query().update({
+            item: this.id,
+            canPokemonMove: false
+        })
+        .where('userId', msg.userId);
+
+        return this;
     }
 }
 

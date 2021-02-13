@@ -1,3 +1,6 @@
+const PlayerEncounters = require('~/knex/models/PlayerEncounters');
+const { raw } = require('objection');
+
 class PinapBerry {
     constructor() {
         this.id = 9;
@@ -13,6 +16,14 @@ class PinapBerry {
         this.requiredLevel = 18;
         this.requiresEncounter = true;
         this.type = 'berry';
+    }
+    async use(msg) {
+        await PlayerEncounters.query().update({
+            candyEarned: raw('candyEarned * 2')
+        })
+        .where('userId', msg.userId);
+
+        return this;
     }
 }
 

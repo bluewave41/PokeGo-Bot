@@ -31,7 +31,13 @@ class SelectLocation extends Command {
         }
 
         //instant travel for travel ticket usage
-        const saved = await User.getJSON(this.msg.userId);
+        const user = await Userq.query().select('saved', 'location')
+            .where('userId', this.msg.userId);
+        const saved = user.json;
+
+        if(user.location == this.choice) {
+            throw new CustomError('OCCUPYING_LOCATION');
+        }
         if(saved && saved.instantTravel) {
             await TravelRequests.query().delete()
                 .where('userId', this.msg.userId);

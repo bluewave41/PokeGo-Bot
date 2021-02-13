@@ -1,4 +1,4 @@
-const { isThisSecond } = require("date-fns");
+const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 
 class RazzBerry {
     constructor() {
@@ -16,6 +16,13 @@ class RazzBerry {
         this.requiresEncounter = true;
         this.type = 'berry';
         this.catchMultiplier = 1.5;
+    }
+    async use(msg) {
+        await PlayerEncounters.query().update({
+            item: this.id
+        })
+        .where('userId', msg.userId);
+        return this;
     }
 }
 

@@ -32,7 +32,7 @@ class UseCommand extends Command {
     }
     async run() {
         if(this.item.requiresEncounter) {
-            await this.item.use(this.msg);
+            const item = await this.item.use(this.msg);
 
             let pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
 
@@ -50,6 +50,7 @@ class UseCommand extends Command {
                 position: this.encounter.pokemonPos,
                 catchChance: this.encounter.catchChance,
                 pokeBalls: pokeBalls,
+                item: item,
             }
 
             const embed = EncounterBuilder.build(this.msg, data);

@@ -32,9 +32,14 @@ class PlayerEncounters extends Model {
         let multiplier = this.medalMultiplier;
 
         multiplier *= ItemHandler.getItem(this.activePokeball).catchMultiplier;
+
         if(this.item) {
-            multiplier *= ItemHandler.getItem(this.item).catchMultiplier;
+            const item = ItemHandler.getItem(this.item);
+            if(item && item.hasOwnProperty('catchMultiplier')) {
+                multiplier *= item.catchMultiplier;
+            }
         }
+
         return multiplier;
     }
     get catchChance() {
@@ -48,6 +53,7 @@ class PlayerEncounters extends Model {
         chance = 1 - chance;
         chance = Math.pow(chance, this.multiplier);
         chance = 1 - chance;
+        console.log('CHANCE', chance);
         return chance;
     }
 }

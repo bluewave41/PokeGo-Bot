@@ -37,7 +37,7 @@ class SelectSquare extends Command {
     async run() {
         this.msg.delete();
         //get the encounter
-        const encounter = await PlayerEncounters.query().select('*')
+        let encounter = await PlayerEncounters.query().select('*')
             .where('userId', this.msg.userId).first();
 
         //user isn't in a reward encounter
@@ -109,7 +109,7 @@ class SelectSquare extends Command {
         }
         else {
         //reset the item since the catching has finished and it isn't needed anymore
-            await PlayerEncounters.query().update({
+            encounter = await PlayerEncounters.query().updateAndFetchById(this.msg.userId, {
                 item: null,
                 candyEarned: encounter.pokemon.catchCandy,
                 pokemonPos: pokemonPos,

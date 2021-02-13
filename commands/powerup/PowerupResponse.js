@@ -36,7 +36,6 @@ class PowerupResponse extends Command {
         const candy = await CandyCommands.getCandyForPokemon(this.msg.userId, pokemon.candyId);
         if(typeof this.response == 'number') { //user chose a new level
             if(this.response > saved.maximumTimes) { //user chose a level higher than they can do
-                //TODO: implement player level limit
                 throw new CustomError('LEVEL_TOO_HIGH', saved.maximumTimes);
             }
             const currentPowerupRow = PowerupList.findIndex(el => el.level == pokemon.level);
@@ -92,9 +91,11 @@ class PowerupResponse extends Command {
                 title: 'Powered up!',
                 description: `${pokemon.name} rose from level ${pokemon.level} to ${powerupRow.level}!`,
                 image: pokemon.url,
+                fields: [],
+                footer: '',
             }
 
-            return EmbedBuilder.build(this.msg, embed);
+            return EmbedBuilder.edit(this.msg, embed);
         }
         else {
             throw new CustomError('INVALID_RESPONSE');
