@@ -3,6 +3,7 @@ const CurrentEncounters = require("~/knex/models/CurrentEncounters");
 const Pokestops = require("~/knex/models/Pokestops");
 const Rockets = require("~/knex/models/Rockets");
 const SpunPokestops = require("~/knex/models/SpunPokestops");
+const User = require('~/knex/models/User');
 
 module.exports = {
     async getSprites(userId, location, secretId, level) {
@@ -50,6 +51,11 @@ module.exports = {
             });
         }
 
-        return pokemon.concat(pokestops.concat(rockets));
+        const combined = pokemon.concat(pokestops.concat(rockets));
+        if(!combined.length) {
+            await User.reset(userId);
+        }
+
+        return combined;
     }
 }

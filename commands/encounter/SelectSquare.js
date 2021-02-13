@@ -10,6 +10,7 @@ const User = require('~/knex/models/User');
 const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
 const ItemHandler = require('~/lib/ItemHandler');
+const EncounterCommands = require('~/data/ModelHandlers/EncounterCommands');
 
 const options = {
     names: [],
@@ -73,7 +74,7 @@ class SelectSquare extends Command {
                 }
 
                 await UserCommands.addXP(this.msg.userId, xpGained);
-                await User.reset(this.msg.userId);
+                await User.setNextCommand(this.msg.userId, 'encounter/StartEncounter');
 
                 //don't insert shadows into this
                 if(encounter.encounterId) {
@@ -85,6 +86,11 @@ class SelectSquare extends Command {
 
                 //add pokemon
                 const pokemon = await PokemonCommands.catchPokemon(this.msg.userId, encounter.pokemon, encounter.candyEarned);
+
+                const user = await User.query().select('userId', 'location', 'secretId', 'level')
+                    .findOne('userId', this.msg.userId);
+                
+                const sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId, user.level);
             
                 reply.flag = 'caught';
                 reply.xpGained = xpGained;
@@ -92,6 +98,7 @@ class SelectSquare extends Command {
                 reply.catchCandy = encounter.candyEarned;
                 reply.pokemonId = pokemon.pokemonId;
                 reply.position = -1;
+                reply.sprites = sprites
             }
             else {
                 reply.flag = 'fail';

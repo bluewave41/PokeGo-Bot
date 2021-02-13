@@ -31,8 +31,8 @@ class SelectLocation extends Command {
         }
 
         //instant travel for travel ticket usage
-        const user = await Userq.query().select('saved', 'location')
-            .where('userId', this.msg.userId);
+        const user = await User.query().select('saved', 'location')
+            .findOne('userId', this.msg.userId);
         const saved = user.json;
 
         if(user.location == this.choice) {
@@ -58,10 +58,6 @@ class SelectLocation extends Command {
 
             return EmbedBuilder.build(this.msg, embed);
         }
-
-        const user = await User.query().select('location')
-            .where('userId', this.msg.userId)
-            .first();
 
         const distance = Math.abs(user.location.charCodeAt(0) - this.choice.charCodeAt(0)) +
                 Math.abs(parseInt(user.location.slice(1)) - parseInt(this.choice.slice(1)));

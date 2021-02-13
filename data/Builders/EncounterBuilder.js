@@ -1,29 +1,34 @@
 const Emojis = require('~/data/Lists/EmojiList');
+const SpriteListBuilder = require('~/data/Builders/SpriteListBuilder');
 
 module.exports = {
     build(msg, encounter) {
-        console.log(encounter);
-        let description = `Level ${encounter.pokemon.level} ${encounter.pokemon.displayName}\nCP: ${encounter.pokemon.cp} `;
-        if(encounter.catchChance >= .80) {
-            description += Emojis['GREEN_CIRCLE'] + '\n';
+        let description = '';
+        if(!encounter.sprites) {
+            description += `Level ${encounter.pokemon.level} ${encounter.pokemon.displayName}\nCP: ${encounter.pokemon.cp} `;
+
+            if(encounter.catchChance >= .80) {
+                description += Emojis['GREEN_CIRCLE'] + '\n';
+            }
+            else if(encounter.catchChance >= .50) {
+                description += Emojis['YELLOW_GREEN_CIRCLE'] + '\n';
+            }
+            else if(encounter.catchChance >= .40) {
+                description += Emojis['YELLOW_CIRCLE'] + '\n';
+            }
+            else if(encounter.catchChance >= .20) {
+                description += Emojis['ORANGE_CIRCLE'] + '\n';
+            }
+            else {
+                description += Emojis['RED_CIRCLE'] + '\n';
+            }
         }
-        else if(encounter.catchChance >= .50) {
-            description += Emojis['YELLOW_GREEN_CIRCLE'] + '\n';
-        }
-        else if(encounter.catchChance >= .40) {
-            description += Emojis['YELLOW_CIRCLE'] + '\n';
-        }
-        else if(encounter.catchChance >= .20) {
-            description += Emojis['ORANGE_CIRCLE'] + '\n';
-        }
-        else {
-            description += Emojis['RED_CIRCLE'] + '\n';
-        }
+
         let field = ['<:grass:788077293503119400>', '<:grass:788077293503119400>', '<:grass:788077293503119400>'];
         field[encounter.position] = encounter.pokemon.emoji;
 
         let embed = {
-            title: 'Encounter',
+            title: encounter.sprites ? 'Pokemon in the area' : 'Encounter'
         }
 
         const totalBalls = encounter.pokeBalls.reduce((acc, { amount }) => acc + amount, 0);
@@ -32,6 +37,7 @@ module.exports = {
             switch(encounter.flag) {
                 case 'caught':
                     description += `Wow! You caught ${encounter.pokemon.displayName}!\nView it with ${msg.prefix}d ${encounter.pokemonId}`;
+                    description += '\n\n' + SpriteListBuilder.build(encounter.sprites);
                     embed.image = encounter.pokemon.url;
                     embed.footer = `You gained ${encounter.xpGained} XP, ${encounter.catchDust} stardust and received ${encounter.catchCandy} candy.`;
                 break;

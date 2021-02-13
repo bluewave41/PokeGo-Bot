@@ -4,6 +4,7 @@ const SpunPokestops = require('~/knex/models/SpunPokestops');
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const EncounterBuilder = require('~/data/Builders/EncounterBuilder');
+const SpriteListBuilder = require('~/data/Builders/SpriteListBuilder');
 const ItemListBuilder = require('~/data/Builders/ItemListBuilder');
 const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 const EncounterCommands = require('~/data/ModelHandlers/EncounterCommands');
@@ -40,7 +41,7 @@ class StartEncounter extends Command {
             .where('userId', this.msg.userId)
             .first();
 
-        const sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId, user.level);
+        let sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId, user.level);
 
         //make sure user is in an encounter
         if(!sprites) {
@@ -54,12 +55,19 @@ class StartEncounter extends Command {
 
         if(encounter.encounterType == 'pokestop') {
             const receivedItems = await spinPokestop(this.msg.userId, user.level, user.itemstorage, encounter);
-            const embed = {
-                title: 'Items',
-                description: 'You received: \n' + ItemListBuilder.build(receivedItems),
+
+            //update the sprites since we spun a poke stop
+            sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId, user.level);
+
+            let description = 'You received: \n' + ItemListBuilder.build(receivedItems) + '\n\n' + SpriteListBuilder.build(sprites);
+
+            let embed = {
+                title: 'Pokemon in the area',
+                description: description
             }
-            await User.reset(this.msg.userId);
+    
             await UserCommands.addXP(this.msg.userId, 100);
+        
             return EmbedBuilder.build(this.msg, embed);
         }
         else if(encounter.encounterType == 'rocket') {
