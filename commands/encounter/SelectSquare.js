@@ -43,8 +43,7 @@ class SelectSquare extends Command {
         //user isn't in a reward encounter
         if(!encounter.premierBalls) {
             //check that we have the type of pokeball that we're using
-            const { amount: pokeballCount } = await InventoryCommands.getItemCount(this.msg.userId, encounter.activePokeball);
-
+            const pokeballCount = await InventoryCommands.getItemCount(this.msg.userId, encounter.activePokeball);
             if(pokeballCount <= 0) {
                 throw new CustomError('NO_POKEBALL_TYPE');
             }

@@ -1,3 +1,5 @@
+const PlayerEncounters = require('~/knex/models/PlayerEncounters');
+
 class UltraBall {
     constructor() {
         this.id = 3;

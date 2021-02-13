@@ -43,7 +43,6 @@ class TravelCommand extends Command {
             });
         }
 
-        //temporary code
         if(travelRequest) {
             const timeRemaining = Utils.msToTime(differenceInMilliseconds(new Date(travelRequest.endTime), Date.now()));
             if(timeRemaining.seconds < 0 || timeRemaining.minutes < 0 || timeRemaining.hours < 0) {
@@ -90,6 +89,10 @@ class TravelCommand extends Command {
             const user = await User.query().select('location')
                 .where('userId', this.msg.userId)
                 .first();
+
+            if(user.location == this.choice) {
+                throw new CustomError('OCCUPYING_LOCATION');
+            }
 
             const distance = Math.abs(user.location.charCodeAt(0) - this.choice.charCodeAt(0)) +
                     Math.abs(parseInt(user.location.slice(1)) - parseInt(this.choice.slice(1)));

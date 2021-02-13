@@ -26,6 +26,7 @@ class SearchCommand extends Command {
         await this.setup();
 
         const pokemonCount = await PokemonCommands.getPokemonCount(this.msg.userId);
+        console.log(typeof pokemonCount, pokemonCount+1)
         if(pokemonCount+1 > this.user.storage) {
             throw new CustomError('STORAGE_FULL');
         }

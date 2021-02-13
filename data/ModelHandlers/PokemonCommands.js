@@ -25,8 +25,9 @@ module.exports = {
     },
     async getPokemonCount(userId) {
         const pokemon = await PokemonModel.query().count('* as count')
-            .where('ownerId', userId).first();
-        return pokemon.count;
+            .where('ownerId', userId)
+            .first();
+        return parseInt(pokemon.count);
     },
     async canTransferPokemon(userId, pokemonId) {
         const count = await this.getPokemonCount(userId);

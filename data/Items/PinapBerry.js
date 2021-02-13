@@ -16,6 +16,6 @@ class PinapBerry {
     }
 }
 
-module.exports = new  PinapBerry();
+module.exports = new PinapBerry();
 
 //return { column: 'candyEarned', type: 'multiply', value: 2 }

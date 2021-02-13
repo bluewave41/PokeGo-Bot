@@ -26,9 +26,14 @@ class InfoCommand extends Command {
 
         const pokemonCount = await PokemonCommands.getPokemonCount(this.msg.userId);
         const itemCount = await InventoryCommands.getTotalItemCount(this.msg.userId);
-        const requiredXP = LevelList[user.level].requiredXP;
 
         let status = 'Nothing right now';
+        let levelProgressString = `Level: ${user.level}`;
+        if(LevelList[user.level]) {
+            console.log('here');
+            levelProgressString += `\nXP: ${user.xp}/${LevelList[user.level].requiredXP}`;
+        }
+        levelProgressString += `\n${user.totalxp} total XP`;
 
         if(this.msg.nextCommand) {
             const command = require(`./${this.msg.nextCommand}`);
@@ -45,7 +50,7 @@ class InfoCommand extends Command {
                 ['Location', user.location.toUpperCase(), false],
                 ['Pokemon Storage', pokemonCount + '/' + user.storage, true],
                 ['Item Storage',  itemCount + '/' + user.itemstorage, true],
-                ['Player Progress', `Level: ${user.level}\nXP: ${user.xp}/${requiredXP}\n${user.totalxp} total XP`],
+                ['Player Progress', levelProgressString, false],
                 ['Current Status', status, false],
             ]
         }
