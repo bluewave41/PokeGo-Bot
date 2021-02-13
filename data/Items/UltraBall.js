@@ -17,11 +17,13 @@ class UltraBall {
         this.type = 'pokeball';
         this.catchMultiplier = 2;
     }
-    async use(msg) {
-        await PlayerEncounters.query().update({
+    async use(msg, encounter) {
+        encounter = await PlayerEncounters.query().updateAndFetchById(msg.userId, {
             activePokeball: 3
         })
         .where('userId', msg.userId);
+
+        return encounter;
     }
 }
 

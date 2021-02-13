@@ -32,15 +32,14 @@ class UseCommand extends Command {
     }
     async run() {
         if(this.item.requiresEncounter) {
-            const item = await this.item.use(this.msg);
+            this.encounter = await this.item.use(this.msg, this.encounter);
 
+            const itemInUse = ItemHandler.getItem(this.encounter.item);
+            
             let pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
 
             if(this.item.type == 'pokeball') {
                 this.encounter.activePokeball = this.item.id;
-            }
-            else {
-                this.encounter.item = this.item.id;
             }
 
             pokeBalls.find(el => el.itemId == this.encounter.activePokeball).active = true;
@@ -50,7 +49,7 @@ class UseCommand extends Command {
                 position: this.encounter.pokemonPos,
                 catchChance: this.encounter.catchChance,
                 pokeBalls: pokeBalls,
-                item: item,
+                item: itemInUse
             }
 
             const embed = EncounterBuilder.build(this.msg, data);

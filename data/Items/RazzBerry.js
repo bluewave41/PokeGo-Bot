@@ -17,12 +17,13 @@ class RazzBerry {
         this.type = 'berry';
         this.catchMultiplier = 1.5;
     }
-    async use(msg) {
-        await PlayerEncounters.query().update({
+    async use(msg, encounter) {
+        encounter = await PlayerEncounters.query().updateAndFetchById(msg.userId, {
             item: this.id
         })
         .where('userId', msg.userId);
-        return this;
+
+        return encounter;
     }
 }
 

@@ -67,7 +67,20 @@ class Command {
                 actual = actual.toLowerCase();
             }
             const actualType = this.determineVariableType(actual, expected.type); //what type is it?
-            if(expected.possible && !expected.possible.includes(actual)) {
+            //test if the parameter matches the given function
+            if(typeof expected.possible == 'function') {
+                //if it doesn't match
+                if(!expected.possible(actual)) {
+                    //and if it wasn't optional
+                    if(!expected.optional) {
+                        throw new CustomError('INVALID_CHOICE', expected.name);
+                    }
+                    else {
+                        continue;
+                    }
+                }
+            }
+            else if(expected.possible && !expected.possible.includes(actual)) {
                 throw new CustomError('INVALID_CHOICE', expected.name);
             }
             if(expected.type.includes(actualType)) {

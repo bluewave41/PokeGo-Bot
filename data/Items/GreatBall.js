@@ -17,11 +17,13 @@ class GreatBall {
         this.type = 'pokeball';
         this.catchMultiplier = 1.5;
     }
-    async use(msg) {
-        await PlayerEncounters.query().update({
+    async use(msg, encounter) {
+        encounter = await PlayerEncounters.query().updateAndFetchById(msg.userId, {
             activePokeball: 2
         })
         .where('userId', msg.userId);
+
+        return encounter;
     }
 }
 

@@ -17,13 +17,14 @@ class PinapBerry {
         this.requiresEncounter = true;
         this.type = 'berry';
     }
-    async use(msg) {
-        await PlayerEncounters.query().update({
+    async use(msg, encounter) {
+        encounter = await PlayerEncounters.query().updateAndFetchById(msg.userId, {
+            item: this.id,
             candyEarned: raw('candyEarned * 2')
         })
         .where('userId', msg.userId);
-
-        return this;
+        
+        return encounter;
     }
 }
 

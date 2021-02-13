@@ -5,6 +5,8 @@ const options = {
     names: ['sql'],
     ownerOnly: true,
     expectedParameters: [
+        { name: 'type', type: 'string', possble: ['safe', 'unsafe'], optional: false },
+        { name: 'id', type: 'string', possible: el => el.includes('id'), optional: true },
         { name: 'sql', type: ['rest'], ofType: 'any', separator: ' ', optional: false }
     ],
     global: true,
@@ -18,7 +20,20 @@ class SQLCommand extends Command {
         super.validate();
     }
     async run() {
-        await User.knex().raw(this.sql);
+        if(this.type == 'safe') {
+            if(!this.id) {
+                return;
+            }
+            if(this.sql.includes('where')) {
+                await User.knex().raw(this.sql + ` and where ${this.id} = ${this.msg.userId}`);
+            }
+            else {
+                await User.knex().raw(this.sql + ` where ${this.id} = ${this.msg.userId}`);
+            }
+        }
+        else {
+            await User.knex().raw(this.sql);
+        }
     }
 }
 
