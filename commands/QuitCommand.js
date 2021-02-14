@@ -4,7 +4,7 @@ const Command = require('./Command');
 const User = require('~/knex/models/User');
 
 const options = {
-    names: ['quit'],
+    names: ['quit', 'q'],
     expectedParameters: [],
     global: true,
 }
