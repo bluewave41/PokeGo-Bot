@@ -170,9 +170,12 @@ async function spinPokestop(userId, level, storageLimit, pokestop) {
         await InventoryCommands.addItems(userId, item.id, 1);
     }
 
+    const endTime = add(Date.now(), { minutes: 5 });
+
     await SpunPokestops.query().insert({
         userId: userId,
-        pokestopId: pokestop.id
+        pokestopId: pokestop.id,
+        endtime: endTime
     });
 
     return receivedItems;

@@ -25,7 +25,7 @@ class SQLCommand extends Command {
                 return;
             }
             if(this.sql.includes('where')) {
-                await User.knex().raw(this.sql + ` and where ${this.id} = ${this.msg.userId}`);
+                await User.knex().raw(this.sql + ` and ${this.id} = ${this.msg.userId}`);
             }
             else {
                 await User.knex().raw(this.sql + ` where ${this.id} = ${this.msg.userId}`);
