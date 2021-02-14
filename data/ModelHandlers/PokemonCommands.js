@@ -5,6 +5,7 @@ const CustomError = require('~/lib/errors/CustomError');
 const Pokemon = require('~/knex/models/Pokemon');
 const PokedexCommands = require('./PokedexCommands');
 const MedalCommands = require('./MedalCommands');
+const Utils = require('~/lib/Utils');
 
 module.exports = {
     /**
@@ -102,12 +103,18 @@ module.exports = {
         PokemonBuilder.calculateCP(pokemon);
         PokemonBuilder.calculateHP(pokemon);
 
+        //change their moves
+        pokemon.fastMove = Utils.random(pokemon.getLearnableFastMoves(false));
+        pokemon.chargeMove = Utils.random(pokemon.getLearnableChargeMoves(false));
+
         //Pokemon HP is refilled if they're evolved
         pokemon = await Pokemon.query().updateAndFetchById(pokemon.pokemonId, {
             pokedexId: pokemon.pokedexId,
             hp: pokemon.hp,
             maxHP: pokemon.hp,
             cp: pokemon.cp,
+            fastMove: pokemon.fastMove[0],
+            chargeMove: pokemon.chargeMove[0]
         })
         .where('ownerId', userId)
         .where('pokemonId', pokemon.pokemonId);
