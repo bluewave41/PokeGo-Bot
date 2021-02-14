@@ -8,7 +8,7 @@ const User = require('~/knex/models/User');
 const TravelRequests = require('~/knex/models/TravelRequests');
 
 const options = {
-    names: ['search'],
+    names: ['search', 's'],
     expectedParameters: [],
 }
 

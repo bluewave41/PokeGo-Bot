@@ -7,7 +7,7 @@ const CustomError = require('~/lib/errors/CustomError');
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 
 const options = {
-    names: ['use'],
+    names: ['use', 'u'],
     expectedParameters: [
         { name: 'item', type: 'rest', ofType: 'string', separator: '', optional: false },
         { name: 'pokemonId', type: 'number', optional: true }

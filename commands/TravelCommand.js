@@ -9,7 +9,7 @@ const CustomError = require('~/lib/errors/CustomError');
 const Utils = require('~/lib/Utils');
 
 const options = {
-    names: ['travel'],
+    names: ['travel', 't'],
     expectedParameters: [
         { name: 'choice', type: 'string', optional: true }
     ]
