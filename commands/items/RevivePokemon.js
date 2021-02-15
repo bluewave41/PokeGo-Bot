@@ -6,6 +6,7 @@ const HealPokemonBuilder = require('~/data/Builders/HealPokemonBuilder');
 const Pokemon = require(`~/knex/models/Pokemon`);
 const { raw } = require('objection');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 
 const options = {
     names: [],
@@ -60,7 +61,21 @@ class RevivePokemon extends Command {
         })
         .where('pokemonId', this.pokemonId);
 
+        await InventoryCommands.removeItems(this.msg.userId, saved.itemId, 1);
+
         this.msg.delete();
+
+        const numberOfItems = await InventoryCommands.getItemCount(this.msg.userId, saved.itemId);
+
+        if(numberOfItems <= 0) {
+            await User.reset(this.msg.userId);
+
+            return EmbedBuilder.edit(this.msg, {
+                title: 'Revive Pokemon',
+                description: "You're out of revives.",
+                footer: ''
+            });
+        }
 
         pokemon = await this.getPokemon(user.page);
         if(!pokemon.length && user.page > 1) {

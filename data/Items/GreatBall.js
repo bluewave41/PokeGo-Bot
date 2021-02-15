@@ -30,5 +30,3 @@ class GreatBall {
 }
 
 module.exports = new GreatBall();
-
-//return { column: 'activePokeball', value: 2, flag: 'set' }

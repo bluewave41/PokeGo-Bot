@@ -1,6 +1,7 @@
 const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
 const CustomError = require('~/lib/errors/CustomError');
 const MoveList = require('~/data/Lists/MoveList');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 
 class ChargeTM {
     constructor() {
@@ -21,7 +22,7 @@ class ChargeTM {
     }
     async use(msg, pokemonId) {
         if(!pokemonId) {
-            throw new CustomError('MISSING_PARAMETER', 'pokemonId');
+            throw new CustomError('MISSING_PARAMETER', pokemonId);
         }
         const pokemon = await PokemonCommands.getStrictPokemon(msg.userId, pokemonId);
         let moves = pokemon.getLearnableChargeMoves(false).filter(el => el[0] != pokemon.chargeMove);
@@ -30,6 +31,8 @@ class ChargeTM {
         await PokemonCommands.update(pokemonId, [
             { rowName: 'chargeMove', value: newMove.id }
         ]);
+
+        await InventoryCommands.removeItems(msg.userId, this.id, 1);
 
         const embed = {
             title: 'Move Changed!',

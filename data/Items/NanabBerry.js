@@ -1,4 +1,5 @@
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 
 class NanabBerry {
     constructor() {
@@ -25,10 +26,10 @@ class NanabBerry {
         })
         .where('userId', msg.userId);
 
+        await InventoryCommands.removeItems(msg.userId, this.id, 1);
+
         return encounter;
     }
 }
 
 module.exports = new NanabBerry();
-
-//return { column: 'canPokemonMove', flag: 'set', value: false }

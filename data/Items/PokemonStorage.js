@@ -1,4 +1,5 @@
 const User = require('~/knex/models/User');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 
 class PokemonStorage {
     constructor() {
@@ -19,6 +20,8 @@ class PokemonStorage {
     async buy(msg) {
         await User.query().increment('storage', 50)
             .where('userId', msg.userId);
+
+        await InventoryCommands.removeItems(msg.userId, this.id, 1);
     }
 }
 

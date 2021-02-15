@@ -6,6 +6,7 @@ const HealPokemonBuilder = require('~/data/Builders/HealPokemonBuilder');
 const Pokemon = require(`~/knex/models/Pokemon`);
 const { raw, ref } = require('objection');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 
 const options = {
     names: [],
@@ -51,9 +52,10 @@ class HealPokemon extends Command {
         if(pokemon.hp == pokemon.maxHP) {
             throw new CustomError('NOT_HURT');
         }
+
         const user = await User.query().select('saved', 'page', 'maxPage')
-            .where('userId', this.msg.userId)
-            .first();
+            .findOne('userId', this.msg.userId);
+
         const saved = user.json;
 
         let amountToHeal = (pokemon.hp + saved.value > pokemon.maxHP) ? pokemon.maxHP : pokemon.hp + saved.value;
@@ -63,7 +65,22 @@ class HealPokemon extends Command {
         })
         .where('pokemonId', this.pokemonId);
 
+        await InventoryCommands.removeItems(this.msg.userId, saved.itemId, 1);
+
         this.msg.delete();
+
+        const numberOfItems = await InventoryCommands.getItemCount(this.msg.userId, saved.itemId);
+
+        //check if we're out of items
+        if(numberOfItems <= 0) {
+            await User.reset(this.msg.userId);
+
+            return EmbedBuilder.edit(this.msg, {
+                title: 'Heal Pokemon',
+                description: "You're out of potions.",
+                footer: ''
+            });
+        }
 
         pokemon = await this.getPokemon(user.page);
         if(!pokemon.length && user.page > 1) {

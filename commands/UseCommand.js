@@ -56,7 +56,6 @@ class UseCommand extends Command {
             return EmbedBuilder.edit(this.msg, embed);
         }
         else {
-            await InventoryCommands.removeItems(this.msg.userId, this.item.id, 1);
             const itemState = await this.item.use(this.msg, this.pokemonId);
 
             this.pagination = itemState.pagination;
@@ -86,7 +85,7 @@ function canUseItem(item, amount, nextCommand, encounter) {
         }
     }
     //do we have the item we need?
-    if(!item || amount == 0) {
+    if(!item || amount <= 0) {
         throw new CustomError('OUT_OF_ITEMS');
     }
     return true;

@@ -29,7 +29,7 @@ class MaxPotion {
             .orderBy('pokemonId', 'DESC')
             .whereNot('hp', 0)
             .whereNot('hp', ref('maxHP'))
-            .where('ownerId', msg.userId).debug();
+            .where('ownerId', msg.userId);
 
         if(!pokemon.length) {
             throw new CustomError('NO_HURT_POKEMON');
@@ -37,7 +37,7 @@ class MaxPotion {
 
         await User.query().update({
             nextCommand: 'items/HealPokemon',
-            saved: JSON.stringify({ value: 999 })
+            saved: JSON.stringify({ value: 999, itemId: this.id })
         })
         .where('userId', msg.userId);
 

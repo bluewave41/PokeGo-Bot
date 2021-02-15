@@ -1,6 +1,7 @@
 const CustomError = require('~/lib/errors/CustomError');
 const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
 const MoveList = require('~/data/Lists/MoveList');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 
 class FastTM {
     constructor() {
@@ -21,7 +22,7 @@ class FastTM {
     }
     async use(msg, pokemonId) {
         if(!pokemonId) {
-            throw new CustomError('MISSING_PARAMETER', 'pokemonId');
+            throw new CustomError('MISSING_PARAMETER', pokemonId);
         }
         const pokemon = await PokemonCommands.getStrictPokemon(msg.userId, pokemonId);
         let moves = pokemon.getLearnableFastMoves(false).filter(el => el[0] != pokemon.fastMove)
@@ -30,6 +31,8 @@ class FastTM {
         await PokemonCommands.update(pokemonId, [
             { rowName: 'fastMove', value: newMove.id }
         ]);
+
+        await InventoryCommands.removeItems(msg.userId, this.id, 1);
 
         const embed = {
             title: 'Move Changed!',

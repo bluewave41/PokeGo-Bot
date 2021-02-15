@@ -37,7 +37,7 @@ class Potion {
 
         await User.query().update({
             nextCommand: 'items/HealPokemon',
-            saved: JSON.stringify({ value: 20 })
+            saved: JSON.stringify({ value: 20, itemId: this.id })
         })
         .where('userId', msg.userId);
 

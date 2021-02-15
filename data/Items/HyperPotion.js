@@ -37,7 +37,7 @@ class HyperPotion {
 
         await User.query().update({
             nextCommand: 'items/HealPokemon',
-            saved: JSON.stringify({ value: 200 })
+            saved: JSON.stringify({ value: 200, itemId: this.id })
         })
         .where('userId', msg.userId);
 

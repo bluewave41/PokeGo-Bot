@@ -11,9 +11,10 @@ module.exports = {
         return row ? row.amount : 0;
     },
     async removeItems(userId, itemId, amount) {
-        await Inventory.query().decrement('amount', amount)
-        .where('userId', userId)
-        .where('itemId', itemId);
+        let r = await Inventory.query().decrement('amount', amount)
+            .where('userId', userId)
+            .where('itemId', itemId);
+        console.log(r);
     },
     async addItems(userId, itemId, amount) {
         try {

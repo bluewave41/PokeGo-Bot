@@ -1,11 +1,10 @@
 const User = require('~/knex/models/User');
+require('dotenv').config();
 require('~/lib/Database');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
     
 async function start() {
-	const user = await User.query().select('saved')
-		.where('userId', 1)
-		.first();
-	console.log(user.json);
+    await InventoryCommands.removeItems(2, 2, 2);
 }
 
 start();

@@ -36,7 +36,7 @@ class Revive {
 
         await User.query().update({
             nextCommand: 'items/RevivePokemon',
-            saved: JSON.stringify({ multiplier: 0.5 })
+            saved: JSON.stringify({ multiplier: 0.5, itemId: this.id })
         })
         .where('userId', msg.userId);
 

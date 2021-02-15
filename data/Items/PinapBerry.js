@@ -1,5 +1,6 @@
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 const { raw } = require('objection');
+const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
 
 class PinapBerry {
     constructor() {
@@ -25,11 +26,11 @@ class PinapBerry {
             candyEarned: raw('candyEarned * 2')
         })
         .where('userId', msg.userId);
+
+        await InventoryCommands.removeItems(msg.userId, this.id, 1);
         
         return encounter;
     }
 }
 
 module.exports = new PinapBerry();
-
-//return { column: 'candyEarned', type: 'multiply', value: 2 }
