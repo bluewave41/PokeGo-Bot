@@ -120,6 +120,7 @@ class SelectSquare extends Command {
                 item: null,
                 candyEarned: encounter.pokemon.catchCandy,
                 pokemonPos: pokemonPos,
+                canPokemonMove: true
             })
             .where('userID', this.msg.userId);
         }
