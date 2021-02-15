@@ -12,6 +12,7 @@ class PokemonStorage {
         this.price = 500;
         this.sellPrice = 0;
         this.fromPokestop = false;
+        this.fromGym = false;
         this.requiredLevel = 0;
         this.type = 'storage';
     }

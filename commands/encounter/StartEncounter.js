@@ -54,6 +54,8 @@ class StartEncounter extends Command {
 
         const encounter = sprites[this.position-1];
 
+        console.log(encounter);
+
         if(encounter.encounterType == 'pokestop') {
             const receivedItems = await spinPokestop(this.msg.userId, user.level, user.itemstorage, encounter);
 
@@ -158,17 +160,20 @@ module.exports = {
 
 async function spinPokestop(userId, level, storageLimit, pokestop) {
     const itemCount = await InventoryCommands.getTotalItemCount(userId);
+    let items;
     if(itemCount >= storageLimit) {
         throw new CustomError('ITEM_STORAGE_FULL');
     }
 
-    const possibleItems = ItemHandler.getPokestopItems(level);
-    let receivedItems = [];
-    let amount = Math.floor(Math.random() * 3) + 3;
-    for(var i=0;i<amount;i++) {
-        let item = possibleItems[Math.floor(Math.random() * possibleItems.length)];
-        receivedItems.push(item);
-        await InventoryCommands.addItems(userId, item.id, 1);
+    if(pokestop.type == 0) {
+        items = ItemHandler.getPokestopItems(level);
+    }
+    else if(pokestop.type == 1) {
+        items = ItemHandler.getGymItems(level);
+    }
+
+    for(var i=0;i<items.length;i++) {
+        await InventoryCommands.addItems(userId, items[i].id, 1);
     }
 
     const endTime = add(Date.now(), { minutes: 5 });
@@ -179,7 +184,7 @@ async function spinPokestop(userId, level, storageLimit, pokestop) {
         endtime: endTime
     });
 
-    return receivedItems;
+    return items;
 }
 
 function calculateMedalMultiplier(pokemon, medals) {

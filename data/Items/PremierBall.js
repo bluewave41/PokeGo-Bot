@@ -10,6 +10,7 @@ class PremierBall {
         this.price = 0;
         this.sellPrice = 0;
         this.fromPokestop = false;
+        this.fromGym = false;
         this.requiredLevel = 0;
         this.requiresEncounter = true;
         this.type = 'pokeball';

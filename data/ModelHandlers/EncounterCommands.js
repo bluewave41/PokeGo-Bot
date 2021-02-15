@@ -26,6 +26,11 @@ module.exports = {
             )
         .where('cell', location);
 
+        //level 5 unlocks potions and revives so it's the minimum needed to show gyms
+        if(level < 5) {
+            pokestops = pokestops.filter(el => el.type != 1);
+        }
+
         pokestops.forEach(el => el.encounterType = 'pokestop');
 
         let rockets = [];

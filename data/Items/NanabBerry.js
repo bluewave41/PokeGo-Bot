@@ -12,9 +12,11 @@ class NanabBerry {
         this.price = 0;
         this.sellPrice = 50;
         this.fromPokestop = true;
+        this.fromGym = false;
         this.requiredLevel = 14;
         this.requiresEncounter = true;
         this.type = 'berry';
+        this.weight = 5;
     }
     async use(msg, encounter) {
         encounter = await PlayerEncounters.query().updateAndFetchById(msg.userId, {

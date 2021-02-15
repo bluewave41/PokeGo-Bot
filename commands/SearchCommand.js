@@ -26,7 +26,6 @@ class SearchCommand extends Command {
         await this.setup();
 
         const pokemonCount = await PokemonCommands.getPokemonCount(this.msg.userId);
-        console.log(typeof pokemonCount, pokemonCount+1)
         if(pokemonCount+1 > this.user.storage) {
             throw new CustomError('STORAGE_FULL');
         }
@@ -34,6 +33,7 @@ class SearchCommand extends Command {
         const travelRequest = await TravelRequests.query().select('userId')
             .where('userId', this.msg.userId)
             .first();
+            
         if(travelRequest) {
             throw new CustomError('TRAVEL_IN_PROGRESS');
         }

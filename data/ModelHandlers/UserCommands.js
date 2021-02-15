@@ -10,17 +10,20 @@ module.exports = {
         
         let newXP = user.xp + xp;
         let level = user.level;
-        let requiredXPForLevel = LevelTable[level].requiredXP;
 
-        while(newXP >= requiredXPForLevel) {
-            newXP -= requiredXPForLevel;
-            requiredXPForLevel = LevelTable[++level].totalXP;
-            await MailCommands.addLevelUpMail(userId, level);
-            if(!user.team && level >= 5) { //send team message if they don't belong to a team
-                try {
-                    await MailCommands.addTeamMail(userId);
+        if(user.level < 40) {
+            let requiredXPForLevel = LevelTable[level].requiredXP;
+
+            while(newXP >= requiredXPForLevel) {
+                newXP -= requiredXPForLevel;
+                requiredXPForLevel = LevelTable[++level].totalXP;
+                await MailCommands.addLevelUpMail(userId, level);
+                if(!user.team && level >= 5) { //send team message if they don't belong to a team
+                    try {
+                        await MailCommands.addTeamMail(userId);
+                    }
+                    catch(e) {}
                 }
-                catch(e) {}
             }
         }
 

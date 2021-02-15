@@ -14,6 +14,7 @@ class FastTM {
         this.price = 500;
         this.sellPrice = 250;
         this.fromPokestop = false;
+        this.fromGym = false;
         this.requiredLevel = 0;
         this.requiresEncounter = false;
         this.type = 'tm';

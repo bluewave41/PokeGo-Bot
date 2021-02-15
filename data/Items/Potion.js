@@ -15,10 +15,12 @@ class Potion {
         this.shopItem = true;
         this.price = 50;
         this.sellPrice = 25;
-        this.fromPokestop = true;
+        this.fromPokestop = false;
+        this.fromGym = true;
         this.requiredLevel = 5;
         this.requiresEncounter = false;
         this.type = 'healing';
+        this.weight = 30;
     }
     async use(msg) {
         const pokemon = await Pokemon.query().select('*', raw('COUNT(*) OVER() AS count'))

@@ -12,10 +12,12 @@ class UltraBall {
         this.price = 500;
         this.sellPrice = 250;
         this.fromPokestop = true;
+        this.fromGym = false;
         this.requiredLevel = 20;
         this.requiresEncounter = true;
         this.type = 'pokeball';
         this.catchMultiplier = 2;
+        this.weight = 7;
     }
     async use(msg, encounter) {
         encounter = await PlayerEncounters.query().updateAndFetchById(msg.userId, {

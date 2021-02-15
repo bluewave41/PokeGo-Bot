@@ -12,10 +12,12 @@ class PokeBall {
         this.price = 100;
         this.sellPrice = 50;
         this.fromPokestop = true;
+        this.fromGym = false;
         this.requiredLevel = 0;
         this.requiresEncounter = true;
         this.type = 'pokeball';
         this.catchMultiplier = 1;
+        this.weight = 50;
     }
     async use(msg, encounter) {
         encounter = await PlayerEncounters.query().updateAndFetchById(msg.userId, {

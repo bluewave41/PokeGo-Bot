@@ -13,9 +13,11 @@ class PinapBerry {
         this.price = 0;
         this.sellPrice = 50;
         this.fromPokestop = true;
+        this.fromGym = false;
         this.requiredLevel = 18;
         this.requiresEncounter = true;
         this.type = 'berry';
+        this.weight = 10;
     }
     async use(msg, encounter) {
         encounter = await PlayerEncounters.query().updateAndFetchById(msg.userId, {
