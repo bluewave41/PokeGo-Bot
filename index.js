@@ -6,6 +6,7 @@ const SocketServer = require('./SocketServer');
 const CommandRegistry = require('./CommandRegistry');
 require('./lib/Database');
 const User = require('~/knex/models/User');
+const Logger = require('./Logger');
 
 const server = new SocketServer(client);
 
@@ -49,5 +50,15 @@ client.on('message', async msg => {
 client.on('messageReactionAdd', async (reaction, user) => {
     await CommandRegistry.parseReactions(reaction, user);
 });
+
+//On server add
+client.on("guildCreate", guild => {
+    Logger.info(`Joined: ${guild.name}`);
+})
+
+//On server leave
+client.on("guildDelete", guild => {
+    Logger.info(`Left: ${guild.name}`);
+})
 
 client.login(process.env.token);

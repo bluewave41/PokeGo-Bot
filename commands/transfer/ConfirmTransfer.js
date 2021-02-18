@@ -3,6 +3,7 @@ const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
 const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 const User = require('~/knex/models/User');
+const Logger = require('~/Logger');
 
 const options = {
     names: [],
@@ -32,6 +33,11 @@ class ConfirmTransfer extends Command {
             description: `You transfered ${pokemon.name}. You received:\n- 1 candy`,
             image: pokemon.url
         }
+
+        Logger.log({
+            level: 'info',
+            message: `${this.msg.userId} transfered ${pokemonId} ${JSON.stringify(pokemon)}`
+        });
 
         await User.reset(this.msg.userId);
         return EmbedBuilder.build(this.msg, embed);

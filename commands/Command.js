@@ -66,7 +66,7 @@ class Command {
             if(actual) {
                 actual = actual.toLowerCase();
             }
-            const actualType = this.determineVariableType(actual, expected.type); //what type is it?
+            const actualType = this.determineVariableType(actual, expected.type, expected.asType); //what type is it?
             //test if the parameter matches the given function
             if(typeof expected.possible == 'function') {
                 //if it doesn't match
@@ -106,11 +106,14 @@ class Command {
         }
         return true;
     }
-    determineVariableType(value, expectedType) {
+    determineVariableType(value, expectedType, asType) {
         if(typeof value === 'undefined') {
             return 'undefined';
         }
         if(/^\d+$/.test(value) && Number.isInteger(parseInt(value))) {
+            if(asType) {
+                return asType;
+            }
             return 'number';
         }
         if(expectedType == 'rest') {

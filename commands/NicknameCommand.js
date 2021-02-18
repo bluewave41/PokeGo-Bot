@@ -3,6 +3,7 @@ const PokemonCommands = require('../data/ModelHandlers/PokemonCommands');
 const Pokemon = require('../knex/models/Pokemon');
 const CustomError = require('../lib/errors/CustomError');
 const Command = require('./Command');
+const Logger = require('~/Logger');
 
 const options = {
     names: ['nickname', 'nick'],
@@ -42,6 +43,11 @@ class NicknameCommand extends Command {
             description: `${pokemon.oldName}'s name was changed to ${pokemon.nickname}!`,
             image: pokemon.url
         }
+
+        Logger.log({
+            level: 'info',
+            message: `${this.msg.userId} named ${this.pokemonId} ${this.nickname}`
+        });
     
         return EmbedBuilder.build(this.msg, embed);
     }

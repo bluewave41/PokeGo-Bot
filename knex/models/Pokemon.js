@@ -7,9 +7,9 @@ class Pokemon extends Model {
 	static get tableName() {
 		return 'pokemon';
     }
-    static get virtualAttributes() {
-        return ['url', 'path', 'emoji', 'name', 'originalName', 'totalIV', 'evolveCost', 'evolution', 'moves'];
-    }
+    //static get virtualAttributes() {
+    //    return ['url', 'path', 'emoji', 'name', 'originalName', 'totalIV', 'evolveCost', 'evolution', 'moves'];
+    //}
     static get idColumn() {
         return 'pokemonId';
     }

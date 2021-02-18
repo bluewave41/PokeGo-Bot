@@ -3,6 +3,7 @@ const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
 const CandyCommands = require('~/data/ModelHandlers/CandyCommands');
 const Command = require('./Command');
 const CustomError = require('~/lib/errors/CustomError');
+const Logger = require('~/Logger');
 
 const options = {
     names: ['evolve'],
@@ -31,6 +32,11 @@ class EvolveCommand extends Command {
         const evolveCost = this.pokemon.evolveCost; //have to use old Pokemon evolve cost
 
         this.pokemon = await PokemonCommands.evolvePokemon(this.msg.userId, this.pokemon);
+
+        Logger.log({
+            level: 'info',
+            message: `${this.msg.userId} evolved ${oldName} into ${this.pokemon.originalName}. (${this.candy} => ${evolveCost})`
+        });
         
         const embed = {
             title: 'Evolution',

@@ -11,6 +11,7 @@ const Command = require('../Command');
 const CustomError = require('~/lib/errors/CustomError');
 const ItemHandler = require('~/lib/ItemHandler');
 const EncounterCommands = require('~/data/ModelHandlers/EncounterCommands');
+const Logger = require('~/Logger');
 
 const options = {
     names: [],
@@ -86,6 +87,8 @@ class SelectSquare extends Command {
 
                 //add pokemon
                 const pokemon = await PokemonCommands.catchPokemon(this.msg.userId, encounter.pokemon, encounter.candyEarned);
+
+                Logger.info(`${this.msg.userId} caught ${pokemon.pokemonId} ${JSON.stringify(pokemon)}`);
 
                 const user = await User.query().select('userId', 'location', 'secretId', 'level')
                     .findOne('userId', this.msg.userId);
