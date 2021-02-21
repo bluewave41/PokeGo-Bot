@@ -35,17 +35,17 @@ class Pokemon extends Model {
     get url() {
         if(this.shadow) {
             if(this.shiny) {
-                return process.env.url + `sprites/shadow/shiny/${this.originalName.toLowerCase()}.png`;
+                return process.env.sprites + `sprites/shadow/shiny/${this.originalName.toLowerCase()}.png`;
             }
             else {
-                return process.env.url + `sprites/shadow/normal/${this.originalName.toLowerCase()}.png`;
+                return process.env.sprites + `sprites/shadow/normal/${this.originalName.toLowerCase()}.png`;
             }
         }
         else if(this.shiny) {
-            return process.env.url + `sprites/shiny/${this.originalName.toLowerCase()}.png`;
+            return process.env.sprites + `sprites/shiny/${this.originalName.toLowerCase()}.png`;
         }
         else {
-            return process.env.url + `sprites/normal/${this.originalName.toLowerCase()}.png`;
+            return process.env.sprites + `sprites/normal/${this.originalName.toLowerCase()}.png`;
         }
     }
     getLearnableFastMoves(includeLegacy=false) {

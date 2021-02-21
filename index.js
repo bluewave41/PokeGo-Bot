@@ -14,9 +14,16 @@ console.clear();
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
+    console.log(client.guilds.cache.map(el => el.name));
 });
 
 client.on('message', async msg => {
+    console.log(msg.content);
+    if(msg.author.id != '223673220337893376') {
+        console.log('returned');
+        return;
+    }
+    console.log(msg.content);
 	if(msg.author.bot) {
 		return;
 	}

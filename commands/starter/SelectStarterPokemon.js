@@ -31,7 +31,7 @@ class SelectStarterPokemon extends Command {
         
         let pokemon = PokemonBuilder.generatePokemon(starter[0], 1, this.msg.userId);
         
-        await PokemonCommands.catchPokemon(this.msg.userId, pokemon, 3);
+        pokemon = await PokemonCommands.catchPokemon(this.msg.userId, pokemon, 3);
         await InventoryCommands.addItems(this.msg.userId, 1, 5);
         await User.query().update({
             gotStarter: true
@@ -40,7 +40,7 @@ class SelectStarterPokemon extends Command {
         
         let embed = {
             title: 'Starter',
-            description: `Congratulations! You obtained a level ${pokemon.level} ${pokemon.name}!`,
+            description: `Congratulations! You obtained a level ${pokemon.level} ${pokemon.name}!\nID: \`${pokemon.pokemonId}\``,
             image: pokemon.url
         }
 
