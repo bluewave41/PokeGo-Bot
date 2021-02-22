@@ -17,36 +17,30 @@ class Pokemon extends Model {
         return MoveList[this.chargeMove].pvpEnergy;
     }
 	get path() {
+        let path = `sprites/untrimmed`;
         if(this.shadow) {
-            if(this.shiny) {
-                return `public/sprites/shadow/shiny/${this.originalName.toLowerCase()}.png`;
-            }
-            else {
-                return `public/sprites/shadow/normal/${this.originalName.toLowerCase()}.png`;
-            }
+            path += 'shadow/';
         }
-        else if(this.shiny) {
-            return `public/sprites/shiny/${this.originalName.toLowerCase()}.png`;
+        path += this.shiny ? 'shiny/' : 'normal/';
+        path += this.originalName.toLowerCase();
+        if(this.gender && PokemonData[this.pokedexId].altSprite) {
+            path += 'f';
         }
-        else {
-            return `public/sprites/normal/${this.originalName.toLowerCase()}.png`;
-        }
+        path += '.png';
+        return path;
 	}
     get url() {
+        let path = process.env.sprites + `sprites/`;
         if(this.shadow) {
-            if(this.shiny) {
-                return process.env.sprites + `sprites/shadow/shiny/${this.originalName.toLowerCase()}.png`;
-            }
-            else {
-                return process.env.sprites + `sprites/shadow/normal/${this.originalName.toLowerCase()}.png`;
-            }
+            path += 'shadow/';
         }
-        else if(this.shiny) {
-            return process.env.sprites + `sprites/shiny/${this.originalName.toLowerCase()}.png`;
+        path += this.shiny ? 'shiny/' : 'normal/';
+        path += this.originalName.toLowerCase();
+        if(this.gender && PokemonData[this.pokedexId].altSprite) {
+            path += 'f';
         }
-        else {
-            return process.env.sprites + `sprites/normal/${this.originalName.toLowerCase()}.png`;
-        }
+        path += '.png';
+        return path;
     }
     getLearnableFastMoves(includeLegacy=false) {
         let moves = PokemonData[this.pokedexId].fastMoves;

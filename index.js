@@ -18,12 +18,9 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
-    console.log(msg.content);
-    if(msg.author.id != '223673220337893376') {
-        console.log('returned');
+    if(!msg.author.id == '223673220337893376') {
         return;
     }
-    console.log(msg.content);
 	if(msg.author.bot) {
 		return;
 	}

@@ -17,7 +17,7 @@ class HelpCommand extends Command {
     async run() {
         const embed = {
             title: 'Help',
-            description: `View commands and manage your Pokemon at http://www.bluewave41.xyz/help.`
+            description: `View commands and manage your Pokemon at http://www.bluewave41.xyz/.`
         }
         return EmbedBuilder.build(this.msg, embed);
     }

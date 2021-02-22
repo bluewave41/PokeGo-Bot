@@ -28,7 +28,8 @@ module.exports = {
         field[encounter.position] = encounter.pokemon.emoji;
 
         let embed = {
-            title: encounter.sprites ? 'Pokemon in the area' : 'Encounter'
+            title: encounter.sprites ? 'Pokemon in the area' : 'Encounter',
+            footer: 'Confused? See the quickstart guide at http://www.bluewave41.xyz/help/quickstart'
         }
 
         const totalBalls = encounter.pokeBalls.reduce((acc, { amount }) => acc + amount, 0);

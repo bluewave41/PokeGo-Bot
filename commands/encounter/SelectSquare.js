@@ -75,7 +75,6 @@ class SelectSquare extends Command {
                 }
 
                 await UserCommands.addXP(this.msg.userId, xpGained);
-                await User.setNextCommand(this.msg.userId, 'encounter/StartEncounter');
 
                 //don't insert shadows into this
                 if(encounter.encounterId) {
@@ -85,15 +84,13 @@ class SelectSquare extends Command {
                     });
                 }
 
-                //add pokemon
+                //give user the Pokemon
                 const pokemon = await PokemonCommands.catchPokemon(this.msg.userId, encounter.pokemon, encounter.candyEarned);
 
+                //log the catch
                 Logger.info(`${this.msg.userId} caught ${pokemon.pokemonId} ${JSON.stringify(pokemon)}`);
 
-                const user = await User.query().select('userId', 'location', 'secretId', 'level')
-                    .findOne('userId', this.msg.userId);
-                
-                const sprites = await EncounterCommands.getSprites(this.msg.userId, user.location, user.secretId, user.level);
+                await endEncounter(this.msg.userId, reply);
             
                 reply.flag = 'caught';
                 reply.xpGained = xpGained;
@@ -101,7 +98,6 @@ class SelectSquare extends Command {
                 reply.catchCandy = encounter.candyEarned;
                 reply.pokemonId = pokemon.pokemonId;
                 reply.position = -1;
-                reply.sprites = sprites
             }
             else {
                 reply.flag = 'fail';
@@ -125,7 +121,7 @@ class SelectSquare extends Command {
                 pokemonPos: pokemonPos,
                 canPokemonMove: true
             })
-            .where('userID', this.msg.userId);
+            .where('userId', this.msg.userId);
         }
 
         let pokeBalls;
@@ -150,8 +146,8 @@ class SelectSquare extends Command {
         const totalPokeballs = pokeBalls.reduce((acc, { amount }) => acc + amount, 0);
 
         //User has no Pokeballs so we should force quit the encounter
-        if(totalPokeballs <= 0) {
-            await User.reset(this.msg.userId);
+        if(totalPokeballs <= 0 && reply.flag != 'caught') {
+            await endEncounter(this.msg.userId, reply);
 
             await PlayerEncounters.query().delete()
                 .where('userId', this.msg.userId);
@@ -175,6 +171,15 @@ class SelectSquare extends Command {
 module.exports = {
     options: options,
     class: SelectSquare,
+}
+
+async function endEncounter(userId, reply) {
+    await User.setNextCommand(userId, 'encounter/StartEncounter');
+
+    const user = await User.query().select('userId', 'location', 'secretId', 'level')
+        .findOne('userId', userId);
+
+    reply.sprites = await EncounterCommands.getSprites(userId, user.location, user.secretId, user.level);
 }
 
 function isValidToss(toss) {

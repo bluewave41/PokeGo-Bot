@@ -128,7 +128,8 @@ module.exports = {
 		"defense": 189,
 		"captureRate": 5,
 		"fleeRate": 5,
-		"maxCP": 2720
+		"maxCP": 2720,
+		"altSprite": true,
 	},
 	"4": {
 		"name": "Charmander",
@@ -522,7 +523,8 @@ module.exports = {
 		"defense": 137,
 		"captureRate": 12,
 		"fleeRate": 6,
-		"maxCP": 1827
+		"maxCP": 1827,
+		"altSprite": true
 	},
 	"13": {
 		"name": "Weedle",
@@ -826,7 +828,8 @@ module.exports = {
 		"defense": 70,
 		"captureRate": 50,
 		"fleeRate": 20,
-		"maxCP": 734
+		"maxCP": 734,
+		"altSprite": true
 	},
 	"20": {
 		"name": "Raticate",
@@ -866,7 +869,8 @@ module.exports = {
 		"defense": 139,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 1730
+		"maxCP": 1730,
+		"altSprite": true
 	},
 	"21": {
 		"name": "Spearow",
@@ -1106,7 +1110,8 @@ module.exports = {
 		"defense": 96,
 		"captureRate": 20,
 		"fleeRate": 10,
-		"maxCP": 938
+		"maxCP": 938,
+		"altSprite": true
 	},
 	"26": {
 		"name": "Raichu",
@@ -1162,7 +1167,8 @@ module.exports = {
 		"defense": 151,
 		"captureRate": 10,
 		"fleeRate": 6,
-		"maxCP": 2182
+		"maxCP": 2182,
+		"altSprite": true
 	},
 	"27": {
 		"name": "Sandshrew",
@@ -1857,7 +1863,8 @@ module.exports = {
 		"defense": 73,
 		"captureRate": 50,
 		"fleeRate": 20,
-		"maxCP": 667
+		"maxCP": 667,
+		"altSprite": true
 	},
 	"42": {
 		"name": "Golbat",
@@ -1902,7 +1909,8 @@ module.exports = {
 		"defense": 150,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 1976
+		"maxCP": 1976,
+		"altSprite": true
 	},
 	"43": {
 		"name": "Oddish",
@@ -1988,7 +1996,8 @@ module.exports = {
 		"defense": 136,
 		"captureRate": 30,
 		"fleeRate": 7,
-		"maxCP": 1681
+		"maxCP": 1681,
+		"altSprite": true
 	},
 	"45": {
 		"name": "Vileplume",
@@ -2033,7 +2042,8 @@ module.exports = {
 		"defense": 167,
 		"captureRate": 15,
 		"fleeRate": 5,
-		"maxCP": 2559
+		"maxCP": 2559,
+		"altSprite": true
 	},
 	"46": {
 		"name": "Paras",
@@ -2896,7 +2906,8 @@ module.exports = {
 		"defense": 117,
 		"captureRate": 25,
 		"fleeRate": 7,
-		"maxCP": 2059
+		"maxCP": 2059,
+		"altSprite": true
 	},
 	"65": {
 		"name": "Alakazam",
@@ -2952,7 +2963,8 @@ module.exports = {
 		"defense": 167,
 		"captureRate": 10,
 		"fleeRate": 5,
-		"maxCP": 3057
+		"maxCP": 3057,
+		"altSprite": true
 	},
 	"66": {
 		"name": "Machop",
@@ -3836,7 +3848,8 @@ module.exports = {
 		"defense": 83,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1200
+		"maxCP": 1200,
+		"altSprite": true
 	},
 	"85": {
 		"name": "Dodrio",
@@ -3881,7 +3894,8 @@ module.exports = {
 		"defense": 140,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2362
+		"maxCP": 2362,
+		"altSprite": true
 	},
 	"86": {
 		"name": "Seel",
@@ -4487,7 +4501,8 @@ module.exports = {
 		"defense": 193,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2090
+		"maxCP": 2090,
+		"altSprite": true
 	},
 	"98": {
 		"name": "Krabby",
@@ -5122,7 +5137,8 @@ module.exports = {
 		"defense": 127,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1651
+		"maxCP": 1651,
+		"altSprite": true
 	},
 	"112": {
 		"name": "Rhydon",
@@ -5167,7 +5183,8 @@ module.exports = {
 		"defense": 171,
 		"captureRate": 5,
 		"fleeRate": 6,
-		"maxCP": 3179
+		"maxCP": 3179,
+		"altSprite": true
 	},
 	"113": {
 		"name": "Chansey",
@@ -5431,7 +5448,8 @@ module.exports = {
 		"defense": 110,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 1152
+		"maxCP": 1152,
+		"altSprite": true
 	},
 	"119": {
 		"name": "Seaking",
@@ -5483,7 +5501,8 @@ module.exports = {
 		"defense": 147,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 2162
+		"maxCP": 2162,
+		"altSprite": true
 	},
 	"120": {
 		"name": "Staryu",
@@ -5668,7 +5687,8 @@ module.exports = {
 		"defense": 170,
 		"captureRate": 30,
 		"fleeRate": 9,
-		"maxCP": 2706
+		"maxCP": 2706,
+		"altSprite": true
 	},
 	"124": {
 		"name": "Jynx",
@@ -5923,7 +5943,8 @@ module.exports = {
 		"defense": 85,
 		"captureRate": 70,
 		"fleeRate": 15,
-		"maxCP": 274
+		"maxCP": 274,
+		"altSprite": true
 	},
 	"130": {
 		"name": "Gyarados",
@@ -5984,7 +6005,8 @@ module.exports = {
 		"defense": 186,
 		"captureRate": 10,
 		"fleeRate": 7,
-		"maxCP": 3391
+		"maxCP": 3391,
+		"altSprite": true
 	},
 	"131": {
 		"name": "Lapras",

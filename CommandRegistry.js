@@ -108,6 +108,7 @@ async function init(msg, shouldInsert=true) {
     //this one uses discordId so we can't use UserCommands
     let user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team', 'admin')
         .where('discordID', msg.author.id).first();
+        
     if(!user && shouldInsert) {
         user = await User.query().insert({
             discordID: msg.author.id,
