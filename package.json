@@ -18,7 +18,6 @@
     "date-fns": "^2.16.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "dpdm": "^3.6.0",
     "knex": "^0.21.12",
     "link-module-alias": "^1.2.0",
     "mysql2": "^2.2.5",
