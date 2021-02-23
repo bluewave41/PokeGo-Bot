@@ -49,6 +49,9 @@ client.on('message', async msg => {
 });
 
 client.on('messageReactionAdd', async (reaction, user) => {
+    if(user.bot) {
+        return;
+    }
     await CommandRegistry.parseReactions(reaction, user);
 });
 
