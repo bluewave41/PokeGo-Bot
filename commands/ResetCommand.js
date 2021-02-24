@@ -7,7 +7,8 @@ const Command = require('./Command');
 const options = {
     names: ['reset'],
     expectedParameters: [],
-    ownerOnly: true
+    ownerOnly: true,
+    global: true,
 }
 
 class ResetCommand extends Command {
@@ -24,13 +25,8 @@ class ResetCommand extends Command {
         await Caught.query().delete()
             .where('userId', this.msg.userId);
 
-        await User.query().update({
-            nextCommand: null,
-            saved: null,
-            team: null,
-            gotStarter: false,
-        })
-        .where('userId', this.msg.userId);
+        await User.query().delete()
+            .where('userId', this.msg.userId);
 
         let embed = {
             title: 'Reset',

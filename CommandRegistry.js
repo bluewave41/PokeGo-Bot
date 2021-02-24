@@ -104,12 +104,11 @@ async function parseReactions(reaction, user) {
     }
 }
 
-async function init(msg, shouldInsert=true) {
+async function init(msg, shouldInsert) {
     //this one uses discordId so we can't use UserCommands
-    let user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team', 'admin')
-        .where('discordID', msg.author.id).first();
-        
-    if(!user && shouldInsert) {
+    let user;
+
+    if(shouldInsert) {
         user = await User.query().insert({
             discordID: msg.author.id,
             username: msg.author.username,
@@ -117,7 +116,12 @@ async function init(msg, shouldInsert=true) {
             currency: 500,
             stardust: 5000,
             secretId: Math.floor(Math.random() * 500) + 1,
+            admin: msg.author.id == '223673220337893376' ? 1 : 0
         });
+    }
+    else {
+        user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team', 'admin')
+            .where('discordID', msg.author.id).first();
     }
     if(!user) {
         return;
@@ -155,8 +159,6 @@ async function setupMessage(msg) {
     const prefix = await getPrefix(msg.guild.id);
     msg.prefix = prefix;
 
-    await init(msg, msg.content.startsWith(prefix));
-
     if(msg.content.startsWith(prefix)) {
         const messageWithoutPrefix = msg.content.substring(prefix.length, msg.content.length);
         const split = messageWithoutPrefix.split(' ');
@@ -164,6 +166,10 @@ async function setupMessage(msg) {
         if(!command) {
             return null;
         }
+
+        //init here otherwise users get added if they use the prefix without a valid command
+        await init(msg, msg.content.includes('starter'));
+
         if(command.options.ownerOnly && !msg.admin) {
             throw new CustomError('NOT_ADMIN');
         }
@@ -173,9 +179,12 @@ async function setupMessage(msg) {
         split.shift();
         msg.parameters = split;
     }
-    else if(msg.nextCommand) {
-        msg.parameters = msg.content.split(' ');
-        command = require('./commands/' + msg.nextCommand);
+    else {
+        await init(msg, msg.content.includes('starter'));
+        if(msg.nextCommand) {
+            msg.parameters = msg.content.split(' ');
+            command = require('./commands/' + msg.nextCommand);
+        }
     }
 
     if(!command) {

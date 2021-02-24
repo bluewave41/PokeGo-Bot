@@ -36,7 +36,7 @@ module.exports = {
         const inventory = await Inventory.query().sum('amount as sum')
             .where('userId', userId);
 
-        return inventory[0].sum;
+        return inventory[0].sum || 0;
     },
     async getInventory(userId) {
         const inventory = await Inventory.query().select('itemId', 'amount')

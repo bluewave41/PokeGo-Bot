@@ -37,7 +37,7 @@ module.exports = {
         if(encounter.flag) {
             switch(encounter.flag) {
                 case 'caught':
-                    description += `Wow! You caught ${encounter.pokemon.displayName}!\nView it with ${msg.prefix}d ${encounter.pokemonId}`;
+                    description += `You caught ${encounter.pokemon.displayName}!\nView it with ${msg.prefix}d ${encounter.pokemonId}`;
                     description += '\n\n' + SpriteListBuilder.build(encounter.sprites);
                     embed.image = encounter.pokemon.url;
                     embed.footer = `You gained ${encounter.xpGained} XP, ${encounter.catchDust} stardust and received ${encounter.catchCandy} candy.`;

@@ -74,4 +74,5 @@ module.exports = {
     'MAX_POKEMON_LEVEL_REACHED': "This Pokemon has reached its maximum level.",
     'TRAVEL_IN_PROGRESS': "You can't search for Pokemon while travelling!",
     'OCCUPYING_LOCATION': "You're already at that location!",
+    'INVALID_PREFIX_CHARACTER': "You can't put @ in your prefix!",
 }

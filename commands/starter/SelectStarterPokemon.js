@@ -12,7 +12,6 @@ const options = {
     expectedParameters: [
         { name: 'pokemonName', type: ['string'], optional: false }
     ],
-    canQuit: true,
     info: 'Selecting a starter'
 }
 

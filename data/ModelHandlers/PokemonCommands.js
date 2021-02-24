@@ -28,6 +28,7 @@ module.exports = {
         const pokemon = await PokemonModel.query().count('* as count')
             .where('ownerId', userId)
             .first();
+            
         return parseInt(pokemon.count);
     },
     async canTransferPokemon(userId, pokemonId) {

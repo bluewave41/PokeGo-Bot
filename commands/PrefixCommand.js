@@ -23,6 +23,9 @@ class PrefixCommand extends Command {
         if(this.prefix.length > 3) {
             throw new CustomError('INVALID_PREFIX_LENGTH');
         }
+        if(this.prefix.includes('@')) {
+            throw new CustomError('INVALID_PREFIX_CHARACTER');
+        }
     }
     async run() {
         const newPrefix = this.msg.parameters[0];

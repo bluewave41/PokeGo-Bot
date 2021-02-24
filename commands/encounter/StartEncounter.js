@@ -1,4 +1,5 @@
 const CurrentEncounters = require('~/knex/models/CurrentEncounters');
+const SeenEncounters = require('~/knex/models/SeenEncounters');
 const User = require('~/knex/models/User');
 const SpunPokestops = require('~/knex/models/SpunPokestops');
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
@@ -98,14 +99,24 @@ class StartEncounter extends Command {
             return;
         }
         else {
+            //this is a Pokemon encounter
             let pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
             if(!pokeBalls.length) {
                 throw new CustomError('INSUFFICIENT_POKEBALLS');
             }
             //user has enough pokeballs so the encounter is valid
 
-            //update the seen entry for pokedex
-            await PokedexCommands.insert(this.msg.userId, encounter.pokedexId, false);
+            //update the seen entry for pokedex if this is first time user has chosen encounter
+            const entry = await SeenEncounters.query().select('encounterId')
+                .findOne('userId', this.msg.userId);
+
+            if(!entry) {
+                await PokedexCommands.insert(this.msg.userId, encounter.pokedexId, false);
+                await SeenEncounters.query().insert({
+                    userId: this.msg.userId,
+                    encounterId: encounter.id
+                });
+            }
     
             //get the pokemon
             const pokemon = await CurrentEncounters.query().select('*')
