@@ -4599,7 +4599,7 @@ module.exports = {
 		"pokedexID": 100,
 		"type1": "electric",
 		"candyId": 44,
-		"emoji": "<:voltorb:790298040144494652>",
+		"emoji": "<:voltorb:814111387449950208>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 101,

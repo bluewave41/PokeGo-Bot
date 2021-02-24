@@ -20,7 +20,6 @@ class Command {
         //check the type
         switch(actualType) {
             case 'string':
-            case 'array':
                 this[expected.name] = actual;
                 break;
             case 'number':

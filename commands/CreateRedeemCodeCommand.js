@@ -5,7 +5,7 @@ const Utils = require('~/lib/Utils');
 const options = {
     names: ['createRedeemCode'],
     expectedParameters: [
-        { name: 'rewards', type: 'array', optional: false }
+        { name: 'rewards', type: 'string', optional: false }
     ],
     ownerOnly: true,
     global: true,
