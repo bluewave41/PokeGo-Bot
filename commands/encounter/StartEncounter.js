@@ -114,7 +114,7 @@ class StartEncounter extends Command {
                 await PokedexCommands.insert(this.msg.userId, encounter.pokedexId, false);
                 await SeenEncounters.query().insert({
                     userId: this.msg.userId,
-                    encounterId: encounter.id
+                    encounterId: encounter.encounterId
                 });
             }
     

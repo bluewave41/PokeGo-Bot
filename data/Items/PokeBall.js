@@ -9,8 +9,8 @@ class PokeBall {
         this.emoji = '<:pokeball:793190053954060318>';
         this.description = 'A tool used for catching Pokemon';
         this.shopItem = true;
-        this.price = 100;
-        this.sellPrice = 50;
+        this.price = 10;
+        this.sellPrice = 5;
         this.fromPokestop = true;
         this.fromGym = false;
         this.requiredLevel = 0;

@@ -39,13 +39,14 @@ class DailyCommand extends Command {
         })
         .where('userId',this.msg.userId);
     
-
-        //TODO: should this be given every 3 days?
-        await InventoryCommands.addItems(this.msg.userId, ItemEnums.TRAVEL_TICKET, 1);
-
         let description = `You're on a ${newStreak} day streak! You received:\n`;
         description += `- ${earned} ${Emojis.COIN}\n`;
-        description += `- 1 Travel Ticket ${Emojis.TRAVEL_TICKET}`
+
+        //TODO: should this be given every 3 days?
+        if(newStreak %3 == 0) {
+            await InventoryCommands.addItems(this.msg.userId, ItemEnums.TRAVEL_TICKET, 1);
+            description += `- 1 Travel Ticket ${Emojis.TRAVEL_TICKET}`
+        }
         
         let embed = {
             title: 'Daily',
