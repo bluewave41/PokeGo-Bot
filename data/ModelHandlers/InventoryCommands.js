@@ -14,7 +14,6 @@ module.exports = {
         let r = await Inventory.query().decrement('amount', amount)
             .where('userId', userId)
             .where('itemId', itemId);
-        console.log(r);
     },
     async addItems(userId, itemId, amount) {
         try {

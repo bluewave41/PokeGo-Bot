@@ -55,8 +55,6 @@ class StartEncounter extends Command {
 
         const encounter = sprites[this.position-1];
 
-        console.log(encounter);
-
         if(encounter.encounterType == 'pokestop') {
             const receivedItems = await spinPokestop(this.msg.userId, user.level, user.itemstorage, encounter);
 

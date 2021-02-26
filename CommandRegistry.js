@@ -106,9 +106,10 @@ async function parseReactions(reaction, user) {
 
 async function init(msg, shouldInsert) {
     //this one uses discordId so we can't use UserCommands
-    let user;
+    let user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team', 'admin')
+        .where('discordID', msg.author.id).first();
 
-    if(shouldInsert) {
+    if(!user) {
         user = await User.query().insert({
             discordID: msg.author.id,
             username: msg.author.username,
@@ -119,13 +120,7 @@ async function init(msg, shouldInsert) {
             admin: msg.author.id == '223673220337893376' ? 1 : 0
         });
     }
-    else {
-        user = await User.query().select('userId', 'nextCommand', 'location', 'lastMessageId', 'gotStarter', 'team', 'admin')
-            .where('discordID', msg.author.id).first();
-    }
-    if(!user) {
-        return;
-    }
+    
     const info = {
         userId: user.userId,
         nextCommand: user.nextCommand,

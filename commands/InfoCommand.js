@@ -30,7 +30,6 @@ class InfoCommand extends Command {
         let status = 'Nothing right now';
         let levelProgressString = `Level: ${user.level}`;
         if(LevelList[user.level]) {
-            console.log('here');
             levelProgressString += `\nXP: ${user.xp}/${LevelList[user.level].requiredXP}`;
         }
         levelProgressString += `\n${user.totalxp} total XP`;
