@@ -4,7 +4,6 @@ module.exports = {
 		"pokedexID": 1,
 		"type1": "grass",
 		"candyId": 1,
-		"emoji": "<:bulbasaur:790293599711133697>",
 		"stage": 1,
 		"type2": "poison",
 		"evolveCost": 25,
@@ -40,14 +39,14 @@ module.exports = {
 		"defense": 111,
 		"captureRate": 20,
 		"fleeRate": 10,
-		"maxCP": 1115
+		"maxCP": 1115,
+		"emoji": "<:bulbasaur:814858591181602837>"
 	},
 	"2": {
 		"name": "Ivysaur",
 		"pokedexID": 2,
 		"type1": "grass",
 		"candyId": 1,
-		"emoji": "<:ivysaur:790294926474346536>",
 		"stage": 2,
 		"type2": "poison",
 		"evolveCost": 100,
@@ -83,14 +82,14 @@ module.exports = {
 		"defense": 143,
 		"captureRate": 10,
 		"fleeRate": 7,
-		"maxCP": 1699
+		"maxCP": 1699,
+		"emoji": "<:ivysaur:814859527555907594>"
 	},
 	"3": {
 		"name": "Venusaur",
 		"pokedexID": 3,
 		"type1": "grass",
 		"candyId": 1,
-		"emoji": "<:venusaur:790298040149213234>",
 		"stage": 3,
 		"type2": "poison",
 		"weight": 100,
@@ -130,13 +129,13 @@ module.exports = {
 		"fleeRate": 5,
 		"maxCP": 2720,
 		"altSprite": true,
+		"emoji": "<:venusaur:814876264091484161>"
 	},
 	"4": {
 		"name": "Charmander",
 		"pokedexID": 4,
 		"type1": "fire",
 		"candyId": 2,
-		"emoji": "<:charmander:790293599349768203>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 5,
@@ -171,14 +170,14 @@ module.exports = {
 		"defense": 93,
 		"captureRate": 20,
 		"fleeRate": 10,
-		"maxCP": 980
+		"maxCP": 980,
+		"emoji": "<:charmander:814858590925357056>"
 	},
 	"5": {
 		"name": "Charmeleon",
 		"pokedexID": 5,
 		"type1": "fire",
 		"candyId": 2,
-		"emoji": "<:charmeleon:790293599883493386>",
 		"stage": 2,
 		"evolveCost": 100,
 		"evolveId": 6,
@@ -217,14 +216,14 @@ module.exports = {
 		"defense": 126,
 		"captureRate": 10,
 		"fleeRate": 7,
-		"maxCP": 1653
+		"maxCP": 1653,
+		"emoji": "<:charmeleon:814858590937415680>"
 	},
 	"6": {
 		"name": "Charizard",
 		"pokedexID": 6,
 		"type1": "fire",
 		"candyId": 2,
-		"emoji": "<:charizard:790293599782305792>",
 		"stage": 3,
 		"type2": "flying",
 		"weight": 90.5,
@@ -278,14 +277,14 @@ module.exports = {
 		"defense": 173,
 		"captureRate": 5,
 		"fleeRate": 5,
-		"maxCP": 2889
+		"maxCP": 2889,
+		"emoji": "<:charizard:814858590945935361>"
 	},
 	"7": {
 		"name": "Squirtle",
 		"pokedexID": 7,
 		"type1": "water",
 		"candyId": 3,
-		"emoji": "<:squirtle:790298040127717376>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 8,
@@ -320,14 +319,14 @@ module.exports = {
 		"defense": 121,
 		"captureRate": 20,
 		"fleeRate": 10,
-		"maxCP": 946
+		"maxCP": 946,
+		"emoji": "<:squirtle:814861092052402246>"
 	},
 	"8": {
 		"name": "Wartortle",
 		"pokedexID": 8,
 		"type1": "water",
 		"candyId": 3,
-		"emoji": "<:wartortle:790298041265029162>",
 		"stage": 2,
 		"evolveCost": 100,
 		"evolveId": 9,
@@ -362,14 +361,14 @@ module.exports = {
 		"defense": 155,
 		"captureRate": 10,
 		"fleeRate": 7,
-		"maxCP": 1488
+		"maxCP": 1488,
+		"emoji": "<:wartortle:814861093226676265>"
 	},
 	"9": {
 		"name": "Blastoise",
 		"pokedexID": 9,
 		"type1": "water",
 		"candyId": 3,
-		"emoji": "<:blastoise:790293599778111528>",
 		"stage": 3,
 		"weight": 85.5,
 		"gender_rate": 1,
@@ -410,14 +409,14 @@ module.exports = {
 		"defense": 207,
 		"captureRate": 5,
 		"fleeRate": 5,
-		"maxCP": 2466
+		"maxCP": 2466,
+		"emoji": "<:blastoise:814858590942265424>"
 	},
 	"10": {
 		"name": "Caterpie",
 		"pokedexID": 10,
 		"type1": "bug",
 		"candyId": 4,
-		"emoji": "<:caterpie:790293599732105247>",
 		"stage": 1,
 		"evolveCost": 12,
 		"evolveId": 11,
@@ -444,14 +443,14 @@ module.exports = {
 		"defense": 55,
 		"captureRate": 50,
 		"fleeRate": 20,
-		"maxCP": 437
+		"maxCP": 437,
+		"emoji": "<:caterpie:814858590946197554>"
 	},
 	"11": {
 		"name": "Metapod",
 		"pokedexID": 11,
 		"type1": "bug",
 		"candyId": 4,
-		"emoji": "<:metapod:790294927586099202>",
 		"stage": 2,
 		"evolveCost": 50,
 		"evolveId": 12,
@@ -478,14 +477,14 @@ module.exports = {
 		"defense": 80,
 		"captureRate": 25,
 		"fleeRate": 9,
-		"maxCP": 450
+		"maxCP": 450,
+		"emoji": "<:metapod:814859527467565088>"
 	},
 	"12": {
 		"name": "Butterfree",
 		"pokedexID": 12,
 		"type1": "bug",
 		"candyId": 4,
-		"emoji": "<:butterfree:790293599753338890>",
 		"stage": 3,
 		"type2": "flying",
 		"weight": 32,
@@ -524,14 +523,14 @@ module.exports = {
 		"captureRate": 12,
 		"fleeRate": 6,
 		"maxCP": 1827,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:butterfree:814858590443667497>"
 	},
 	"13": {
 		"name": "Weedle",
 		"pokedexID": 13,
 		"type1": "bug",
 		"candyId": 5,
-		"emoji": "<:weedle:790313330497290251>",
 		"stage": 1,
 		"type2": "poison",
 		"evolveCost": 12,
@@ -559,14 +558,14 @@ module.exports = {
 		"defense": 50,
 		"captureRate": 50,
 		"fleeRate": 20,
-		"maxCP": 456
+		"maxCP": 456,
+		"emoji": "<:weedle:814861093549768788>"
 	},
 	"14": {
 		"name": "Kakuna",
 		"pokedexID": 14,
 		"type1": "bug",
 		"candyId": 5,
-		"emoji": "<:kakuna:790294926277083149>",
 		"stage": 2,
 		"type2": "poison",
 		"evolveCost": 50,
@@ -594,14 +593,14 @@ module.exports = {
 		"defense": 75,
 		"captureRate": 25,
 		"fleeRate": 9,
-		"maxCP": 432
+		"maxCP": 432,
+		"emoji": "<:kakuna:814859527392460802>"
 	},
 	"15": {
 		"name": "Beedrill",
 		"pokedexID": 15,
 		"type1": "bug",
 		"candyId": 5,
-		"emoji": "<:beedrill:790293599711395870>",
 		"stage": 3,
 		"type2": "poison",
 		"weight": 29.5,
@@ -647,14 +646,14 @@ module.exports = {
 		"defense": 130,
 		"captureRate": 12,
 		"fleeRate": 6,
-		"maxCP": 1846
+		"maxCP": 1846,
+		"emoji": "<:beedrill:814858590812373002>"
 	},
 	"16": {
 		"name": "Pidgey",
 		"pokedexID": 16,
 		"type1": "normal",
 		"candyId": 6,
-		"emoji": "<:pidgey:790298040073977866>",
 		"stage": 1,
 		"type2": "flying",
 		"evolveCost": 12,
@@ -690,14 +689,14 @@ module.exports = {
 		"defense": 73,
 		"captureRate": 50,
 		"fleeRate": 20,
-		"maxCP": 680
+		"maxCP": 680,
+		"emoji": "<:pidgey:814861091879256074>"
 	},
 	"17": {
 		"name": "Pidgeotto",
 		"pokedexID": 17,
 		"type1": "normal",
 		"candyId": 6,
-		"emoji": "<:pidgeotto:790298038337273898>",
 		"stage": 2,
 		"type2": "flying",
 		"evolveCost": 50,
@@ -733,14 +732,14 @@ module.exports = {
 		"defense": 105,
 		"captureRate": 25,
 		"fleeRate": 9,
-		"maxCP": 1194
+		"maxCP": 1194,
+		"emoji": "<:pidgeotto:814861090311634995>"
 	},
 	"18": {
 		"name": "Pidgeot",
 		"pokedexID": 18,
 		"type1": "normal",
 		"candyId": 6,
-		"emoji": "<:pidgeot:790298038823288842>",
 		"stage": 3,
 		"type2": "flying",
 		"weight": 39.5,
@@ -786,14 +785,14 @@ module.exports = {
 		"defense": 154,
 		"captureRate": 12,
 		"fleeRate": 6,
-		"maxCP": 2129
+		"maxCP": 2129,
+		"emoji": "<:pidgeot:814861090504704063>"
 	},
 	"19": {
 		"name": "Rattata",
 		"pokedexID": 19,
 		"type1": "normal",
 		"candyId": 7,
-		"emoji": "<:rattata:790298040070045746>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 20,
@@ -829,14 +828,14 @@ module.exports = {
 		"captureRate": 50,
 		"fleeRate": 20,
 		"maxCP": 734,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:rattata:814861091925917817>"
 	},
 	"20": {
 		"name": "Raticate",
 		"pokedexID": 20,
 		"type1": "normal",
 		"candyId": 7,
-		"emoji": "<:raticate:790298039926915103>",
 		"stage": 2,
 		"weight": 18.5,
 		"gender_rate": 4,
@@ -870,14 +869,14 @@ module.exports = {
 		"captureRate": 20,
 		"fleeRate": 7,
 		"maxCP": 1730,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:raticate:814861091662069761>"
 	},
 	"21": {
 		"name": "Spearow",
 		"pokedexID": 21,
 		"type1": "normal",
 		"candyId": 8,
-		"emoji": "<:spearow:790298040278712411>",
 		"stage": 1,
 		"type2": "flying",
 		"evolveCost": 50,
@@ -917,14 +916,14 @@ module.exports = {
 		"defense": 60,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 798
+		"maxCP": 798,
+		"emoji": "<:spearow:814861091766534155>"
 	},
 	"22": {
 		"name": "Fearow",
 		"pokedexID": 22,
 		"type1": "normal",
 		"candyId": 8,
-		"emoji": "<:fearow:790293599932776460>",
 		"stage": 2,
 		"type2": "flying",
 		"weight": 38,
@@ -962,14 +961,14 @@ module.exports = {
 		"defense": 133,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 1997
+		"maxCP": 1997,
+		"emoji": "<:fearow:814858593580613662>"
 	},
 	"23": {
 		"name": "Ekans",
 		"pokedexID": 23,
 		"type1": "poison",
 		"candyId": 9,
-		"emoji": "<:ekans:790293600293748746>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 24,
@@ -1008,14 +1007,14 @@ module.exports = {
 		"defense": 97,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 927
+		"maxCP": 927,
+		"emoji": "<:ekans:814858592271335494>"
 	},
 	"24": {
 		"name": "Arbok",
 		"pokedexID": 24,
 		"type1": "poison",
 		"candyId": 9,
-		"emoji": "<:arbok:790293599492505631>",
 		"stage": 2,
 		"weight": 65,
 		"gender_rate": 4,
@@ -1056,14 +1055,14 @@ module.exports = {
 		"defense": 153,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 1921
+		"maxCP": 1921,
+		"emoji": "<:arbok:814858590917361724>"
 	},
 	"25": {
 		"name": "Pikachu",
 		"pokedexID": 25,
 		"type1": "electric",
 		"candyId": 10,
-		"emoji": "<:pikachu:790298038622879825>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 26,
@@ -1111,14 +1110,14 @@ module.exports = {
 		"captureRate": 20,
 		"fleeRate": 10,
 		"maxCP": 938,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:pikachu:814861091657220127>"
 	},
 	"26": {
 		"name": "Raichu",
 		"pokedexID": 26,
 		"type1": "electric",
 		"candyId": 10,
-		"emoji": "<:raichu:790298040065327134>",
 		"stage": 2,
 		"weight": 30,
 		"gender_rate": 4,
@@ -1168,14 +1167,14 @@ module.exports = {
 		"captureRate": 10,
 		"fleeRate": 6,
 		"maxCP": 2182,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:raichu:814861090432745503>"
 	},
 	"27": {
 		"name": "Sandshrew",
 		"pokedexID": 27,
 		"type1": "ground",
 		"candyId": 11,
-		"emoji": "<:sandshrew:790298039881170945>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 28,
@@ -1214,14 +1213,14 @@ module.exports = {
 		"defense": 120,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1261
+		"maxCP": 1261,
+		"emoji": "<:sandshrew:814861091963142164>"
 	},
 	"28": {
 		"name": "Sandslash",
 		"pokedexID": 28,
 		"type1": "ground",
 		"candyId": 11,
-		"emoji": "<:sandslash:790298040086036501>",
 		"stage": 2,
 		"weight": 29.5,
 		"gender_rate": 4,
@@ -1254,14 +1253,14 @@ module.exports = {
 		"defense": 175,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2374
+		"maxCP": 2374,
+		"emoji": "<:sandslash:814861092035231785>"
 	},
 	"29": {
 		"name": "Nidoran-f",
 		"pokedexID": 29,
 		"type1": "poison",
 		"candyId": 12,
-		"emoji": "<:nidoranf:790294927811805204>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 30,
@@ -1296,14 +1295,14 @@ module.exports = {
 		"defense": 89,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 816
+		"maxCP": 816,
+		"emoji": "<:nidoranf:814859527908229141>"
 	},
 	"30": {
 		"name": "Nidorina",
 		"pokedexID": 30,
 		"type1": "poison",
 		"candyId": 12,
-		"emoji": "<:nidorina:790294927836839966>",
 		"stage": 2,
 		"evolveCost": 100,
 		"evolveId": 31,
@@ -1338,14 +1337,14 @@ module.exports = {
 		"defense": 120,
 		"captureRate": 25,
 		"fleeRate": 7,
-		"maxCP": 1309
+		"maxCP": 1309,
+		"emoji": "<:nidorina:814859527878213642>"
 	},
 	"31": {
 		"name": "Nidoqueen",
 		"pokedexID": 31,
 		"type1": "poison",
 		"candyId": 12,
-		"emoji": "<:nidoqueen:790294927804203038>",
 		"stage": 3,
 		"type2": "ground",
 		"weight": 60,
@@ -1383,14 +1382,14 @@ module.exports = {
 		"defense": 173,
 		"captureRate": 12,
 		"fleeRate": 5,
-		"maxCP": 2488
+		"maxCP": 2488,
+		"emoji": "<:nidoqueen:814859527840595988>"
 	},
 	"32": {
 		"name": "Nidoran-m",
 		"pokedexID": 32,
 		"type1": "poison",
 		"candyId": 13,
-		"emoji": "<:nidoranm:790294927950479360>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 33,
@@ -1425,14 +1424,14 @@ module.exports = {
 		"defense": 76,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 860
+		"maxCP": 860,
+		"emoji": "<:nidoranm:814859527873757204>"
 	},
 	"33": {
 		"name": "Nidorino",
 		"pokedexID": 33,
 		"type1": "poison",
 		"candyId": 13,
-		"emoji": "<:nidorino:790294927854141511>",
 		"stage": 2,
 		"evolveCost": 100,
 		"evolveId": 34,
@@ -1467,14 +1466,14 @@ module.exports = {
 		"defense": 111,
 		"captureRate": 25,
 		"fleeRate": 7,
-		"maxCP": 1393
+		"maxCP": 1393,
+		"emoji": "<:nidorino:814859527866417172>"
 	},
 	"34": {
 		"name": "Nidoking",
 		"pokedexID": 34,
 		"type1": "poison",
 		"candyId": 13,
-		"emoji": "<:nidoking:790294927787032642>",
 		"stage": 3,
 		"type2": "ground",
 		"weight": 62,
@@ -1516,14 +1515,14 @@ module.exports = {
 		"defense": 156,
 		"captureRate": 12,
 		"fleeRate": 5,
-		"maxCP": 2567
+		"maxCP": 2567,
+		"emoji": "<:nidoking:814859527639007274>"
 	},
 	"35": {
 		"name": "Clefairy",
 		"pokedexID": 35,
 		"type1": "fairy",
 		"candyId": 14,
-		"emoji": "<:clefairy:790293599480709172>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 36,
@@ -1558,14 +1557,14 @@ module.exports = {
 		"defense": 108,
 		"captureRate": 30,
 		"fleeRate": 10,
-		"maxCP": 1155
+		"maxCP": 1155,
+		"emoji": "<:clefairy:814858592163069952>"
 	},
 	"36": {
 		"name": "Clefable",
 		"pokedexID": 36,
 		"type1": "fairy",
 		"candyId": 14,
-		"emoji": "<:clefable:790293599434702859>",
 		"stage": 2,
 		"weight": 40,
 		"gender_rate": 6,
@@ -1610,14 +1609,14 @@ module.exports = {
 		"defense": 162,
 		"captureRate": 10,
 		"fleeRate": 6,
-		"maxCP": 2437
+		"maxCP": 2437,
+		"emoji": "<:clefable:814858590854184960>"
 	},
 	"37": {
 		"name": "Vulpix",
 		"pokedexID": 37,
 		"type1": "fire",
 		"candyId": 15,
-		"emoji": "<:vulpix:790298040140693534>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 38,
@@ -1656,14 +1655,14 @@ module.exports = {
 		"defense": 109,
 		"captureRate": 30,
 		"fleeRate": 10,
-		"maxCP": 883
+		"maxCP": 883,
+		"emoji": "<:vulpix:814861093540200508>"
 	},
 	"38": {
 		"name": "Ninetales",
 		"pokedexID": 38,
 		"type1": "fire",
 		"candyId": 15,
-		"emoji": "<:ninetales:790294927836839956>",
 		"stage": 2,
 		"weight": 19.9,
 		"gender_rate": 6,
@@ -1716,14 +1715,14 @@ module.exports = {
 		"defense": 190,
 		"captureRate": 10,
 		"fleeRate": 6,
-		"maxCP": 2279
+		"maxCP": 2279,
+		"emoji": "<:ninetales:814859527878606848>"
 	},
 	"39": {
 		"name": "Jigglypuff",
 		"pokedexID": 39,
 		"type1": "normal",
 		"candyId": 16,
-		"emoji": "<:jigglypuff:790294926238941185>",
 		"stage": 1,
 		"type2": "fairy",
 		"evolveCost": 50,
@@ -1767,14 +1766,14 @@ module.exports = {
 		"defense": 41,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 724
+		"maxCP": 724,
+		"emoji": "<:jigglypuff:814859527307657287>"
 	},
 	"40": {
 		"name": "Wigglytuff",
 		"pokedexID": 40,
 		"type1": "normal",
 		"candyId": 16,
-		"emoji": "<:wigglytuff:790298041503973396>",
 		"stage": 2,
 		"type2": "fairy",
 		"weight": 12,
@@ -1816,14 +1815,14 @@ module.exports = {
 		"defense": 90,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 1926
+		"maxCP": 1926,
+		"emoji": "<:wigglytuff:814861093553045544>"
 	},
 	"41": {
 		"name": "Zubat",
 		"pokedexID": 41,
 		"type1": "poison",
 		"candyId": 17,
-		"emoji": "<:zubat:790313371861909504>",
 		"stage": 1,
 		"type2": "flying",
 		"evolveCost": 25,
@@ -1864,14 +1863,14 @@ module.exports = {
 		"captureRate": 50,
 		"fleeRate": 20,
 		"maxCP": 667,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:zubat:814876317626925085>"
 	},
 	"42": {
 		"name": "Golbat",
 		"pokedexID": 42,
 		"type1": "poison",
 		"candyId": 17,
-		"emoji": "<:golbat:790293600591544320>",
 		"stage": 2,
 		"type2": "flying",
 		"weight": 55,
@@ -1910,14 +1909,14 @@ module.exports = {
 		"captureRate": 20,
 		"fleeRate": 7,
 		"maxCP": 1976,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:golbat:814858593265254492>"
 	},
 	"43": {
 		"name": "Oddish",
 		"pokedexID": 43,
 		"type1": "grass",
 		"candyId": 18,
-		"emoji": "<:oddish:790296873788506113>",
 		"stage": 1,
 		"type2": "poison",
 		"evolveCost": 25,
@@ -1953,14 +1952,14 @@ module.exports = {
 		"defense": 112,
 		"captureRate": 60,
 		"fleeRate": 15,
-		"maxCP": 1228
+		"maxCP": 1228,
+		"emoji": "<:oddish:814859528049786911>"
 	},
 	"44": {
 		"name": "Gloom",
 		"pokedexID": 44,
 		"type1": "grass",
 		"candyId": 18,
-		"emoji": "<:gloom:790293600600588288>",
 		"stage": 2,
 		"type2": "poison",
 		"evolveCost": 100,
@@ -1997,14 +1996,14 @@ module.exports = {
 		"captureRate": 30,
 		"fleeRate": 7,
 		"maxCP": 1681,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:gloom:814858593551253524>"
 	},
 	"45": {
 		"name": "Vileplume",
 		"pokedexID": 45,
 		"type1": "grass",
 		"candyId": 18,
-		"emoji": "<:vileplume:790298040216584252>",
 		"stage": 3,
 		"type2": "poison",
 		"weight": 18.6,
@@ -2043,14 +2042,14 @@ module.exports = {
 		"captureRate": 15,
 		"fleeRate": 5,
 		"maxCP": 2559,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:vileplume:814861093570215956>"
 	},
 	"46": {
 		"name": "Paras",
 		"pokedexID": 46,
 		"type1": "bug",
 		"candyId": 19,
-		"emoji": "<:paras:790294929112694795>",
 		"stage": 1,
 		"type2": "grass",
 		"evolveCost": 50,
@@ -2086,14 +2085,14 @@ module.exports = {
 		"defense": 99,
 		"captureRate": 40,
 		"fleeRate": 15,
-		"maxCP": 1018
+		"maxCP": 1018,
+		"emoji": "<:paras:814859527718568007>"
 	},
 	"47": {
 		"name": "Parasect",
 		"pokedexID": 47,
 		"type1": "bug",
 		"candyId": 19,
-		"emoji": "<:parasect:790294929179541524>",
 		"stage": 2,
 		"type2": "grass",
 		"weight": 29.5,
@@ -2131,14 +2130,14 @@ module.exports = {
 		"defense": 146,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 1859
+		"maxCP": 1859,
+		"emoji": "<:parasect:814859528009023548>"
 	},
 	"48": {
 		"name": "Venonat",
 		"pokedexID": 48,
 		"type1": "bug",
 		"candyId": 20,
-		"emoji": "<:venonat:790298039767269409>",
 		"stage": 1,
 		"type2": "poison",
 		"evolveCost": 50,
@@ -2174,14 +2173,14 @@ module.exports = {
 		"defense": 100,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 1004
+		"maxCP": 1004,
+		"emoji": "<:venonat:814861093549768778>"
 	},
 	"49": {
 		"name": "Venomoth",
 		"pokedexID": 49,
 		"type1": "bug",
 		"candyId": 20,
-		"emoji": "<:venomoth:790298040204132362>",
 		"stage": 2,
 		"type2": "poison",
 		"weight": 12.5,
@@ -2223,14 +2222,14 @@ module.exports = {
 		"defense": 143,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 2082
+		"maxCP": 2082,
+		"emoji": "<:venomoth:814861092022779904>"
 	},
 	"50": {
 		"name": "Diglett",
 		"pokedexID": 50,
 		"type1": "ground",
 		"candyId": 21,
-		"emoji": "<:diglett:790293599719522315>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 51,
@@ -2265,14 +2264,14 @@ module.exports = {
 		"defense": 78,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 676
+		"maxCP": 676,
+		"emoji": "<:diglett:814858591977603105>"
 	},
 	"51": {
 		"name": "Dugtrio",
 		"pokedexID": 51,
 		"type1": "ground",
 		"candyId": 21,
-		"emoji": "<:dugtrio:790293600293748736>",
 		"stage": 2,
 		"weight": 33.3,
 		"gender_rate": 4,
@@ -2305,14 +2304,14 @@ module.exports = {
 		"defense": 134,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 1557
+		"maxCP": 1557,
+		"emoji": "<:dugtrio:814858592376455218>"
 	},
 	"52": {
 		"name": "Meowth",
 		"pokedexID": 52,
 		"type1": "normal",
 		"candyId": 22,
-		"emoji": "<:meowth:790294927808135218>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 53,
@@ -2351,14 +2350,14 @@ module.exports = {
 		"defense": 78,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 748
+		"maxCP": 748,
+		"emoji": "<:meowth:814859527840333844>"
 	},
 	"53": {
 		"name": "Persian",
 		"pokedexID": 53,
 		"type1": "normal",
 		"candyId": 22,
-		"emoji": "<:persian:790294928751853619>",
 		"stage": 2,
 		"weight": 32,
 		"gender_rate": 4,
@@ -2395,14 +2394,14 @@ module.exports = {
 		"defense": 136,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 1689
+		"maxCP": 1689,
+		"emoji": "<:persian:814859529228517386>"
 	},
 	"54": {
 		"name": "Psyduck",
 		"pokedexID": 54,
 		"type1": "water",
 		"candyId": 23,
-		"emoji": "<:psyduck:790298039830052896>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 55,
@@ -2437,14 +2436,14 @@ module.exports = {
 		"defense": 95,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1106
+		"maxCP": 1106,
+		"emoji": "<:psyduck:814861090478882847>"
 	},
 	"55": {
 		"name": "Golduck",
 		"pokedexID": 55,
 		"type1": "water",
 		"candyId": 23,
-		"emoji": "<:golduck:790293600159268896>",
 		"stage": 2,
 		"weight": 76.6,
 		"gender_rate": 4,
@@ -2489,14 +2488,14 @@ module.exports = {
 		"defense": 162,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2450
+		"maxCP": 2450,
+		"emoji": "<:golduck:814858593471037451>"
 	},
 	"56": {
 		"name": "Mankey",
 		"pokedexID": 56,
 		"type1": "fighting",
 		"candyId": 24,
-		"emoji": "<:mankey:790294928205938688>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 57,
@@ -2531,14 +2530,14 @@ module.exports = {
 		"defense": 82,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1164
+		"maxCP": 1164,
+		"emoji": "<:mankey:814859527614496819>"
 	},
 	"57": {
 		"name": "Primeape",
 		"pokedexID": 57,
 		"type1": "fighting",
 		"candyId": 24,
-		"emoji": "<:primeape:790298038873751612>",
 		"stage": 2,
 		"weight": 32,
 		"gender_rate": 4,
@@ -2583,14 +2582,14 @@ module.exports = {
 		"defense": 138,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2288
+		"maxCP": 2288,
+		"emoji": "<:primeape:814861090584264704>"
 	},
 	"58": {
 		"name": "Growlithe",
 		"pokedexID": 58,
 		"type1": "fire",
 		"candyId": 25,
-		"emoji": "<:growlithe:790293600297943103>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 59,
@@ -2625,14 +2624,14 @@ module.exports = {
 		"defense": 93,
 		"captureRate": 30,
 		"fleeRate": 10,
-		"maxCP": 1243
+		"maxCP": 1243,
+		"emoji": "<:growlithe:814858593589002330>"
 	},
 	"59": {
 		"name": "Arcanine",
 		"pokedexID": 59,
 		"type1": "fire",
 		"candyId": 25,
-		"emoji": "<:arcanine:790293599861735435>",
 		"stage": 2,
 		"weight": 155,
 		"gender_rate": 2,
@@ -2681,14 +2680,14 @@ module.exports = {
 		"defense": 166,
 		"captureRate": 10,
 		"fleeRate": 6,
-		"maxCP": 3029
+		"maxCP": 3029,
+		"emoji": "<:arcanine:814858590870962176>"
 	},
 	"60": {
 		"name": "Poliwag",
 		"pokedexID": 60,
 		"type1": "water",
 		"candyId": 26,
-		"emoji": "<:poliwag:790298039834378251>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 61,
@@ -2723,14 +2722,14 @@ module.exports = {
 		"defense": 82,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 829
+		"maxCP": 829,
+		"emoji": "<:poliwag:814861091770466355>"
 	},
 	"61": {
 		"name": "Poliwhirl",
 		"pokedexID": 61,
 		"type1": "water",
 		"candyId": 26,
-		"emoji": "<:poliwhirl:790298039892967456>",
 		"stage": 2,
 		"evolveCost": 100,
 		"evolveId": 62,
@@ -2769,14 +2768,14 @@ module.exports = {
 		"defense": 123,
 		"captureRate": 25,
 		"fleeRate": 7,
-		"maxCP": 1419
+		"maxCP": 1419,
+		"emoji": "<:poliwhirl:814861090554773554>"
 	},
 	"62": {
 		"name": "Poliwrath",
 		"pokedexID": 62,
 		"type1": "water",
 		"candyId": 26,
-		"emoji": "<:poliwrath:790298038819487744>",
 		"stage": 3,
 		"type2": "fighting",
 		"weight": 54,
@@ -2822,14 +2821,14 @@ module.exports = {
 		"defense": 184,
 		"captureRate": 12,
 		"fleeRate": 5,
-		"maxCP": 2586
+		"maxCP": 2586,
+		"emoji": "<:poliwrath:814861091652763666>"
 	},
 	"63": {
 		"name": "Abra",
 		"pokedexID": 63,
 		"type1": "psychic",
 		"candyId": 27,
-		"emoji": "<:abra:790293599396691999>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 64,
@@ -2864,14 +2863,14 @@ module.exports = {
 		"defense": 82,
 		"captureRate": 50,
 		"fleeRate": 99,
-		"maxCP": 1342
+		"maxCP": 1342,
+		"emoji": "<:abra:814858589512269854>"
 	},
 	"64": {
 		"name": "Kadabra",
 		"pokedexID": 64,
 		"type1": "psychic",
 		"candyId": 27,
-		"emoji": "<:kadabra:790294926712635423>",
 		"stage": 2,
 		"evolveCost": 100,
 		"evolveId": 65,
@@ -2907,14 +2906,14 @@ module.exports = {
 		"captureRate": 25,
 		"fleeRate": 7,
 		"maxCP": 2059,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:kadabra:814859527660240928>"
 	},
 	"65": {
 		"name": "Alakazam",
 		"pokedexID": 65,
 		"type1": "psychic",
 		"candyId": 27,
-		"emoji": "<:alakazam:790293599820578897>",
 		"stage": 3,
 		"weight": 48,
 		"gender_rate": 2,
@@ -2964,14 +2963,14 @@ module.exports = {
 		"captureRate": 10,
 		"fleeRate": 5,
 		"maxCP": 3057,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:alakazam:814858590929420348>"
 	},
 	"66": {
 		"name": "Machop",
 		"pokedexID": 66,
 		"type1": "fighting",
 		"candyId": 28,
-		"emoji": "<:machop:790294927882977300>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 67,
@@ -3010,14 +3009,14 @@ module.exports = {
 		"defense": 82,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1278
+		"maxCP": 1278,
+		"emoji": "<:machop:814859527799308328>"
 	},
 	"67": {
 		"name": "Machoke",
 		"pokedexID": 67,
 		"type1": "fighting",
 		"candyId": 28,
-		"emoji": "<:machoke:790294927740502067>",
 		"stage": 2,
 		"evolveCost": 1,
 		"evolveId": 68,
@@ -3056,14 +3055,14 @@ module.exports = {
 		"defense": 125,
 		"captureRate": 25,
 		"fleeRate": 7,
-		"maxCP": 2031
+		"maxCP": 2031,
+		"emoji": "<:machoke:814859527563509802>"
 	},
 	"68": {
 		"name": "Machamp",
 		"pokedexID": 68,
 		"type1": "fighting",
 		"candyId": 28,
-		"emoji": "<:machamp:790294927733030942>",
 		"stage": 3,
 		"weight": 130,
 		"gender_rate": 2,
@@ -3120,14 +3119,14 @@ module.exports = {
 		"defense": 159,
 		"captureRate": 10,
 		"fleeRate": 5,
-		"maxCP": 3056
+		"maxCP": 3056,
+		"emoji": "<:machamp:814859527509901333>"
 	},
 	"69": {
 		"name": "Bellsprout",
 		"pokedexID": 69,
 		"type1": "grass",
 		"candyId": 29,
-		"emoji": "<:bellsprout:790293599773655070>",
 		"stage": 1,
 		"type2": "poison",
 		"evolveCost": 25,
@@ -3163,14 +3162,14 @@ module.exports = {
 		"defense": 61,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 1033
+		"maxCP": 1033,
+		"emoji": "<:bellsprout:814858590816305212>"
 	},
 	"70": {
 		"name": "Weepinbell",
 		"pokedexID": 70,
 		"type1": "grass",
 		"candyId": 29,
-		"emoji": "<:weepinbell:790298041453510697>",
 		"stage": 2,
 		"type2": "poison",
 		"evolveCost": 100,
@@ -3210,14 +3209,14 @@ module.exports = {
 		"defense": 92,
 		"captureRate": 25,
 		"fleeRate": 7,
-		"maxCP": 1611
+		"maxCP": 1611,
+		"emoji": "<:weepinbell:814861093356044349>"
 	},
 	"71": {
 		"name": "Victreebel",
 		"pokedexID": 71,
 		"type1": "grass",
 		"candyId": 29,
-		"emoji": "<:victreebel:790298040589221948>",
 		"stage": 3,
 		"type2": "poison",
 		"weight": 15.5,
@@ -3259,14 +3258,14 @@ module.exports = {
 		"defense": 135,
 		"captureRate": 12,
 		"fleeRate": 5,
-		"maxCP": 2431
+		"maxCP": 2431,
+		"emoji": "<:victreebel:814861093423153153>"
 	},
 	"72": {
 		"name": "Tentacool",
 		"pokedexID": 72,
 		"type1": "water",
 		"candyId": 30,
-		"emoji": "<:tentacool:790298040027185154>",
 		"stage": 1,
 		"type2": "poison",
 		"evolveCost": 50,
@@ -3302,14 +3301,14 @@ module.exports = {
 		"defense": 149,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 1040
+		"maxCP": 1040,
+		"emoji": "<:tentacool:814861091967467540>"
 	},
 	"73": {
 		"name": "Tentacruel",
 		"pokedexID": 73,
 		"type1": "water",
 		"candyId": 30,
-		"emoji": "<:tentacruel:790298040241618964>",
 		"stage": 2,
 		"type2": "poison",
 		"weight": 55,
@@ -3347,14 +3346,14 @@ module.exports = {
 		"defense": 209,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 2422
+		"maxCP": 2422,
+		"emoji": "<:tentacruel:814861092097622047>"
 	},
 	"74": {
 		"name": "Geodude",
 		"pokedexID": 74,
 		"type1": "rock",
 		"candyId": 31,
-		"emoji": "<:geodude:790293600231489537>",
 		"stage": 1,
 		"type2": "ground",
 		"evolveCost": 25,
@@ -3390,14 +3389,14 @@ module.exports = {
 		"defense": 132,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1293
+		"maxCP": 1293,
+		"emoji": "<:geodude:814858593651523594>"
 	},
 	"75": {
 		"name": "Graveler",
 		"pokedexID": 75,
 		"type1": "rock",
 		"candyId": 31,
-		"emoji": "<:graveler:790293600730742804>",
 		"stage": 2,
 		"type2": "ground",
 		"evolveCost": 100,
@@ -3437,14 +3436,14 @@ module.exports = {
 		"defense": 164,
 		"captureRate": 25,
 		"fleeRate": 7,
-		"maxCP": 1897
+		"maxCP": 1897,
+		"emoji": "<:graveler:814858593698447381>"
 	},
 	"76": {
 		"name": "Golem",
 		"pokedexID": 76,
 		"type1": "rock",
 		"candyId": 31,
-		"emoji": "<:golem:790293600348274739>",
 		"stage": 3,
 		"type2": "ground",
 		"weight": 300,
@@ -3482,14 +3481,14 @@ module.exports = {
 		"defense": 198,
 		"captureRate": 12,
 		"fleeRate": 5,
-		"maxCP": 2949
+		"maxCP": 2949,
+		"emoji": "<:golem:814858593601323028>"
 	},
 	"77": {
 		"name": "Ponyta",
 		"pokedexID": 77,
 		"type1": "fire",
 		"candyId": 32,
-		"emoji": "<:ponyta:790298038748971038>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 78,
@@ -3528,14 +3527,14 @@ module.exports = {
 		"defense": 127,
 		"captureRate": 40,
 		"fleeRate": 10,
-		"maxCP": 1697
+		"maxCP": 1697,
+		"emoji": "<:ponyta:814861090579939398>"
 	},
 	"78": {
 		"name": "Rapidash",
 		"pokedexID": 78,
 		"type1": "fire",
 		"candyId": 32,
-		"emoji": "<:rapidash:790298039709204511>",
 		"stage": 2,
 		"weight": 95,
 		"gender_rate": 4,
@@ -3580,14 +3579,14 @@ module.exports = {
 		"defense": 162,
 		"captureRate": 15,
 		"fleeRate": 6,
-		"maxCP": 2461
+		"maxCP": 2461,
+		"emoji": "<:rapidash:814861090156576820>"
 	},
 	"79": {
 		"name": "Slowpoke",
 		"pokedexID": 79,
 		"type1": "water",
 		"candyId": 33,
-		"emoji": "<:slowpoke:790298040149344306>",
 		"stage": 1,
 		"type2": "psychic",
 		"evolveCost": 50,
@@ -3623,14 +3622,14 @@ module.exports = {
 		"defense": 98,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1226
+		"maxCP": 1226,
+		"emoji": "<:slowpoke:814861091666526250>"
 	},
 	"80": {
 		"name": "Slowbro",
 		"pokedexID": 80,
 		"type1": "water",
 		"candyId": 33,
-		"emoji": "<:slowbro:790298040174772294>",
 		"stage": 2,
 		"type2": "psychic",
 		"weight": 78.5,
@@ -3664,14 +3663,14 @@ module.exports = {
 		"defense": 180,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2545
+		"maxCP": 2545,
+		"emoji": "<:slowbro:814861091942694922>"
 	},
 	"81": {
 		"name": "Magnemite",
 		"pokedexID": 81,
 		"type1": "electric",
 		"candyId": 34,
-		"emoji": "<:magnemite:790294927514665041>",
 		"stage": 1,
 		"type2": "steel",
 		"evolveCost": 50,
@@ -3707,14 +3706,14 @@ module.exports = {
 		"defense": 121,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1362
+		"maxCP": 1362,
+		"emoji": "<:magnemite:814859527774011393>"
 	},
 	"82": {
 		"name": "Magneton",
 		"pokedexID": 82,
 		"type1": "electric",
 		"candyId": 34,
-		"emoji": "<:magneton:790294927485567077>",
 		"stage": 2,
 		"type2": "steel",
 		"weight": 60,
@@ -3756,14 +3755,14 @@ module.exports = {
 		"defense": 169,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2485
+		"maxCP": 2485,
+		"emoji": "<:magneton:814859527769817098>"
 	},
 	"83": {
 		"name": "Farfetchd",
 		"pokedexID": 83,
 		"type1": "normal",
 		"candyId": 35,
-		"emoji": "<:farfetchd:790293600495468564>",
 		"stage": 1,
 		"type2": "flying",
 		"weight": 15,
@@ -3801,14 +3800,14 @@ module.exports = {
 		"defense": 115,
 		"captureRate": 30,
 		"fleeRate": 9,
-		"maxCP": 1236
+		"maxCP": 1236,
+		"emoji": "<:farfetchd:814858593543127061>"
 	},
 	"84": {
 		"name": "Doduo",
 		"pokedexID": 84,
 		"type1": "normal",
 		"candyId": 36,
-		"emoji": "<:doduo:790293600088227860>",
 		"stage": 1,
 		"type2": "flying",
 		"evolveCost": 50,
@@ -3849,14 +3848,14 @@ module.exports = {
 		"captureRate": 50,
 		"fleeRate": 10,
 		"maxCP": 1200,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:doduo:814858592318259266>"
 	},
 	"85": {
 		"name": "Dodrio",
 		"pokedexID": 85,
 		"type1": "normal",
 		"candyId": 36,
-		"emoji": "<:dodrio:790293599655952455>",
 		"stage": 2,
 		"type2": "flying",
 		"weight": 85.2,
@@ -3895,14 +3894,14 @@ module.exports = {
 		"captureRate": 20,
 		"fleeRate": 6,
 		"maxCP": 2362,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:dodrio:814858592280117258>"
 	},
 	"86": {
 		"name": "Seel",
 		"pokedexID": 86,
 		"type1": "water",
 		"candyId": 37,
-		"emoji": "<:seel:790298040154062848>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 87,
@@ -3945,14 +3944,14 @@ module.exports = {
 		"defense": 121,
 		"captureRate": 50,
 		"fleeRate": 9,
-		"maxCP": 971
+		"maxCP": 971,
+		"emoji": "<:seel:814861091989487626>"
 	},
 	"87": {
 		"name": "Dewgong",
 		"pokedexID": 87,
 		"type1": "water",
 		"candyId": 37,
-		"emoji": "<:dewgong:790293599992545371>",
 		"stage": 2,
 		"type2": "ice",
 		"weight": 120,
@@ -3998,14 +3997,14 @@ module.exports = {
 		"defense": 177,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 1985
+		"maxCP": 1985,
+		"emoji": "<:dewgong:814858591843385355>"
 	},
 	"88": {
 		"name": "Grimer",
 		"pokedexID": 88,
 		"type1": "poison",
 		"candyId": 38,
-		"emoji": "<:grimer:790293600687882330>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 89,
@@ -4040,14 +4039,14 @@ module.exports = {
 		"defense": 90,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1374
+		"maxCP": 1374,
+		"emoji": "<:grimer:814858593408647179>"
 	},
 	"89": {
 		"name": "Muk",
 		"pokedexID": 89,
 		"type1": "poison",
 		"candyId": 38,
-		"emoji": "<:muk:790294927589638196>",
 		"stage": 2,
 		"weight": 30,
 		"gender_rate": 4,
@@ -4092,14 +4091,14 @@ module.exports = {
 		"defense": 172,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2757
+		"maxCP": 2757,
+		"emoji": "<:muk:814859527819231323>"
 	},
 	"90": {
 		"name": "Shellder",
 		"pokedexID": 90,
 		"type1": "water",
 		"candyId": 39,
-		"emoji": "<:shellder:790298040161533962>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 91,
@@ -4134,14 +4133,14 @@ module.exports = {
 		"defense": 134,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1080
+		"maxCP": 1080,
+		"emoji": "<:shellder:814861091930243192>"
 	},
 	"91": {
 		"name": "Cloyster",
 		"pokedexID": 91,
 		"type1": "water",
 		"candyId": 39,
-		"emoji": "<:cloyster:790293600071450644>",
 		"stage": 2,
 		"type2": "ice",
 		"weight": 132.5,
@@ -4183,14 +4182,14 @@ module.exports = {
 		"defense": 256,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2547
+		"maxCP": 2547,
+		"emoji": "<:cloyster:814858592162152519>"
 	},
 	"92": {
 		"name": "Gastly",
 		"pokedexID": 92,
 		"type1": "ghost",
 		"candyId": 40,
-		"emoji": "<:gastly:790293600604127233>",
 		"stage": 1,
 		"type2": "poison",
 		"evolveCost": 25,
@@ -4234,14 +4233,14 @@ module.exports = {
 		"defense": 67,
 		"captureRate": 40,
 		"fleeRate": 10,
-		"maxCP": 1229
+		"maxCP": 1229,
+		"emoji": "<:gastly:814858593282818089>"
 	},
 	"93": {
 		"name": "Haunter",
 		"pokedexID": 93,
 		"type1": "ghost",
 		"candyId": 40,
-		"emoji": "<:haunter:790294926369226832>",
 		"stage": 2,
 		"type2": "poison",
 		"evolveCost": 100,
@@ -4285,14 +4284,14 @@ module.exports = {
 		"defense": 107,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 1963
+		"maxCP": 1963,
+		"emoji": "<:haunter:814859527522484246>"
 	},
 	"94": {
 		"name": "Gengar",
 		"pokedexID": 94,
 		"type1": "ghost",
 		"candyId": 40,
-		"emoji": "<:gengar:790293600453394472>",
 		"stage": 3,
 		"type2": "poison",
 		"weight": 40.5,
@@ -4350,14 +4349,14 @@ module.exports = {
 		"defense": 149,
 		"captureRate": 10,
 		"fleeRate": 5,
-		"maxCP": 2878
+		"maxCP": 2878,
+		"emoji": "<:gengar:814858593237073971>"
 	},
 	"95": {
 		"name": "Onix",
 		"pokedexID": 95,
 		"type1": "rock",
 		"candyId": 41,
-		"emoji": "<:onix:790294929305894912>",
 		"stage": 1,
 		"type2": "ground",
 		"weight": 210,
@@ -4399,14 +4398,14 @@ module.exports = {
 		"defense": 232,
 		"captureRate": 20,
 		"fleeRate": 9,
-		"maxCP": 1101
+		"maxCP": 1101,
+		"emoji": "<:onix:814859528046247936>"
 	},
 	"96": {
 		"name": "Drowzee",
 		"pokedexID": 96,
 		"type1": "psychic",
 		"candyId": 42,
-		"emoji": "<:drowzee:790293599970787340>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 97,
@@ -4441,14 +4440,14 @@ module.exports = {
 		"defense": 136,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1040
+		"maxCP": 1040,
+		"emoji": "<:drowzee:814858592678182943>"
 	},
 	"97": {
 		"name": "Hypno",
 		"pokedexID": 97,
 		"type1": "psychic",
 		"candyId": 42,
-		"emoji": "<:hypno:790294926041940030>",
 		"stage": 2,
 		"weight": 75.6,
 		"gender_rate": 4,
@@ -4502,14 +4501,14 @@ module.exports = {
 		"captureRate": 20,
 		"fleeRate": 6,
 		"maxCP": 2090,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:hypno:814859528066957323>"
 	},
 	"98": {
 		"name": "Krabby",
 		"pokedexID": 98,
 		"type1": "water",
 		"candyId": 43,
-		"emoji": "<:krabby:790294926789050378>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 99,
@@ -4544,14 +4543,14 @@ module.exports = {
 		"defense": 124,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 1561
+		"maxCP": 1561,
+		"emoji": "<:krabby:814859527786594314>"
 	},
 	"99": {
 		"name": "Kingler",
 		"pokedexID": 99,
 		"type1": "water",
 		"candyId": 43,
-		"emoji": "<:kingler:790294926469627975>",
 		"stage": 2,
 		"weight": 60,
 		"gender_rate": 4,
@@ -4592,14 +4591,14 @@ module.exports = {
 		"defense": 181,
 		"captureRate": 20,
 		"fleeRate": 7,
-		"maxCP": 2829
+		"maxCP": 2829,
+		"emoji": "<:kingler:814859527781482547>"
 	},
 	"100": {
 		"name": "Voltorb",
 		"pokedexID": 100,
 		"type1": "electric",
 		"candyId": 44,
-		"emoji": "<:voltorb:814111387449950208>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 101,
@@ -4638,14 +4637,14 @@ module.exports = {
 		"defense": 111,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1010
+		"maxCP": 1010,
+		"emoji": "<:voltorb:814861093519753236>"
 	},
 	"101": {
 		"name": "Electrode",
 		"pokedexID": 101,
 		"type1": "electric",
 		"candyId": 44,
-		"emoji": "<:electrode:790293600255737887>",
 		"stage": 2,
 		"weight": 66.6,
 		"gender_rate": -1,
@@ -4686,14 +4685,14 @@ module.exports = {
 		"defense": 173,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2099
+		"maxCP": 2099,
+		"emoji": "<:electrode:814858591944966146>"
 	},
 	"102": {
 		"name": "Exeggcute",
 		"pokedexID": 102,
 		"type1": "grass",
 		"candyId": 45,
-		"emoji": "<:exeggcute:790293600293617714>",
 		"stage": 1,
 		"type2": "psychic",
 		"evolveCost": 50,
@@ -4729,14 +4728,14 @@ module.exports = {
 		"defense": 125,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1175
+		"maxCP": 1175,
+		"emoji": "<:exeggcute:814858593190543421>"
 	},
 	"103": {
 		"name": "Exeggutor",
 		"pokedexID": 103,
 		"type1": "grass",
 		"candyId": 45,
-		"emoji": "<:exeggutor:790293600314720296>",
 		"stage": 2,
 		"type2": "psychic",
 		"weight": 120,
@@ -4778,14 +4777,14 @@ module.exports = {
 		"defense": 149,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 3014
+		"maxCP": 3014,
+		"emoji": "<:exeggutor:814858593224491029>"
 	},
 	"104": {
 		"name": "Cubone",
 		"pokedexID": 104,
 		"type1": "ground",
 		"candyId": 46,
-		"emoji": "<:cubone:790293600004735006>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 105,
@@ -4820,14 +4819,14 @@ module.exports = {
 		"defense": 144,
 		"captureRate": 40,
 		"fleeRate": 10,
-		"maxCP": 1019
+		"maxCP": 1019,
+		"emoji": "<:cubone:814858592279592960>"
 	},
 	"105": {
 		"name": "Marowak",
 		"pokedexID": 105,
 		"type1": "ground",
 		"candyId": 46,
-		"emoji": "<:marowak:790294927405613079>",
 		"stage": 2,
 		"weight": 45,
 		"gender_rate": 4,
@@ -4860,14 +4859,14 @@ module.exports = {
 		"defense": 186,
 		"captureRate": 15,
 		"fleeRate": 6,
-		"maxCP": 1835
+		"maxCP": 1835,
+		"emoji": "<:marowak:814859527852785704>"
 	},
 	"106": {
 		"name": "Hitmonlee",
 		"pokedexID": 106,
 		"type1": "fighting",
 		"candyId": 47,
-		"emoji": "<:hitmonlee:790294926377615360>",
 		"stage": 1,
 		"weight": 49.8,
 		"gender_rate": 0,
@@ -4908,14 +4907,14 @@ module.exports = {
 		"defense": 181,
 		"captureRate": 20,
 		"fleeRate": 9,
-		"maxCP": 2576
+		"maxCP": 2576,
+		"emoji": "<:hitmonlee:814859527320764447>"
 	},
 	"107": {
 		"name": "Hitmonchan",
 		"pokedexID": 107,
 		"type1": "fighting",
 		"candyId": 48,
-		"emoji": "<:hitmonchan:790294926403436594>",
 		"stage": 1,
 		"weight": 50.2,
 		"gender_rate": 0,
@@ -4964,14 +4963,14 @@ module.exports = {
 		"defense": 197,
 		"captureRate": 20,
 		"fleeRate": 9,
-		"maxCP": 2332
+		"maxCP": 2332,
+		"emoji": "<:hitmonchan:814859527576617020>"
 	},
 	"108": {
 		"name": "Lickitung",
 		"pokedexID": 108,
 		"type1": "normal",
 		"candyId": 49,
-		"emoji": "<:lickitung:790294926457831434>",
 		"stage": 1,
 		"weight": 65.5,
 		"gender_rate": 4,
@@ -5008,14 +5007,14 @@ module.exports = {
 		"defense": 137,
 		"captureRate": 20,
 		"fleeRate": 9,
-		"maxCP": 1411
+		"maxCP": 1411,
+		"emoji": "<:lickitung:814859527799308288>"
 	},
 	"109": {
 		"name": "Koffing",
 		"pokedexID": 109,
 		"type1": "poison",
 		"candyId": 50,
-		"emoji": "<:koffing:790294926503706644>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 110,
@@ -5050,14 +5049,14 @@ module.exports = {
 		"defense": 141,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1214
+		"maxCP": 1214,
+		"emoji": "<:koffing:814859527794982953>"
 	},
 	"110": {
 		"name": "Weezing",
 		"pokedexID": 110,
 		"type1": "poison",
 		"candyId": 50,
-		"emoji": "<:weezing:790298041152045067>",
 		"stage": 2,
 		"weight": 9.5,
 		"gender_rate": 4,
@@ -5094,14 +5093,14 @@ module.exports = {
 		"defense": 197,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2293
+		"maxCP": 2293,
+		"emoji": "<:weezing:814861093553438780>"
 	},
 	"111": {
 		"name": "Rhyhorn",
 		"pokedexID": 111,
 		"type1": "ground",
 		"candyId": 51,
-		"emoji": "<:rhyhorn:790298040086560837>",
 		"stage": 1,
 		"type2": "rock",
 		"evolveCost": 25,
@@ -5138,14 +5137,14 @@ module.exports = {
 		"captureRate": 50,
 		"fleeRate": 10,
 		"maxCP": 1651,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:rhyhorn:814861091707551765>"
 	},
 	"112": {
 		"name": "Rhydon",
 		"pokedexID": 112,
 		"type1": "ground",
 		"candyId": 51,
-		"emoji": "<:rhydon:790298040090099733>",
 		"stage": 2,
 		"type2": "rock",
 		"weight": 120,
@@ -5184,14 +5183,14 @@ module.exports = {
 		"captureRate": 5,
 		"fleeRate": 6,
 		"maxCP": 3179,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:rhydon:814861091896950814>"
 	},
 	"113": {
 		"name": "Chansey",
 		"pokedexID": 113,
 		"type1": "normal",
 		"candyId": 52,
-		"emoji": "<:chansey:790293599510200323>",
 		"stage": 1,
 		"weight": 34.6,
 		"gender_rate": 8,
@@ -5224,14 +5223,14 @@ module.exports = {
 		"defense": 128,
 		"captureRate": 20,
 		"fleeRate": 9,
-		"maxCP": 1255
+		"maxCP": 1255,
+		"emoji": "<:chansey:814858590811979836>"
 	},
 	"114": {
 		"name": "Tangela",
 		"pokedexID": 114,
 		"type1": "grass",
 		"candyId": 53,
-		"emoji": "<:tangela:790298040174772224>",
 		"stage": 1,
 		"weight": 35,
 		"gender_rate": 4,
@@ -5268,14 +5267,14 @@ module.exports = {
 		"defense": 169,
 		"captureRate": 40,
 		"fleeRate": 9,
-		"maxCP": 2238
+		"maxCP": 2238,
+		"emoji": "<:tangela:814861092127768628>"
 	},
 	"115": {
 		"name": "Kangaskhan",
 		"pokedexID": 115,
 		"type1": "normal",
 		"candyId": 54,
-		"emoji": "<:kangaskhan:790294926528348210>",
 		"stage": 1,
 		"weight": 80,
 		"gender_rate": 8,
@@ -5320,14 +5319,14 @@ module.exports = {
 		"defense": 165,
 		"captureRate": 20,
 		"fleeRate": 9,
-		"maxCP": 2586
+		"maxCP": 2586,
+		"emoji": "<:kangaskhan:814859527572029501>"
 	},
 	"116": {
 		"name": "Horsea",
 		"pokedexID": 116,
 		"type1": "water",
 		"candyId": 55,
-		"emoji": "<:horsea:790294926083489825>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 117,
@@ -5362,14 +5361,14 @@ module.exports = {
 		"defense": 103,
 		"captureRate": 50,
 		"fleeRate": 10,
-		"maxCP": 1056
+		"maxCP": 1056,
+		"emoji": "<:horsea:814859527395999775>"
 	},
 	"117": {
 		"name": "Seadra",
 		"pokedexID": 117,
 		"type1": "water",
 		"candyId": 55,
-		"emoji": "<:seadra:790298040351195136>",
 		"stage": 2,
 		"weight": 25,
 		"gender_rate": 4,
@@ -5406,14 +5405,14 @@ module.exports = {
 		"defense": 156,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2093
+		"maxCP": 2093,
+		"emoji": "<:seadra:814861091900882964>"
 	},
 	"118": {
 		"name": "Goldeen",
 		"pokedexID": 118,
 		"type1": "water",
 		"candyId": 56,
-		"emoji": "<:goldeen:790293600717373522>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 119,
@@ -5449,14 +5448,14 @@ module.exports = {
 		"captureRate": 50,
 		"fleeRate": 15,
 		"maxCP": 1152,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:goldeen:814858593303527428>"
 	},
 	"119": {
 		"name": "Seaking",
 		"pokedexID": 119,
 		"type1": "water",
 		"candyId": 56,
-		"emoji": "<:seaking:790298040119721984>",
 		"stage": 2,
 		"weight": 39,
 		"gender_rate": 4,
@@ -5502,14 +5501,14 @@ module.exports = {
 		"captureRate": 20,
 		"fleeRate": 7,
 		"maxCP": 2162,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:seaking:814861091808084049>"
 	},
 	"120": {
 		"name": "Staryu",
 		"pokedexID": 120,
 		"type1": "water",
 		"candyId": 57,
-		"emoji": "<:staryu:790298039918133269>",
 		"stage": 1,
 		"evolveCost": 50,
 		"evolveId": 121,
@@ -5544,14 +5543,14 @@ module.exports = {
 		"defense": 112,
 		"captureRate": 50,
 		"fleeRate": 15,
-		"maxCP": 1157
+		"maxCP": 1157,
+		"emoji": "<:staryu:814861091750281277>"
 	},
 	"121": {
 		"name": "Starmie",
 		"pokedexID": 121,
 		"type1": "water",
 		"candyId": 57,
-		"emoji": "<:starmie:790298040116314152>",
 		"stage": 2,
 		"type2": "psychic",
 		"weight": 80,
@@ -5597,14 +5596,14 @@ module.exports = {
 		"defense": 184,
 		"captureRate": 20,
 		"fleeRate": 6,
-		"maxCP": 2584
+		"maxCP": 2584,
+		"emoji": "<:starmie:814861091992764416>"
 	},
 	"122": {
 		"name": "Mr-mime",
 		"pokedexID": 122,
 		"type1": "psychic",
 		"candyId": 58,
-		"emoji": "<:mrmime:790294927808397352>",
 		"stage": 1,
 		"type2": "fairy",
 		"weight": 54.5,
@@ -5638,14 +5637,14 @@ module.exports = {
 		"defense": 205,
 		"captureRate": 30,
 		"fleeRate": 9,
-		"maxCP": 2228
+		"maxCP": 2228,
+		"emoji": "<:mrmime:814859527953711177>"
 	},
 	"123": {
 		"name": "Scyther",
 		"pokedexID": 123,
 		"type1": "bug",
 		"candyId": 59,
-		"emoji": "<:scyther:790298040078172180>",
 		"stage": 1,
 		"type2": "flying",
 		"weight": 56,
@@ -5688,14 +5687,14 @@ module.exports = {
 		"captureRate": 30,
 		"fleeRate": 9,
 		"maxCP": 2706,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:scyther:814861091858284604>"
 	},
 	"124": {
 		"name": "Jynx",
 		"pokedexID": 124,
 		"type1": "ice",
 		"candyId": 60,
-		"emoji": "<:jynx:790294926444200036>",
 		"stage": 1,
 		"type2": "psychic",
 		"weight": 40.6,
@@ -5741,14 +5740,14 @@ module.exports = {
 		"defense": 151,
 		"captureRate": 30,
 		"fleeRate": 9,
-		"maxCP": 2555
+		"maxCP": 2555,
+		"emoji": "<:jynx:814859527589593108>"
 	},
 	"125": {
 		"name": "Electabuzz",
 		"pokedexID": 125,
 		"type1": "electric",
 		"candyId": 61,
-		"emoji": "<:electabuzz:790293600151142451>",
 		"stage": 1,
 		"weight": 30,
 		"gender_rate": 2,
@@ -5781,14 +5780,14 @@ module.exports = {
 		"defense": 158,
 		"captureRate": 20,
 		"fleeRate": 9,
-		"maxCP": 2334
+		"maxCP": 2334,
+		"emoji": "<:electabuzz:814858592389431366>"
 	},
 	"126": {
 		"name": "Magmar",
 		"pokedexID": 126,
 		"type1": "fire",
 		"candyId": 62,
-		"emoji": "<:magmar:790294927561064459>",
 		"stage": 1,
 		"weight": 44.5,
 		"gender_rate": 2,
@@ -5821,14 +5820,14 @@ module.exports = {
 		"defense": 154,
 		"captureRate": 20,
 		"fleeRate": 9,
-		"maxCP": 2394
+		"maxCP": 2394,
+		"emoji": "<:magmar:814859527538081813>"
 	},
 	"127": {
 		"name": "Pinsir",
 		"pokedexID": 127,
 		"type1": "bug",
 		"candyId": 63,
-		"emoji": "<:pinsir:790298849977172049>",
 		"stage": 1,
 		"weight": 55,
 		"gender_rate": 4,
@@ -5873,14 +5872,14 @@ module.exports = {
 		"defense": 182,
 		"captureRate": 30,
 		"fleeRate": 9,
-		"maxCP": 2959
+		"maxCP": 2959,
+		"emoji": "<:pinsir:814861091875323943>"
 	},
 	"128": {
 		"name": "Tauros",
 		"pokedexID": 128,
 		"type1": "normal",
 		"candyId": 64,
-		"emoji": "<:tauros:790298040191680532>",
 		"stage": 1,
 		"weight": 88.4,
 		"gender_rate": 0,
@@ -5913,14 +5912,14 @@ module.exports = {
 		"defense": 183,
 		"captureRate": 30,
 		"fleeRate": 9,
-		"maxCP": 2620
+		"maxCP": 2620,
+		"emoji": "<:tauros:814861091993419826>"
 	},
 	"129": {
 		"name": "Magikarp",
 		"pokedexID": 129,
 		"type1": "water",
 		"candyId": 65,
-		"emoji": "<:magikarp:790294927572467724>",
 		"stage": 1,
 		"evolveCost": 400,
 		"evolveId": 130,
@@ -5944,14 +5943,14 @@ module.exports = {
 		"captureRate": 70,
 		"fleeRate": 15,
 		"maxCP": 274,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:magikarp:814859527517634581>"
 	},
 	"130": {
 		"name": "Gyarados",
 		"pokedexID": 130,
 		"type1": "water",
 		"candyId": 65,
-		"emoji": "<:gyarados:790294926389936148>",
 		"stage": 2,
 		"type2": "flying",
 		"weight": 235,
@@ -6006,14 +6005,14 @@ module.exports = {
 		"captureRate": 10,
 		"fleeRate": 7,
 		"maxCP": 3391,
-		"altSprite": true
+		"altSprite": true,
+		"emoji": "<:gyarados:814859527626293278>"
 	},
 	"131": {
 		"name": "Lapras",
 		"pokedexID": 131,
 		"type1": "water",
 		"candyId": 66,
-		"emoji": "<:lapras:790294926260305952>",
 		"stage": 1,
 		"type2": "ice",
 		"weight": 220,
@@ -6063,14 +6062,14 @@ module.exports = {
 		"defense": 174,
 		"captureRate": 5,
 		"fleeRate": 9,
-		"maxCP": 2641
+		"maxCP": 2641,
+		"emoji": "<:lapras:814859527367032894>"
 	},
 	"132": {
 		"name": "Ditto",
 		"pokedexID": 132,
 		"type1": "normal",
 		"candyId": 67,
-		"emoji": "<:ditto:790293599933431818>",
 		"stage": 1,
 		"weight": 4,
 		"gender_rate": -1,
@@ -6091,14 +6090,14 @@ module.exports = {
 		"defense": 91,
 		"captureRate": 20,
 		"fleeRate": 10,
-		"maxCP": 832
+		"maxCP": 832,
+		"emoji": "<:ditto:814858591877464105>"
 	},
 	"133": {
 		"name": "Eevee",
 		"pokedexID": 133,
 		"type1": "normal",
 		"candyId": 68,
-		"emoji": "<:eevee:790293600218382417>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": [
@@ -6141,14 +6140,14 @@ module.exports = {
 		"defense": 114,
 		"captureRate": 40,
 		"fleeRate": 10,
-		"maxCP": 1071
+		"maxCP": 1071,
+		"emoji": "<:eevee:814858592347226122>"
 	},
 	"134": {
 		"name": "Vaporeon",
 		"pokedexID": 134,
 		"type1": "water",
 		"candyId": 68,
-		"emoji": "<:vaporeon:790298039998349333>",
 		"stage": 1,
 		"weight": 29,
 		"gender_rate": 1,
@@ -6181,14 +6180,14 @@ module.exports = {
 		"defense": 161,
 		"captureRate": 12,
 		"fleeRate": 6,
-		"maxCP": 3114
+		"maxCP": 3114,
+		"emoji": "<:vaporeon:814861091988570122>"
 	},
 	"135": {
 		"name": "Jolteon",
 		"pokedexID": 135,
 		"type1": "electric",
 		"candyId": 68,
-		"emoji": "<:jolteon:790294926054916117>",
 		"stage": 1,
 		"weight": 24.5,
 		"gender_rate": 1,
@@ -6225,14 +6224,14 @@ module.exports = {
 		"defense": 182,
 		"captureRate": 12,
 		"fleeRate": 6,
-		"maxCP": 2888
+		"maxCP": 2888,
+		"emoji": "<:jolteon:814859527551451167>"
 	},
 	"136": {
 		"name": "Flareon",
 		"pokedexID": 136,
 		"type1": "fire",
 		"candyId": 68,
-		"emoji": "<:flareon:790293599991496788>",
 		"stage": 1,
 		"weight": 25,
 		"gender_rate": 1,
@@ -6273,14 +6272,14 @@ module.exports = {
 		"defense": 179,
 		"captureRate": 12,
 		"fleeRate": 6,
-		"maxCP": 3029
+		"maxCP": 3029,
+		"emoji": "<:flareon:814858593547452456>"
 	},
 	"137": {
 		"name": "Porygon",
 		"pokedexID": 137,
 		"type1": "normal",
 		"candyId": 69,
-		"emoji": "<:porygon:790298039113482260>",
 		"stage": 1,
 		"weight": 36.5,
 		"gender_rate": -1,
@@ -6333,14 +6332,14 @@ module.exports = {
 		"defense": 136,
 		"captureRate": 40,
 		"fleeRate": 9,
-		"maxCP": 1720
+		"maxCP": 1720,
+		"emoji": "<:porygon:814861090583478282>"
 	},
 	"138": {
 		"name": "Omanyte",
 		"pokedexID": 138,
 		"type1": "rock",
 		"candyId": 70,
-		"emoji": "<:omanyte:790294929103519744>",
 		"stage": 1,
 		"type2": "water",
 		"evolveCost": 50,
@@ -6384,14 +6383,14 @@ module.exports = {
 		"defense": 153,
 		"captureRate": 40,
 		"fleeRate": 9,
-		"maxCP": 1544
+		"maxCP": 1544,
+		"emoji": "<:omanyte:814859528117813248>"
 	},
 	"139": {
 		"name": "Omastar",
 		"pokedexID": 139,
 		"type1": "rock",
 		"candyId": 70,
-		"emoji": "<:omastar:790294928835215403>",
 		"stage": 2,
 		"type2": "water",
 		"weight": 35,
@@ -6433,14 +6432,14 @@ module.exports = {
 		"defense": 201,
 		"captureRate": 15,
 		"fleeRate": 5,
-		"maxCP": 2786
+		"maxCP": 2786,
+		"emoji": "<:omastar:814859527806517269>"
 	},
 	"140": {
 		"name": "Kabuto",
 		"pokedexID": 140,
 		"type1": "rock",
 		"candyId": 71,
-		"emoji": "<:kabuto:790294926948433930>",
 		"stage": 1,
 		"type2": "water",
 		"evolveCost": 50,
@@ -6476,14 +6475,14 @@ module.exports = {
 		"defense": 140,
 		"captureRate": 40,
 		"fleeRate": 9,
-		"maxCP": 1370
+		"maxCP": 1370,
+		"emoji": "<:kabuto:814859527765622794>"
 	},
 	"141": {
 		"name": "Kabutops",
 		"pokedexID": 141,
 		"type1": "rock",
 		"candyId": 71,
-		"emoji": "<:kabutops:790294926457700392>",
 		"stage": 2,
 		"type2": "water",
 		"weight": 40.5,
@@ -6525,14 +6524,14 @@ module.exports = {
 		"defense": 186,
 		"captureRate": 15,
 		"fleeRate": 5,
-		"maxCP": 2713
+		"maxCP": 2713,
+		"emoji": "<:kabutops:814859527639793684>"
 	},
 	"142": {
 		"name": "Aerodactyl",
 		"pokedexID": 142,
 		"type1": "rock",
 		"candyId": 72,
-		"emoji": "<:aerodactyl:790293599782174741>",
 		"stage": 1,
 		"type2": "flying",
 		"weight": 59,
@@ -6578,14 +6577,14 @@ module.exports = {
 		"defense": 159,
 		"captureRate": 20,
 		"fleeRate": 9,
-		"maxCP": 2783
+		"maxCP": 2783,
+		"emoji": "<:aerodactyl:814858590787469312>"
 	},
 	"143": {
 		"name": "Snorlax",
 		"pokedexID": 143,
 		"type1": "normal",
 		"candyId": 73,
-		"emoji": "<:snorlax:790298040162058280>",
 		"stage": 1,
 		"weight": 460,
 		"gender_rate": 1,
@@ -6638,14 +6637,14 @@ module.exports = {
 		"defense": 169,
 		"captureRate": 5,
 		"fleeRate": 9,
-		"maxCP": 3225
+		"maxCP": 3225,
+		"emoji": "<:snorlax:814861091921985609>"
 	},
 	"144": {
 		"name": "Articuno",
 		"pokedexID": 144,
 		"type1": "ice",
 		"candyId": 74,
-		"emoji": "<:articuno:790293599342428201>",
 		"stage": 1,
 		"type2": "flying",
 		"weight": 55.4,
@@ -6687,14 +6686,14 @@ module.exports = {
 		"defense": 236,
 		"captureRate": 3,
 		"fleeRate": 10,
-		"maxCP": 3051
+		"maxCP": 3051,
+		"emoji": "<:articuno:814858590820630538>"
 	},
 	"145": {
 		"name": "Zapdos",
 		"pokedexID": 145,
 		"type1": "electric",
 		"candyId": 75,
-		"emoji": "<:zapdos:790298041609486346>",
 		"stage": 1,
 		"type2": "flying",
 		"weight": 52.6,
@@ -6736,14 +6735,14 @@ module.exports = {
 		"defense": 185,
 		"captureRate": 3,
 		"fleeRate": 10,
-		"maxCP": 3527
+		"maxCP": 3527,
+		"emoji": "<:zapdos:814861093583323141>"
 	},
 	"146": {
 		"name": "Moltres",
 		"pokedexID": 146,
 		"type1": "fire",
 		"candyId": 76,
-		"emoji": "<:moltres:790294927770124308>",
 		"stage": 1,
 		"type2": "flying",
 		"weight": 60,
@@ -6785,14 +6784,14 @@ module.exports = {
 		"defense": 181,
 		"captureRate": 3,
 		"fleeRate": 10,
-		"maxCP": 3465
+		"maxCP": 3465,
+		"emoji": "<:moltres:814859527715160086>"
 	},
 	"147": {
 		"name": "Dratini",
 		"pokedexID": 147,
 		"type1": "dragon",
 		"candyId": 77,
-		"emoji": "<:dratini:790293600004734997>",
 		"stage": 1,
 		"evolveCost": 25,
 		"evolveId": 148,
@@ -6827,14 +6826,14 @@ module.exports = {
 		"defense": 91,
 		"captureRate": 40,
 		"fleeRate": 9,
-		"maxCP": 1004
+		"maxCP": 1004,
+		"emoji": "<:dratini:814858592296894464>"
 	},
 	"148": {
 		"name": "Dragonair",
 		"pokedexID": 148,
 		"type1": "dragon",
 		"candyId": 77,
-		"emoji": "<:dragonair:790293599920455732>",
 		"stage": 2,
 		"evolveCost": 100,
 		"evolveId": 149,
@@ -6869,14 +6868,14 @@ module.exports = {
 		"defense": 135,
 		"captureRate": 10,
 		"fleeRate": 6,
-		"maxCP": 1780
+		"maxCP": 1780,
+		"emoji": "<:dragonair:814858592175390740>"
 	},
 	"149": {
 		"name": "Dragonite",
 		"pokedexID": 149,
 		"type1": "dragon",
 		"candyId": 77,
-		"emoji": "<:dragonite:790293600277495808>",
 		"stage": 3,
 		"type2": "flying",
 		"weight": 210,
@@ -6926,14 +6925,14 @@ module.exports = {
 		"defense": 198,
 		"captureRate": 5,
 		"fleeRate": 5,
-		"maxCP": 3792
+		"maxCP": 3792,
+		"emoji": "<:dragonite:814858591978520577>"
 	},
 	"150": {
 		"name": "Mewtwo",
 		"pokedexID": 150,
 		"type1": "psychic",
 		"candyId": 78,
-		"emoji": "<:mewtwo:790294927916793886>",
 		"stage": 1,
 		"weight": 122,
 		"gender_rate": -1,
@@ -6986,14 +6985,14 @@ module.exports = {
 		"defense": 182,
 		"captureRate": 6,
 		"fleeRate": 10,
-		"maxCP": 4178
+		"maxCP": 4178,
+		"emoji": "<:mewtwo:814859527924744202>"
 	},
 	"151": {
 		"name": "Mew",
 		"pokedexID": 151,
 		"type1": "psychic",
 		"candyId": 79,
-		"emoji": "<:mew:790294927804334090>",
 		"stage": 1,
 		"weight": 4,
 		"gender_rate": -1,
@@ -7162,6 +7161,7 @@ module.exports = {
 		"defense": 210,
 		"captureRate": 100,
 		"fleeRate": 0,
-		"maxCP": 3265
+		"maxCP": 3265,
+		"emoji": "<:mew:814859527777943603>"
 	}
 }
