@@ -2365,6 +2365,20 @@ module.exports = {
 		"pvpPower": 3,
 		"pvpEnergy": 12
 	},
+	"292": {
+		"id": 292,
+		"name": "Weather Ball Fire",
+		"type": "fire",
+		"power": 60,
+		"duration": 1600,
+		"energy": 33,
+		"energyBars": 3,
+		"isQuickMove": 0,
+		"isLegacy": 0,
+		"isExclusive": 0,
+		"pvpPower": 60,
+		"pvpEnergy": 60
+	},
 	"296": {
 		"id": 296,
 		"name": "Frenzy Plant",
