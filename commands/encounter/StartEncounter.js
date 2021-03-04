@@ -27,7 +27,7 @@ const options = {
         { name: 'position', type: 'number', optional: false }
     ],
     canQuit: true,
-    info: 'Selecing an encounter'
+    info: 'Selecting an encounter'
 }
 
 class StartEncounter extends Command {

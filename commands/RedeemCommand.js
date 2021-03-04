@@ -5,6 +5,8 @@ const Command = require('./Command');
 const RedeemCodeCommands = require('~/data/ModelHandlers/RedeemCodeCommands');
 const RedeemedCodes = require('~/knex/models/RedeemedCodes');
 const CustomError = require('~/lib/errors/CustomError');
+const ItemEnums = require('../data/Lists/ItemEnums');
+const EmbedBuilder = require('~/data/Builders/EmbedBuilder');
 
 const options = {
     names: ['redeem'],
@@ -24,6 +26,7 @@ class RedeemCommand extends Command {
     }
     async run() {
         this.items = this.items.split('|');
+        let description = '';
         //i,id,amount
         //p,id,flags
         await RedeemedCodes.query().insert({
@@ -34,6 +37,7 @@ class RedeemCommand extends Command {
             let item = this.items[i].split(',');
             if(item[0] == 'i') {
                 await InventoryCommands.addItems(this.msg.userId, item[1], item[2]);
+                description += item[2] + ' ' + ItemEnums[item[1]] + '\n';
             }
             else if(item[0] == 'p') {
                 let flags = {};
@@ -48,8 +52,14 @@ class RedeemCommand extends Command {
                 }
                 let pokemon = PokemonBuilder.generatePokemon(item[1], 5, this.msg.userId, flags);
                 await PokemonCommands.catchPokemon(this.msg.userId, pokemon, 3);
+                description += pokemon.name + '\n';
             }
         }
+        
+        return EmbedBuilder.build(this.msg, {
+            title: 'Redeemed',
+            description: 'You received: \n' + description
+        });
     }
 }
 
