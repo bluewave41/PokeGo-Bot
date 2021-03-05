@@ -30,10 +30,6 @@ class RazzBerry {
         itemResponse.setEncounter(encounter);
 
         return itemResponse;
-
-        await InventoryCommands.removeItems(msg.userId, this.id, 1);
-
-        return encounter;
     }
 }
 

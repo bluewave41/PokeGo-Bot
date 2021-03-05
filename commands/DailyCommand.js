@@ -33,7 +33,7 @@ class DailyCommand extends Command {
         }
 
         await User.query().update({
-            streak: user.newStreak,
+            streak: newStreak,
             currency: raw(`currency + ${earned}`),
             lastDaily: new Date()
         })
