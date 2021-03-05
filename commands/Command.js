@@ -122,10 +122,10 @@ class Command {
     }
     async run() {}
     async handlePagination(lastMessageId) {
-        if(this.pagination.entryCount > this.pagination.MAX_ENTRIES) {
+        if(this.pagination.entryCount > this.pagination.maxEntries) {
             await User.query().update({
                 page: 1,
-                maxPage: Math.ceil(this.pagination.entryCount/this.pagination.MAX_ENTRIES)
+                maxPage: Math.ceil(this.pagination.entryCount/this.pagination.maxEntries)
             })
             .where('userId', this.msg.userId);
 

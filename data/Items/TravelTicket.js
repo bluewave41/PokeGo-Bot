@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const User = require('~/knex/models/User');
+const ItemResponse = require('~/lib/ItemResponse');
 
 class TravelTicket {
     constructor() {
@@ -28,13 +29,11 @@ class TravelTicket {
 
         const map = await fs.readFile('images/numberedmap.png', 'base64');
 
-        return {
-            embed: {
-                title: 'Map',
-                description: `Where would you like to go?\n**Current position: ** ${msg.location}`,
-                base64: map,
-            }
-        }
+        return new ItemResponse(false, {
+            title: 'Map',
+            description: `Where would you like to go?\n**Current position: ** ${msg.location}`,
+            base64: map,
+        });
     }
 }
 

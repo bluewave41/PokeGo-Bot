@@ -13,7 +13,7 @@ const options = {
     info: 'Selecing mail to read',
     pagination: {
         emojis: ['⬅️', '➡️'],
-        MAX_ENTRIES: 25,
+        maxEntries: 25,
     }
 }
 
@@ -30,7 +30,7 @@ class OpenMail extends Command {
         let embed = {
             title: 'Mail',
             description: '',
-            footer: `Page ${page} of ${Math.ceil(mail[0].count/this.pagination.MAX_ENTRIES)} - ${mail[0].count} results.`
+            footer: `Page ${page} of ${Math.ceil(mail[0].count/this.pagination.maxEntries)} - ${mail[0].count} results.`
         }
 
         for(var i=0;i<mail.length;i++) {

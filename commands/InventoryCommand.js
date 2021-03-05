@@ -15,7 +15,7 @@ class InventoryCommand extends Command {
         super.validate();
     }
     async run() {
-        const inventory = await InventoryCommands.getInventory(this.msg.userId);
+        const inventory = await InventoryCommands.getItems(this.msg.userId);
 
         let description = '';
         let fields = [];
@@ -25,8 +25,8 @@ class InventoryCommand extends Command {
         }
         else {
             for(var i=0;i<inventory.length;i++) {
-                let item = inventory[i];
-                fields.push([item.emoji + ' ' + item.name, 'Count: ' + item.amount, false]);
+                let row = inventory[i];
+                fields.push([row.item.emoji + ' ' + row.item.name, 'Count: ' + row.amount, false]);
             }
         }
     

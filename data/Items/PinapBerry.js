@@ -1,6 +1,6 @@
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
 const { raw } = require('objection');
-const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
+const ItemResponse = require('~/lib/ItemResponse');
 
 class PinapBerry {
     constructor() {
@@ -27,9 +27,10 @@ class PinapBerry {
         })
         .where('userId', msg.userId);
 
-        await InventoryCommands.removeItems(msg.userId, this.id, 1);
-        
-        return encounter;
+        const itemResponse = new ItemResponse(true);
+        itemResponse.setEncounter(encounter);
+
+        return itemResponse;
     }
 }
 

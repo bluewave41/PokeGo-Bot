@@ -1,17 +1,18 @@
-const User = require('~/knex/models/User');
 require('dotenv').config();
 require('~/lib/Database');
+const madge = require('madge');
 const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
-const ItemEnums = require('./data/lists/ItemEnums');
-    
-async function start() {
-    await InventoryCommands.removeItems(2, 2, 2);
+
+async function stuff() {
+	const a = await InventoryCommands.getItems(6, [1]);
+	console.log(a);
 }
 
-start();
+//stuff();
 
-/*madge('./', {
+
+madge('./', {
 	requireConfig: './config.js'
 }).then(res => {
     console.log(res.circular());
-})*/
+})

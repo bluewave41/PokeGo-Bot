@@ -3,6 +3,7 @@ const User = require('~/knex/models/User');
 const CustomError = require('~/lib/errors/CustomError');
 const HealPokemonBuilder = require('~/data/Builders/HealPokemonBuilder');
 const { raw, ref } = require('objection');
+const ItemResponse = require('~/lib/ItemResponse');
 
 class Potion {
     constructor() {
@@ -41,18 +42,15 @@ class Potion {
         })
         .where('userId', msg.userId);
 
-        return {
-            pagination: {
-                emojis: ['⬅️', '➡️'],
-                MAX_ENTRIES: 25,
-                entryCount: pokemon[0].count
-            },
-            embed: {
-                title: 'Heal Pokemon',
-                description: HealPokemonBuilder.build(pokemon, 'heal'),
-                footer: `Page 1 of ${Math.ceil(pokemon[0].count/25)} - ${pokemon[0].count} results.`
-            }
-        }
+        const itemResponse = new ItemResponse(false);
+        itemResponse.setPagination(new Pagination(25, pokemon[0].count));
+        itemResponse.setEmbed({
+            title: 'Heal Pokemon',
+            description: HealPokemonBuilder.build(pokemon, 'heal'),
+            footer: `Page 1 of ${Math.ceil(pokemon[0].count/25)} - ${pokemon[0].count} results.`
+        });
+
+        return itemResponse;
     }
 }
 

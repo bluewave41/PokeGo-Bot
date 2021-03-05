@@ -2,6 +2,7 @@ const PokemonCommands = require('~/data/ModelHandlers/PokemonCommands');
 const CustomError = require('~/lib/errors/CustomError');
 const MoveList = require('~/data/Lists/MoveList');
 const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
+const ItemResponse = require('~/lib/ItemResponse');
 
 class ChargeTM {
     constructor() {
@@ -34,13 +35,14 @@ class ChargeTM {
 
         await InventoryCommands.removeItems(msg.userId, this.id, 1);
 
-        const embed = {
+        const itemResponse = new ItemResponse(true);
+        itemResponse.setEmbed({
             title: 'Move Changed!',
             description: `${pokemon.displayName} learned ${newMove.name}!`,
             image: pokemon.url
-        }
+        });
 
-        return embed;
+        return itemResponse;
     }
 }
 

@@ -3,6 +3,7 @@ const User = require('~/knex/models/User');
 const CustomError = require('~/lib/errors/CustomError');
 const HealPokemonBuilder = require('~/data/Builders/HealPokemonBuilder');
 const { raw } = require('objection');
+const ItemResponse = require('~/lib/ItemResponse');
 
 class MaxRevive {
     constructor() {
@@ -40,18 +41,15 @@ class MaxRevive {
         })
         .where('userId', msg.userId);
 
-        return {
-            pagination: {
-                emojis: ['⬅️', '➡️'],
-                MAX_ENTRIES: 25,
-                entryCount: pokemon[0].count
-            },
-            embed: {
-                title: 'Revive Pokemon',
-                description: HealPokemonBuilder.build(pokemon, 'revive'),
-                footer: `Page 1 of ${Math.ceil(pokemon[0].count/25)} - ${pokemon[0].count} results.`
-            }
-        }
+        const itemResponse = new ItemResponse(false);
+        itemResponse.setPagination(25, pokemon[0].count);
+        itemResponse.setEmbed({
+            title: 'Revive Pokemon',
+            description: HealPokemonBuilder.build(pokemon, 'revive'),
+            footer: `Page 1 of ${Math.ceil(pokemon[0].count/25)} - ${pokemon[0].count} results.`
+        });
+
+        return itemResponse;
     }
 }
 

@@ -1,4 +1,5 @@
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
+const ItemResponse = require('~/lib/ItemResponse');
 
 class RazzBerry {
     constructor() {
@@ -24,6 +25,13 @@ class RazzBerry {
             item: this.id
         })
         .where('userId', msg.userId);
+
+        const itemResponse = new ItemResponse(true);
+        itemResponse.setEncounter(encounter);
+
+        return itemResponse;
+
+        await InventoryCommands.removeItems(msg.userId, this.id, 1);
 
         return encounter;
     }

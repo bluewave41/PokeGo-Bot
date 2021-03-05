@@ -29,10 +29,13 @@ module.exports = {
 
         let embed = {
             title: encounter.sprites ? 'Pokemon in the area' : 'Encounter',
-            footer: 'Confused? See the quickstart guide at http://www.bluewave41.xyz/help/quickstart'
         }
 
         const totalBalls = encounter.pokeBalls.reduce((acc, { amount }) => acc + amount, 0);
+
+        if(totalBalls > 0) {
+            embed.footer = 'Confused? See the quickstart guide at http://www.bluewave41.xyz/help/quickstart';
+        }
 
         if(encounter.flag) {
             switch(encounter.flag) {
@@ -62,10 +65,10 @@ module.exports = {
                 if(encounter.pokeBalls[i].active) {
                     description += '\\> ';
                 }
-                description += encounter.pokeBalls[i].emoji + ' - ' + encounter.pokeBalls[i].amount + '\n';
+                description += encounter.pokeBalls[i].item.emoji + ' - ' + encounter.pokeBalls[i].amount + '\n';
             }
 
-            if(encounter.item) {
+            if(encounter.item && encounter.item.type != 'pokeball') {
                 description += `Active item: ${encounter.item.emoji}\n\n`;
             }
             else {

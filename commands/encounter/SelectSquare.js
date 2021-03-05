@@ -90,7 +90,7 @@ class SelectSquare extends Command {
                 //log the catch
                 Logger.info(`${this.msg.userId} caught ${pokemon.pokemonId} ${JSON.stringify(pokemon)}`);
 
-                await endEncounter(this.msg.userId, reply);
+                await endEncounter(this.msg.userId, reply, 'encounter/StartEncounter');
             
                 reply.flag = 'caught';
                 reply.xpGained = xpGained;
@@ -135,7 +135,7 @@ class SelectSquare extends Command {
         }
         else {
             await InventoryCommands.removeItems(this.msg.userId, encounter.activePokeball, 1); //remove pokeball
-            pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
+            pokeBalls = await InventoryCommands.getItems(this.msg.userId, [1, 2, 3]);
             let activePokeball = pokeBalls.find(el => el.itemId == encounter.activePokeball);
             //if the user has 1 pokeball and uses it then this fails. They should be prompted to swap poke balls
             if(activePokeball) {
@@ -147,7 +147,7 @@ class SelectSquare extends Command {
 
         //User has no Pokeballs so we should force quit the encounter
         if(totalPokeballs <= 0 && reply.flag != 'caught') {
-            await endEncounter(this.msg.userId, reply);
+            await endEncounter(this.msg.userId, reply, null);
 
             await PlayerEncounters.query().delete()
                 .where('userId', this.msg.userId);
@@ -173,8 +173,8 @@ module.exports = {
     class: SelectSquare,
 }
 
-async function endEncounter(userId, reply) {
-    await User.setNextCommand(userId, 'encounter/StartEncounter');
+async function endEncounter(userId, reply, nextCommand) {
+    await User.setNextCommand(userId, nextCommand);
 
     const user = await User.query().select('userId', 'location', 'secretId', 'level')
         .findOne('userId', userId);

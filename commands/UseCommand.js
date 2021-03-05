@@ -31,12 +31,18 @@ class UseCommand extends Command {
         canUseItem(this.item, this.itemAmount, this.msg.nextCommand, this.encounter);
     }
     async run() {
-        if(this.item.requiresEncounter) {
-            this.encounter = await this.item.use(this.msg, this.encounter);
+        let itemResponse;
 
-            const itemInUse = ItemHandler.getItem(this.encounter.item);
+        if(this.item.requiresEncounter) {
+            itemResponse = await this.item.use(this.msg, this.encounter);
+
+            if(itemResponse.used) {
+                await InventoryCommands.removeItems(this.msg.userId, this.item.id, 1);
+            }
+
+            this.encounter = itemResponse.encounter;
             
-            let pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
+            let pokeBalls = await InventoryCommands.getItems(this.msg.userId, [1, 2, 3]);
 
             if(this.item.type == 'pokeball') {
                 this.encounter.activePokeball = this.item.id;
@@ -49,18 +55,22 @@ class UseCommand extends Command {
                 position: this.encounter.pokemonPos,
                 catchChance: this.encounter.catchChance,
                 pokeBalls: pokeBalls,
-                item: itemInUse
+                item: this.item
             }
 
             const embed = EncounterBuilder.build(this.msg, data);
             return EmbedBuilder.edit(this.msg, embed);
         }
         else {
-            const itemState = await this.item.use(this.msg, this.pokemonId);
+            itemResponse = await this.item.use(this.msg, this.pokemonId);
 
-            this.pagination = itemState.pagination;
+            if(itemResponse.used) {
+                await InventoryCommands.removeItems(this.msg.userId, this.item.id, 1);
+            }
 
-            return EmbedBuilder.build(this.msg, itemState.embed);
+            this.pagination = itemResponse.pagination;
+
+            return EmbedBuilder.build(this.msg, itemResponse.embed);
         }
     }
 }

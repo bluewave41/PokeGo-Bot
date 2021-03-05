@@ -9,7 +9,7 @@ const options = {
     expectedParameters: [],
     pagination: {
         emojis: ['⬅️', '➡️'],
-        MAX_ENTRIES: 25
+        maxEntries: 25
     }
 }
 

@@ -13,7 +13,7 @@ const options = {
     info: 'Viewing news articles',
     pagination: {
         emojis: ['⬅️', '➡️'],
-        MAX_ENTRIES: 25
+        maxEntries: 25
     }
 }
 
@@ -25,12 +25,12 @@ class ViewArticle extends Command {
         super.validate();
     }
     async buildNewPage(page) {
-        const articles = await NewsCommands.getNewsArticles(page, this.pagination.MAX_ENTRIES);
+        const articles = await NewsCommands.getNewsArticles(page, this.pagination.maxEntries);
 
         let embed = {
             title: 'News',
             description: '',
-            footer: `Page ${page} of ${Math.ceil(articles[0].count/this.pagination.MAX_ENTRIES)} - ${articles[0].count} results.`
+            footer: `Page ${page} of ${Math.ceil(articles[0].count/this.pagination.maxEntries)} - ${articles[0].count} results.`
         }
     
         if(!articles.length) {

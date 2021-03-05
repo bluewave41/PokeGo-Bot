@@ -98,7 +98,7 @@ class StartEncounter extends Command {
         }
         else {
             //this is a Pokemon encounter
-            let pokeBalls = await InventoryCommands.getPokeballs(this.msg.userId);
+            let pokeBalls = await InventoryCommands.getItems(this.msg.userId, [1, 2, 3]);
             if(!pokeBalls.length) {
                 throw new CustomError('INSUFFICIENT_POKEBALLS');
             }

@@ -1,5 +1,6 @@
 const { UniqueViolationError } = require('objection');
 const Inventory = require('~/knex/models/Inventory');
+const Items = require('~/data/Lists/ItemList');
 
 module.exports = {
     async getItemCount(userId, itemId) {
@@ -37,18 +38,21 @@ module.exports = {
 
         return inventory[0].sum || 0;
     },
-    async getInventory(userId) {
-        const inventory = await Inventory.query().select('itemId', 'amount')
+    /**
+     * Returns the items a user has.
+     * @param {*} userId userId 
+     * @param {Array} items Array of items to filter out otherwise returns all items
+     * @returns 
+     */
+    async getItems(userId, items) {
+        const inventory = Inventory.query().select('itemId', 'amount')
             .where('userId', userId)
-            .whereNot('amount', 0);
-        return inventory;
-    },
-    async getPokeballs(userId) {
-        const inventory = await Inventory.query().select('itemId', 'amount')
-            .where('userId', userId)
-            .whereIn('itemId', [1, 2, 3])
             .whereNot('amount', 0);
 
-        return inventory;
-    }
+        if(items) { //if we specified items filter them only
+            inventory.whereIn('itemId', items)
+        }
+
+        return await inventory;
+    },
 }

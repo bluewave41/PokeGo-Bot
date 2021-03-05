@@ -8,7 +8,7 @@ const options = {
     expectedParameters: [],
     pagination: {
         emojis: ['⬅️', '➡️'],
-        MAX_ENTRIES: 25
+        maxEntries: 25
     }
 }
 
@@ -18,7 +18,7 @@ class NewsCommand extends Command {
     }
     async validate() {
         super.validate();
-        this.articles = await NewsCommands.getNewsArticles(1, this.pagination.MAX_ENTRIES);
+        this.articles = await NewsCommands.getNewsArticles(1, this.pagination.maxEntries);
         this.pagination.entryCount = this.articles.length ? this.articles[0].count : 0;
     }
     async run() {
@@ -41,7 +41,7 @@ class NewsCommand extends Command {
         return EmbedBuilder.build(this.msg, {
             title: 'News',
             description: description,
-            footer: `Page 1 of ${Math.ceil(this.pagination.entryCount/this.pagination.MAX_ENTRIES)} - ${this.pagination.entryCount} results.`
+            footer: `Page 1 of ${Math.ceil(this.pagination.entryCount/this.pagination.maxEntries)} - ${this.pagination.entryCount} results.`
         });
     }
 }

@@ -1,5 +1,5 @@
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
-const InventoryCommands = require('~/data/ModelHandlers/InventoryCommands');
+const ItemResponse = require('~/lib/ItemResponse');
 
 class NanabBerry {
     constructor() {
@@ -26,9 +26,10 @@ class NanabBerry {
         })
         .where('userId', msg.userId);
 
-        await InventoryCommands.removeItems(msg.userId, this.id, 1);
+        const itemResponse = new ItemResponse(true);
+        itemResponse.setEncounter(encounter);
 
-        return encounter;
+        return itemResponse;
     }
 }
 

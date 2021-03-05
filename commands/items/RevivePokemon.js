@@ -17,7 +17,7 @@ const options = {
     info: 'Reviving Pokemon',
     pagination: {
         emojis: ['⬅️', '➡️'],
-        MAX_ENTRIES: 25,
+        maxEntries: 25,
     }
 }
 

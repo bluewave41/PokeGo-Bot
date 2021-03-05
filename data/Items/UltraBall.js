@@ -1,4 +1,5 @@
 const PlayerEncounters = require('~/knex/models/PlayerEncounters');
+const ItemResponse = require('~/lib/ItemResponse');
 
 class UltraBall {
     constructor() {
@@ -25,7 +26,10 @@ class UltraBall {
         })
         .where('userId', msg.userId);
 
-        return encounter;
+        const itemResponse = new ItemResponse(false);
+        itemResponse.setEncounter(encounter);
+        
+        return itemResponse;
     }
 }
 

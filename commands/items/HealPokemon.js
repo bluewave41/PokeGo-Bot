@@ -17,7 +17,7 @@ const options = {
     info: 'Healing Pokemon',
     pagination: {
         emojis: ['⬅️', '➡️'],
-        MAX_ENTRIES: 25,
+        maxEntries: 25,
     }
 }
 
