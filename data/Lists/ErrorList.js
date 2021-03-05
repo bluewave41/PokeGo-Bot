@@ -1,6 +1,6 @@
 module.exports = {
     'INSUFFICIENT_CANDY': "You need at least {replace} candy to level this Pokemon up further!",
-    'INVALID_NAME_LENGTH': "Names must be between 1 and 20 characters.",
+    'INVALID_NAME_LENGTH': "Names must be between 1 and 12 characters.",
     'INVALID_NAME': 'Names can only contain letters and numbers.',
     'INVALID_PURCHASE_AMOUNT': `You can't buy {replace} amount of items.`,
     'NO_ITEM_EXISTS': `There are no items with {replace} in them.`,
