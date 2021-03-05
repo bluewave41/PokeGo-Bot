@@ -47,6 +47,7 @@ module.exports = {
     'ITEM_STORAGE_FULL': `You're out of item storage! Sell some items or purchase a storage upgrade.`,
     'PAGE_TOO_HIGH': `You can only select pages 1-{replace}.`,
     'CANT_USE_ITEM': `You need to be in an encounter to use that item!`,
+    'CANT_USE_ENCOUNTER': `You can't use this item in an encounter.`,
     'ALREADY_USED_ITEM': `You already have an item active.`,
     'OUT_OF_ITEMS': `You don't have any of those to use!`,
     'ALREADY_SELECTED_TEAM': `You already belong to a team.`,

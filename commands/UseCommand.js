@@ -23,11 +23,10 @@ class UseCommand extends Command {
         super.validate();
         this.item = ItemHandler.getItem(this.item);
         this.itemAmount = await InventoryCommands.getItemCount(this.msg.userId, this.item.id);
-        if(this.item.requiresEncounter) {
-            this.encounter = await PlayerEncounters.query().select('*')
-                .where('userId', this.msg.userId)
-                .first();
-        }
+        this.encounter = await PlayerEncounters.query().select('*')
+            .where('userId', this.msg.userId)
+            .first();
+
         canUseItem(this.item, this.itemAmount, this.msg.nextCommand, this.encounter);
     }
     async run() {
@@ -62,6 +61,9 @@ class UseCommand extends Command {
             return EmbedBuilder.edit(this.msg, embed);
         }
         else {
+            if(this.encounter) {
+                throw new CustomError('CANT_USE_ENCOUNTER');
+            }
             itemResponse = await this.item.use(this.msg, this.pokemonId);
 
             if(itemResponse.used) {
